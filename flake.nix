@@ -50,7 +50,12 @@
             # Refer to the `system` parameter from
             # the outer scope recursively
             inherit system;
-            config.allowUnfree = true;
+            config = { 
+              allowUnfree = true; 
+              permittedInsecurePackages = [
+                "electron-27.3.11" # Allows logseq stable. Annoying.
+              ];  
+            };
           };
 
 	        inherit rust-overlay;

@@ -219,7 +219,7 @@
             libsForQt5.kclock
             libsForQt5.kleopatra
 
-            # Office
+            # Office (see stable)
             keepassxc
             libreoffice-qt
             hunspell
@@ -229,7 +229,6 @@
             kcalc
             zotero
             obsidian
-            logseq
             emacs-gtk
             organicmaps
             kiwix
@@ -282,6 +281,9 @@
           stable = with pkgs-stable; [ # Some stuff is broken on the unstable branch
             # Internet
             onionshare-gui
+
+            # Office
+            logseq
 
             # Object creation
             kicad
