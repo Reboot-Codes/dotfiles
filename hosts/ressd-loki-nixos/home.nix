@@ -228,6 +228,8 @@
             kcalc
             zotero
             obsidian
+            logseq
+            emacs-gtk
             organicmaps
             kiwix
             kiwix-tools
