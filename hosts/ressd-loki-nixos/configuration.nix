@@ -253,6 +253,11 @@
       };
     };
 
+    appvm = {
+      enable = true;
+      user = "reboot";
+    };
+
     spiceUSBRedirection.enable = true;
   };
 
