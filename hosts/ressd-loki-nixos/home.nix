@@ -53,6 +53,7 @@
             persepolis
             motrix
 	          ungoogled-chromium
+            megasync
 
             # Games
             prismlauncher
