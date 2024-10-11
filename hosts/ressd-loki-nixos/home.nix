@@ -202,6 +202,7 @@
 	          youtube-music
 	          ytmdl
             ipget
+            torsocks
 
             # Comms
             zoom-us
@@ -236,6 +237,13 @@
             zim
             zim-tools
             pdfslicer
+
+            # Crypto
+            monero-gui
+            monero-cli
+            xmrig
+            electrum
+            electrum-ltc
 
             # Cool shit
             cmatrix
