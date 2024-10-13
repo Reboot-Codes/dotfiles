@@ -109,8 +109,16 @@
       };
     };
 
-    kernelPackages = pkgs.linuxPackages_latest;
-    # extraModulePackages = with config.boot.kernelPackages; [ usbip apfs kvmfr xone shufflecake ];
+    kernelPackages = pkgs.linuxPackages_zen;
+
+    extraModulePackages = with config.boot.kernelPackages; [ 
+      usbip 
+      apfs 
+      kvmfr 
+      xone 
+      gasket
+      # shufflecake # Fails to compile. Seems like an upstream issue with shufflecake build config.
+    ];
 
     plymouth.enable = true;
 
@@ -120,6 +128,10 @@
       options kvm_intel emulate_invalid_guest_state=0
       options kvm ignore_msrs=1
     '';
+
+    kernelParams = [
+      "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
+    ];
   };
 
   powerManagement.enable = true;
@@ -597,6 +609,7 @@
 
       # Global Apps
       firefox
+      links2
       alacritty
       qpwgraph
       

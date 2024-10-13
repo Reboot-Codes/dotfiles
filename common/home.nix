@@ -62,13 +62,16 @@
           alias cargo-daddy="cargo-mommy"
           alias wayback-download="wget --recursive --no-clobber --page-requisites --convert-links --domains web.archive.org --no-parent"
           
-          # Runs tmux on ssh conn, see: https://stackoverflow.com/a/40192494
-          if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
-            tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
-          fi
+          # Check if this session is interactive (fix `scp` lmao)
+          if [[ $- == *i* ]]; then
+            # Runs tmux on ssh conn, see: https://stackoverflow.com/a/40192494
+            if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
+              tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+            fi
 
-          fastfetch
-          fortune | lolcat
+            fastfetch
+            fortune | lolcat
+          fi
         '';
       };
 
