@@ -1,15 +1,34 @@
 # Home-Manager Module by Reboot-Codes on 2024-08-02
 { config, pkgs, pkgs-stable, ...}: {
   home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
     backupFileExtension = "hm-bak";
     
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    
     users."reboot" = {
+      nixpkgs.overlays = [
+        (final: prev: {
+          spotify = prev.spotify // {
+            installPhase =
+              builtins.replaceStrings [
+                "runHook postInstall"
+                ''
+                  bash <(curl -sSL https://spotx-official.github.io/run.sh) -P "$out/share/spotify"
+                  runHook postInstall
+                ''
+              ]
+              prev.spotify.installPhase;
+          };
+        })
+      ];
+
       xdg.desktopEntries."renpy" = {
         name = "RenPy";
         exec = "${pkgs.renpy}/bin/renpy";
       };
+
+      # TODO: Configure syncthing
 
       home = {
         stateVersion = "23.11";

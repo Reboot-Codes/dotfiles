@@ -276,6 +276,12 @@
   programs = {
     nix-ld.enable = true;
     appimage.binfmt = true;
+    anime-game-launcher.enable = true; # Adds launcher and /etc/hosts rules
+    anime-games-launcher.enable = true;
+    honkers-railway-launcher.enable = true;
+    honkers-launcher.enable = true;
+    wavey-launcher.enable = true;
+    sleepy-launcher.enable = true;
 
     zsh = {
       enable = true;

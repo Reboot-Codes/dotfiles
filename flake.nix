@@ -20,7 +20,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flatpaks.url = "github:GermanBread/declarative-flatpak/stable-v3";
+    flatpaks = { 
+      url = "github:GermanBread/declarative-flatpak/stable-v3";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -71,21 +74,18 @@
           {
             imports = [ aagl.nixosModules.default ];
             nix.settings = aagl.nixConfig; # Set up Cachix
-
-            programs = {
-              anime-game-launcher.enable = true; # Adds launcher and /etc/hosts rules
-              anime-games-launcher.enable = true;
-              honkers-railway-launcher.enable = true;
-              honkers-launcher.enable = true;
-              wavey-launcher.enable = true;
-              sleepy-launcher.enable = true;
-            };
           }
           
-          # My configurations.
-          ./hosts/ressd-loki-nixos/default.nix # System specific system-level and user-level configurations.
-          ./common/home.nix # Global homedir config
+          ./hosts/ressd-loki-nixos/default.nix # Our Configs
         ];
+      };
+    };
+
+    # For *nix systems that are not NixOS or macOS
+    homeConfigurations = {
+      "reboot" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        modules = [ ./hosts/generic-amd64-linux-gui/default.nix ];
       };
     };
   };
