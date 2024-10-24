@@ -169,6 +169,8 @@
             # A/V/I (check stable)
             kdenlive
             audacity
+            polyphone
+            qsynth
             gimp-with-plugins
             krita
             vlc
