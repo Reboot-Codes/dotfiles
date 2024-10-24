@@ -44,9 +44,14 @@
         alias sclear="clear; fastfetch && fortune | lolcat"
         alias cargo-daddy="cargo-mommy"
         alias wayback-download="wget --recursive --no-clobber --page-requisites --convert-links --domains web.archive.org --no-parent"
+
+        # hhdfhgh this don't work.
+        # bindkey  "^[[1~"   beginning-of-line
+        # bindkey  "^[[4~"   end-of-line
+        # bindkey  "^[[3~"   delete-char
         
         # Check if this session is interactive (fix `scp` lmao)
-        if [[ $- == *i* ]]; then
+        if [[ $- == *i* ]]; then          
           # Runs tmux on ssh conn, see: https://stackoverflow.com/a/40192494
           if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
             tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
@@ -191,6 +196,96 @@
         # messages
         set -g message-style 'fg=colour2 bg=colour0 bold'
       '';
+    };
+
+    alacritty = {
+      enable = true;
+
+      package = pkgs.empty;
+
+      settings = {
+        live_config_reload = true;
+
+        bell = {
+          animation = "EaseOutExpo";
+          color = "0x555555";
+          duration = 200;
+        };
+
+        colors = {
+          bright = {
+            black = "#928374";
+            blue = "#83a598";
+            cyan = "#8ec07c";
+            green = "#b8bb26";
+            magenta = "#d3869b";
+            red = "#fb4934";
+            white = "#ebdbb2";
+            yellow = "#fabd2f";
+          };
+
+          normal = {
+            black = "#282828";
+            blue = "#458588";
+            cyan = "#689d6a";
+            green = "#98971a";
+            magenta = "#b16286";
+            red = "#cc241d";
+            white = "#a89984";
+            yellow = "#d79921";
+          };
+
+          primary = {
+            background = "#000000";
+            foreground = "#ffffff";
+          };
+        };
+
+        cursor.style = "Beam";
+        
+        env = {
+          "TERM" = "xterm-256color";
+        };
+
+        font = {
+          size = 10.0;
+
+          bold = {
+            family = "JetBrainsMono NF ExtraBold";
+            style = "Normal";
+          };
+
+          bold_italic = {
+            family = "JetBrainsMono NF ExtraBold";
+            style = "Italic";
+          };
+
+          italic = {
+            family = "JetBrainsMono NF Medium";
+            style = "Italic";
+          };
+
+          normal = {
+            family = "JetBrainsMono NF Medium";
+            style = "Normal";
+          };
+        };
+
+        scrolling = {
+          history = 100000;
+          multiplier = 1;
+        };
+
+        selection = {
+          save_to_clipboard = true;
+          semantic_escape_chars = ",│`|:\"' ()[]{}<>\t";
+        };
+
+        shell = {
+          args = ["-l" "-c" "tmux attach || tmux"];
+          program = "zsh";
+        };
+      };
     };
 
     # TODO: Configure KDE with `qt.kde.settings`
