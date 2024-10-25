@@ -4,8 +4,6 @@
   programs = { 
     home-manager.enable = true;
 
-    # TODO: Translate alacritty config.
-
     zsh = {
       enable = true;
       enableCompletion = true;
@@ -200,8 +198,6 @@
 
     alacritty = {
       enable = true;
-
-      package = pkgs.empty;
 
       settings = {
         live_config_reload = true;

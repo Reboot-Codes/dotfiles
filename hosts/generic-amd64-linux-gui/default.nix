@@ -11,6 +11,8 @@
     ];
   };
 
+  programs.alacritty.package = pkgs.empty;
+
   services.gpg-agent = {
     pinentryPackage = pkgs.pinentry.qt;
   };
