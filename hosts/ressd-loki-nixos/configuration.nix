@@ -1,5 +1,5 @@
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
+# your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
 { config, pkgs, self, rust-overlay, ... }: {
@@ -8,6 +8,7 @@
     ../../common/nix-alien.nix
   ];
 
+  # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs = {
@@ -153,7 +154,7 @@
 
     opentabletdriver = {
       enable = true;
-      daemon.enable = true; # Liar, btw, you still need to run the config software for it to actually init a tablet.
+      daemon.enable = true;
     };
 
     pulseaudio.enable = false; # This is a pipewire-based system!
@@ -218,7 +219,7 @@
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
     roboto
     roboto-serif
-    corefonts # the msft ones
+    corefonts # the msft ones, seems to not load.
   ];
 
   systemd.services = {
@@ -352,7 +353,11 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-kde xdg-desktop-portal-hyprland ];
+    
+    extraPortals = with pkgs; [ 
+      xdg-desktop-portal-kde 
+      xdg-desktop-portal-hyprland 
+    ];
 
     config = {
       common = {
@@ -401,7 +406,7 @@
 
     openssh.enable = true;
     atd.enable = true;
-    # k3s.enable = true;
+    k3s.enable = true;
     teamviewer.enable = true;
 
     printing = {
@@ -519,8 +524,6 @@
         "gamemode"
       ];
     };
-
-    # see `./home.nix`!
   };
 
   environment = {

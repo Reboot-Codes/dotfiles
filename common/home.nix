@@ -42,6 +42,10 @@
         alias sclear="clear; fastfetch && fortune | lolcat"
         alias cargo-daddy="cargo-mommy"
         alias wayback-download="wget --recursive --no-clobber --page-requisites --convert-links --domains web.archive.org --no-parent"
+        alias ll="eza -l --icons"
+        alias ls="eza --icons"
+        alias tree="eza --icons --tree --git-ignore"
+        alias nix-clean="nix-store --gc"
 
         # hhdfhgh this don't work.
         # bindkey  "^[[1~"   beginning-of-line

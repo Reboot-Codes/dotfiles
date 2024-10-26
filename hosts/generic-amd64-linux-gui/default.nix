@@ -8,6 +8,11 @@
 
     packages = with pkgs; [
       pinentry.qt
+      starship
+      fortune
+      lolcat
+      eza
+      zsh
     ];
   };
 
