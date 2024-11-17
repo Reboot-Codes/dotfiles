@@ -204,7 +204,7 @@
       enable = true;
 
       settings = {
-        live_config_reload = true;
+        general.live_config_reload = true;
 
         bell = {
           animation = "EaseOutExpo";

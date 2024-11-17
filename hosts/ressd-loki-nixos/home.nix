@@ -74,10 +74,9 @@
 	          ungoogled-chromium
             megasync
 
-            # Games
+            # Games (see stable)
             prismlauncher
-            steamPackages.steamcmd
-            steam-tui
+            steamcmd
             steam-run
             ryujinx
             dolphin-emu
@@ -177,11 +176,10 @@
             distrobox
             boxbuddy
 
-            # Remote access
+            # Remote access (see stable)
             parsec-bin
             remmina
             moonlight-qt
-            (lib.hiPrio rustdesk-flutter)
             teamviewer
             anydesk
             
@@ -259,12 +257,10 @@
             zim-tools
             pdfslicer
 
-            # Crypto
+            # Crypto (see stable)
             monero-gui
             monero-cli
             xmrig
-            electrum
-            electrum-ltc
 
             # Cool shit
             cmatrix
@@ -276,12 +272,11 @@
             ventoy-full
             idevicerestore
 
-            # Hacking
+            # Hacking (see stable)
             wireshark
             ettercap
             bettercap
             ida-free # TODO: Crack this mofo
-            
             ghidra
             ghidra-extensions.ret-sync
             # ghidra-extensions.findcrypt
@@ -291,15 +286,9 @@
             ghidra-extensions.gnudisassembler
             ghidra-extensions.ghidraninja-ghidra-scripts
             ghidra-extensions.ghidra-delinker-extension
-            
             radare2
             iaito
-
-            rizin
-            rizinPlugins.rz-ghidra
-            cutter
-            cutterPlugins.sigdb
-            cutterPlugins.jsdec
+            veracrypt
 
             # Horny
             intiface-central
@@ -319,12 +308,30 @@
             (lib.hiPrio freecad)
             orca-slicer
 
+            # Remote Access
+            (lib.hiPrio rustdesk-flutter)
+
             # A/V/I
             blender
             
             # Maps
             qgis
             josm
+
+            # Games
+            steam-tui
+
+            # Crypto
+            electrum
+            electrum-ltc
+
+            # Hacking
+            rizin
+            rizinPlugins.rz-ghidra
+            cutter
+            cutterPlugins.sigdb
+            cutterPlugins.jsdec
+            cryptomator
           ];
         in
           unstable ++ stable;
