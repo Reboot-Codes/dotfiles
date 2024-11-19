@@ -193,7 +193,7 @@
       allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
       allowedUDPPortRanges = [ { from = 47998; to = 48010; } ];
       allowedTCPPorts = [ 3389 4455 ];
-      allowedUDPPorts = [ 4455 ];
+      allowedUDPPorts = [ 3389 4455 ];
 
       enable = true; # ~~false; # Or disable the firewall altogether.~~
     };
@@ -457,12 +457,12 @@
     # displayManager.sddm.enable = true; # It's kinda broken right now.
     spice-autorandr.enable = true;
 
-    # This doesn't work btw, afaik.
-    xrdp = {
-      enable = true;
-      defaultWindowManager = "plasmashell";
-      openFirewall = true;
-    };
+    # This doesn't work btw, afaik. Use the one in plasma!
+    # xrdp = {
+    #   enable = true;
+    #   defaultWindowManager = "plasmashell";
+    #   openFirewall = true;
+    # };
 
     avahi.publish = {
       enable = true;

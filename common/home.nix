@@ -281,7 +281,7 @@
           semantic_escape_chars = ",│`|:\"' ()[]{}<>\t";
         };
 
-        shell = {
+        terminal.shell = {
           args = ["-l" "-c" "tmux attach || tmux"];
           program = "zsh";
         };
