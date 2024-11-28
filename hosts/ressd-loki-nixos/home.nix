@@ -80,7 +80,6 @@
             steam-run
             ryujinx
             dolphin-emu
-            # retroarchFull # THIS TAKES AGES AND COMPILES FROM SCRATCH
             the-powder-toy
             openttd
             gzdoom
@@ -104,9 +103,12 @@
             mangohud
             
             # Dev
+            jujutsu
+            lazyjj
             vscode
             vscodium-fhs
             (lib.hiPrio vscodium)
+            vscode-extensions.rust-lang.rust-analyzer
             starship
             kate
             openldap
@@ -144,6 +146,10 @@
             })
 
             fzf
+            unrar-wrapper
+            unar
+            rars
+            rarcrack
             x11docker
             arduino
             arduino-ide
@@ -320,6 +326,7 @@
 
             # Games
             steam-tui
+            retroarchFull
 
             # Crypto
             electrum
