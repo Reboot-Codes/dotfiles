@@ -98,7 +98,6 @@ in {
         enable = true;
         useOSProber = true; # ~~ false; # we should be using rEFInd~~ <- it's kinda weird atm...
         configurationLimit = 15;
-        efiInstallAsRemovable = false;
 
         theme = pkgs.stdenv.mkDerivation {
           pname = "distro-grub-themes";
