@@ -23,7 +23,7 @@
     keyFileSize = 4096;
     keyFile = "/dev/disk/by-id/ata-SPCC_M.2_SSD_AA000000000000000144-part2";
     fallbackToPassword = true;
-  }
+  };
 
   fileSystems."/nix" = { 
     device = "/dev/disk/by-uuid/7eb5ee9c-8a8a-470d-8005-99c7c5919b68";

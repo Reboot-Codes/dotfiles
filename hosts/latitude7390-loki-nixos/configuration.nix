@@ -544,7 +544,7 @@
 
     systemPackages = with pkgs; [
       # Utils
-      cryptsetup
+      cryptutils
       vim
       neovim
       busybox
