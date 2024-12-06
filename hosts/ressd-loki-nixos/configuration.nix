@@ -550,7 +550,7 @@ in {
 
     systemPackages = with pkgs; [
       # Utils
-      cryptutils
+      cryptsetup
       vim
       neovim
       busybox
