@@ -86,13 +86,14 @@
         # `grub-install` if efiSupport is true
         # (the devices list is not used by the EFI grub install,
         # but must be set to some value in order to pass an assert in grub.nix)
-        devices = [ "/dev/disk/by-uuid/48E3-3EAB" ];
+        devices = [ "nodev" ];
 
         efiSupport = true;
         enable = true;
         useOSProber = true; # ~~ false; # we should be using rEFInd~~ <- it's kinda weird atm...
         configurationLimit = 15;
-        efiInstallAsRemovable = false;
+        efiInstallAsRemovable = false
+        ;
 
         theme = pkgs.stdenv.mkDerivation {
           pname = "distro-grub-themes";
