@@ -11,18 +11,18 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" = { 
-    device = "/dev/disk/by-uuid/7eb5ee9c-8a8a-470d-8005-99c7c5919b68";
-    fsType = "btrfs";
-    options = [ "subvol=root,compress=zstd" ];
-  };
-
   boot.initrd.luks.devices."cryptroot" = {
     device = "/dev/disk/by-uuid/7b42acb9-4902-4e0b-bc54-5b71c398964b";
     allowDiscards = true;
     keyFileSize = 4096;
     keyFile = "/dev/disk/by-id/ata-SPCC_M.2_SSD_AA000000000000000144-part2";
     fallbackToPassword = true;
+  };
+
+  fileSystems."/" = { 
+    device = "/dev/disk/by-uuid/7eb5ee9c-8a8a-470d-8005-99c7c5919b68";
+    fsType = "btrfs";
+    options = [ "subvol=root,compress=zstd" ];
   };
 
   fileSystems."/nix" = { 
@@ -38,7 +38,7 @@
   };
 
   fileSystems."/boot" = { 
-    device = "/dev/disk/by-uuid/0B48-E2A7";
+    device = "/dev/disk/by-uuid/48E3-3EAB";
     fsType = "vfat";
     options = [ "fmask=0022" "dmask=0022" ];
   };

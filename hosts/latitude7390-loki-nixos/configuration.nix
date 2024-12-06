@@ -76,7 +76,7 @@
   boot = {
     loader = {
       efi = {
-        canTouchEfiVariables = false;
+        canTouchEfiVariables = true;
         efiSysMountPoint = "/boot"; # assuming /boot is the mount point of the EFI partition in NixOS (as the installation section recommends).
       };
 
@@ -86,7 +86,7 @@
         # `grub-install` if efiSupport is true
         # (the devices list is not used by the EFI grub install,
         # but must be set to some value in order to pass an assert in grub.nix)
-        devices = [ "nodev" ];
+        devices = [ "/dev/disk/by-uuid/48E3-3EAB" ];
 
         efiSupport = true;
         enable = true;
@@ -184,7 +184,7 @@
   };
 
   networking = {
-    hostName = "ressd-loki-nixos"; # Define your hostname.
+    hostName = "latitude7390-loki-nixos"; # Define your hostname.
     networkmanager.enable = true;
     # wireless.enable = true; # WPA Supplicant, is mutually exclusive with networkmanager btw.
 
