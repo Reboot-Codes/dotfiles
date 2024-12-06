@@ -2,9 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, self, rust-overlay, nixGL, ... }: let
-  nixGLWrap = import ../../common/nix-gl-wrapper.nix { inherit pkgs nixGL; };
-in {
+{ config, pkgs, self, rust-overlay, ... }: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ../../common/nix-alien.nix
@@ -47,10 +45,6 @@ in {
           ]
           prev.spotify.installPhase;
         };
-      })
-
-      (final: prev: {
-        kwin = (nixGLWrap prev.kwin);
       })
 
       #(final: prev: {
