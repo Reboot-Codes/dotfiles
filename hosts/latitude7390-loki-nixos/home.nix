@@ -2,10 +2,10 @@
 { config, pkgs, pkgs-stable, ...}: {
   home-manager = {
     backupFileExtension = "hm-bak";
-    
+
     useGlobalPkgs = true;
     useUserPackages = true;
-    
+
     users."reboot" = {
       nixpkgs.overlays = [
         (final: prev: {
@@ -102,7 +102,7 @@
             itch
             itchiodl
             mangohud
-            
+
             # Dev
             vscode
             vscodium-fhs
@@ -159,6 +159,7 @@
 	          mission-planner
             brlcad
             solvespace
+            (lib.hiPrio freecad)
 
             # FS Manipulation
             btrfs-progs
@@ -168,7 +169,7 @@
             p7zip
             fuse-7z-ng
             bchunk
-            
+
             # Run Alien Software
             dosbox-x
             bottles
@@ -182,7 +183,7 @@
             moonlight-qt
             teamviewer
             anydesk
-            
+
             # A/V/I (check stable)
             kdenlive
             audacity
@@ -295,7 +296,7 @@
             cargo-mommy
             cargo-vibe
           ];
-          
+
           stable = with pkgs-stable; [ # Some stuff is broken on the unstable branch
             # Internet
             onionshare-gui
@@ -305,7 +306,6 @@
 
             # Object creation
             kicad
-            (lib.hiPrio freecad)
             orca-slicer
 
             # Remote Access
@@ -313,7 +313,7 @@
 
             # A/V/I
             blender
-            
+
             # Maps
             qgis
             josm

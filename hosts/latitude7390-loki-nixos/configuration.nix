@@ -232,6 +232,14 @@
       };
     };
 
+    arrpc = {
+      description = "Run arRPC";
+      serviceConfig = {
+        ExecStart = "${pkgs.arrpc}/bin/arrpc";
+        User = "reboot";
+      };
+    };
+
     # TODO: This just fails and fails and fails, mostly because of encoder setup issues.
     # sunshine = {
     #   description = "Remote Access";
@@ -354,7 +362,7 @@
 
   xdg.portal = {
     enable = true;
-    
+
     extraPortals = with pkgs; [ 
       xdg-desktop-portal-kde 
       xdg-desktop-portal-hyprland 
@@ -396,7 +404,7 @@
     ];
 
     ratbagd.enable = true;
-    
+
     zerotierone = {
       enable = true;
 
@@ -570,6 +578,7 @@
       signify
       cachix
       solaar
+      arrpc
 
       # Shells
       zsh
@@ -600,6 +609,7 @@
       soundfont-ydp-grand
       soundfont-generaluser
       x42-gmsynth
+      direnv
 
       # Hardware
       pciutils
@@ -612,13 +622,13 @@
       smartmontools
       glxinfo
       piper
-      
+
       # Network
       nmap
       socat
       openssl
       speedtest-cli
-      
+
       # FS Manipulation
       btrfs-progs
       fuzzel
@@ -638,18 +648,18 @@
       links2
       alacritty
       qpwgraph
-      
+
       # media manipulation
       mpv
       imagemagickBig
       ffmpeg
-      
+
       # Services
       sunshine
       zerotierone
       syncthing
       nicotine-plus
-      
+
       # Alt DE
       waybar
       wofi
@@ -658,7 +668,7 @@
       hyprcursor
       hypridle
       dunst
-      
+
       # QT
       kdePackages.qt6ct
       kdePackages.breeze
