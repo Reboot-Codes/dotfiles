@@ -234,6 +234,8 @@
 
     arrpc = {
       description = "Run arRPC";
+      after = [ "network.target" ];
+      wantedBy = [ "default.target" ];
       serviceConfig = {
         ExecStart = "${pkgs.arrpc}/bin/arrpc";
         User = "reboot";
