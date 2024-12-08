@@ -64,7 +64,7 @@
             kdePackages.krfb
 
             # Internet
-            firefox
+            firefox-devedition
             tor-browser-bundle-bin
             brave
             onioncircuits
@@ -130,6 +130,7 @@
             pipx
             python3Full
             filezilla
+            powershell
 
             (symlinkJoin {
               name = "idea-community";
