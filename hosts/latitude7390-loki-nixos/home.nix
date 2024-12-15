@@ -212,6 +212,10 @@
             sdrpp
             gqrx
             cubicsdr
+            amarok
+            strawberry-qt6
+            elisa
+            drawpile
 
             # Media Acquisition
             ani-cli
@@ -224,6 +228,7 @@
 	          ytmdl
             ipget
             torsocks
+            lbry
 
             # Comms
             zoom-us
@@ -235,6 +240,7 @@
             signal-cli
             signalbackup-tools
             signal-export
+            sigtop
             # check system flatpak config for signal desktop
 
             # System
