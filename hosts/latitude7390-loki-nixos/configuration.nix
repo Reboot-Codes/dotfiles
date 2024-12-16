@@ -193,8 +193,8 @@
       # Open ports in the firewall.
       allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
       allowedUDPPortRanges = [ { from = 47998; to = 48010; } ];
-      allowedTCPPorts = [ 3389 4455 ];
-      allowedUDPPorts = [ 3389 4455 ];
+      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 ];
+      allowedUDPPorts = [ 3389 4455 4444 50001 5567 ];
 
       enable = true; # ~~false; # Or disable the firewall altogether.~~
     };

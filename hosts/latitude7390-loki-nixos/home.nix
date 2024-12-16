@@ -161,6 +161,8 @@
             brlcad
             solvespace
             (lib.hiPrio freecad)
+            rpi-imager
+            usbimager
 
             # FS Manipulation
             btrfs-progs
@@ -229,6 +231,9 @@
             ipget
             torsocks
             lbry
+            guymager
+            vcdimager
+            gImageReader
 
             # Comms
             zoom-us
