@@ -232,16 +232,6 @@
       };
     };
 
-    arrpc = {
-      description = "Run arRPC";
-      after = [ "network.target" ];
-      wantedBy = [ "default.target" ];
-      serviceConfig = {
-        ExecStart = "${pkgs.arrpc}/bin/arrpc";
-        User = "reboot";
-      };
-    };
-
     # TODO: This just fails and fails and fails, mostly because of encoder setup issues.
     # sunshine = {
     #   description = "Remote Access";
@@ -360,6 +350,7 @@
     };
 
     gamemode.enable = true;
+    dconf.enable = true;
   };
 
   xdg.portal = {
@@ -633,6 +624,7 @@
 
       # FS Manipulation
       btrfs-progs
+      btrbk
       fuzzel
       sshfs
       exfat

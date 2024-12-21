@@ -30,6 +30,38 @@
 
       # TODO: Configure syncthing
 
+      systemd.user.services = {
+        arrpc = {
+          Unit = {
+            Description = "Run arRPC";
+          };
+
+          Install = {
+            After = [ "network.target" ];
+            WantedBy = [ "default.target" ];
+          };
+
+          Service = {
+            ExecStart = "${pkgs.arrpc}/bin/arrpc";
+          };
+        };
+
+        arrpc-socket-link = {
+          Unit = {
+            Description = "Create arRPC socket";
+          };
+
+          Install = {
+            After = [ "arrpc.service" ];
+            WantedBy = [ "default.target" ];
+          };
+
+          Service = {
+            ExecStart = "ln -s /tmp/discord-ipc-0 /run/user/$(id -u)/discord-ipc-0";
+          };
+        };
+      };
+
       home = {
         stateVersion = "23.11";
         username = "reboot";
