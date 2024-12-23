@@ -364,6 +364,7 @@
 
             # Games
             steam-tui
+            retroarchFull
 
             # Crypto
             electrum
