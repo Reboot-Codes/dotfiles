@@ -112,7 +112,11 @@
             steam-run
             ryujinx
             dolphin-emu
-            # retroarchFull # THIS TAKES AGES AND COMPILES FROM SCRATCH
+            rpcs3
+            ps3-disc-dumper
+            ps3iso-utils
+            ps3netsrv
+            xemu
             the-powder-toy
             openttd
             gzdoom
@@ -195,6 +199,7 @@
             (lib.hiPrio freecad)
             rpi-imager
             usbimager
+            weylus
 
             # FS Manipulation
             btrfs-progs
@@ -237,6 +242,7 @@
             obs-studio-plugins.looking-glass-obs
             obs-cli
             lmms
+            vital
             handbrake
             easyeffects
             imagemagickBig
