@@ -20,7 +20,7 @@
       ];
 
       packageOverrides = pkgs: {
-        intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };      
+        intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
       };
     };
 
@@ -50,7 +50,7 @@
       #(final: prev: {
       #  waydroid = prev.waydroid.overrideAttrs {
       #    version = "1.4.2-update-regex-for-deprecation-warning";
-      #    
+      #
       #    src = pkgs.fetchFromGitHub {
       #      owner = prev.waydroid.pname;
       #      repo = prev.waydroid.pname;
@@ -113,11 +113,11 @@
 
     kernelPackages = pkgs.linuxPackages_zen;
 
-    extraModulePackages = with config.boot.kernelPackages; [ 
-      usbip 
-      apfs 
-      kvmfr 
-      xone 
+    extraModulePackages = with config.boot.kernelPackages; [
+      usbip
+      apfs
+      kvmfr
+      xone
       gasket
       # shufflecake
     ];
@@ -205,7 +205,7 @@
     polkit.enable = true;
 
     # For hibernation
-    protectKernelImage = false;    
+    protectKernelImage = false;
 
     # see the sunshine systemd service unit...
     # wrappers.sunshine = {
@@ -302,10 +302,10 @@
         ls = "eza --icons";
         tree = "eza --icons --tree --git-ignore";
         waydroid-attach-user-folders = ''
-          sudo mount --bind ~/Documents ~/.local/share/waydroid/data/media/0/Documents 
-          sudo mount --bind ~/Downloads ~/.local/share/waydroid/data/media/0/Download 
-          sudo mount --bind ~/Music ~/.local/share/waydroid/data/media/0/Music 
-          sudo mount --bind ~/Pictures ~/.local/share/waydroid/data/media/0/Pictures 
+          sudo mount --bind ~/Documents ~/.local/share/waydroid/data/media/0/Documents
+          sudo mount --bind ~/Downloads ~/.local/share/waydroid/data/media/0/Download
+          sudo mount --bind ~/Music ~/.local/share/waydroid/data/media/0/Music
+          sudo mount --bind ~/Pictures ~/.local/share/waydroid/data/media/0/Pictures
           sudo mount --bind ~/Videos ~/.local/share/waydroid/data/media/0/Movies
         '';
       };
@@ -356,9 +356,9 @@
   xdg.portal = {
     enable = true;
 
-    extraPortals = with pkgs; [ 
-      xdg-desktop-portal-kde 
-      xdg-desktop-portal-hyprland 
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-kde
+      xdg-desktop-portal-hyprland
     ];
 
     config = {
@@ -391,9 +391,9 @@
     libinput.enable = true;
     pcscd.enable = true;
 
-    udev.packages = with pkgs; [ 
-      qmk-udev-rules 
-      android-udev-rules 
+    udev.packages = with pkgs; [
+      qmk-udev-rules
+      android-udev-rules
     ];
 
     ratbagd.enable = true;
@@ -421,20 +421,26 @@
       ];
     };
 
+    kubo.enable = true;
+
+    sunshine = {
+      enable = true;
+      openFirewall = true;
+    };
+
     tor = {
+      enable = true;
+
       client = {
         enable = true;
         dns.enable = true;
         transparentProxy.enable = true;
 
         socksListenAddress = {
-          IsolateDestAddr = true;
           addr = "127.0.0.1";
           port = 9050;
         };
       };
-
-      relay.enable = false;
     };
 
     desktopManager.plasma6.enable = true;
@@ -443,9 +449,9 @@
     xserver = {
       enable = true;
 
-      xkb = { 
+      xkb = {
         layout = "us";
-        variant = ""; 
+        variant = "";
       };
 
       displayManager = {
@@ -480,7 +486,7 @@
     flatpak = {
       enable = true;
 
-      packages = [ 
+      packages = [
         "flathub:app/dev.vencord.Vesktop//stable"
         "flathub:app/net.davidotek.pupgui2//stable"
         "flathub:app/com.belmoussaoui.Obfuscate//stable"
@@ -513,17 +519,18 @@
     users.reboot = {
       isNormalUser = true;
       description = "Reboot"; # GCOS Field, basically the Pretty Name for this user.
-      
-      extraGroups = [ 
-        "networkmanager" 
-        "wheel" 
-        "adbuser" 
-        "docker" 
-        "libvirtd" 
+
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "adbuser"
+        "docker"
+        "libvirtd"
         "kvm"
         "adbusers"
 	      "xrdp"
         "gamemode"
+        config.services.kubo.group
       ];
     };
   };
