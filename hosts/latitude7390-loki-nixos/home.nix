@@ -189,6 +189,7 @@
             rust-bin.stable.latest.default
             pandoc
 	          qemu
+            wimlib
 
             # Object Creation (check stable)
             fritzing
