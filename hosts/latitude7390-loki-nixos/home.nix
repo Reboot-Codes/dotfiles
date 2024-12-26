@@ -231,6 +231,7 @@
             qsynth
             gimp-with-plugins
             krita
+            libresprite
             vlc
             obs-studio
             obs-studio-plugins.obs-multi-rtmp

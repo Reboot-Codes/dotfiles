@@ -207,13 +207,12 @@
     # For hibernation
     protectKernelImage = false;
 
-    # see the sunshine systemd service unit...
-    # wrappers.sunshine = {
-    #   owner = "root";
-    #   group = "root";
-    #   capabilities = "cap_sys_admin+p";
-    #   source = "${pkgs.sunshine}/bin/sunshine";
-    # };
+    wrappers.sunshine = {
+      owner = "root";
+      group = "root";
+      capabilities = "cap_sys_admin+p";
+      source = "${pkgs.sunshine}/bin/sunshine";
+    };
   };
 
   fonts.packages = with pkgs; [
