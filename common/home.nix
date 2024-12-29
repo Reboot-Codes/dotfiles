@@ -4,6 +4,8 @@
   programs = { 
     home-manager.enable = true;
 
+    direnv.enable = true;
+
     zsh = {
       enable = true;
       enableCompletion = true;
