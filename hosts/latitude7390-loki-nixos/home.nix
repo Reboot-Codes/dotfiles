@@ -23,9 +23,16 @@
         })
       ];
 
-      xdg.desktopEntries."renpy" = {
-        name = "RenPy";
-        exec = "${pkgs.renpy}/bin/renpy";
+      xdg.desktopEntries = {
+        "renpy" = {
+          name = "RenPy";
+          exec = "${pkgs.renpy}/bin/renpy";
+        };
+
+        "Vital" = {
+          name = "Vital";
+          exec = "${pkgs.vital}/bin/Vital";
+        };
       };
 
       # TODO: Configure syncthing
