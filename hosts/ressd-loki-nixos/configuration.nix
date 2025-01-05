@@ -163,8 +163,6 @@ in {
       daemon.enable = true;
     };
 
-    pulseaudio.enable = false; # This is a pipewire-based system!
-
     bluetooth = {
       enable = true;
       powerOnBoot = true;
@@ -385,6 +383,8 @@ in {
       pulse.enable = true;
       jack.enable = true;
     };
+
+    pulseaudio.enable = false; # This is a pipewire-based system!
 
     btrfs.autoScrub = {
       enable = true;
