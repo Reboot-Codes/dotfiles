@@ -222,7 +222,7 @@ in {
   };
 
   fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    nerd-fonts.jetbrains-mono
     roboto
     roboto-serif
     corefonts # the msft ones, seems to not load.
@@ -590,7 +590,6 @@ in {
       SDL.dev
       SDL2
       SDL2.dev
-      xorg.xf86videointel
       SDL_gpu
       glfw
       freetype
@@ -678,9 +677,6 @@ in {
       podman-compose
       virtiofsd
       appvm
-
-      # libs
-      libstdcxx5
     ];
 
     shells = with pkgs; [ zsh ];

@@ -79,7 +79,7 @@
           }
           home-manager.nixosModules.home-manager
           flatpaks.nixosModules.declarative-flatpak
-          nur.nixosModules.nur
+	  nur.modules.nixos.default
           chaotic.nixosModules.default
           # https://github.com/ezKEa/aagl-gtk-on-nix
           {
@@ -124,7 +124,7 @@
           }
           home-manager.nixosModules.home-manager
           flatpaks.nixosModules.declarative-flatpak
-          nur.nixosModules.nur
+	  nur.modules.nixos.default
           chaotic.nixosModules.default
           # https://github.com/ezKEa/aagl-gtk-on-nix
           {

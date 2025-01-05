@@ -243,7 +243,7 @@ in {
             handbrake
             easyeffects
             imagemagickBig
-            carla
+            # carla
             rnnoise
             rnnoise-plugin
             (nixGLWrap sdrpp)
