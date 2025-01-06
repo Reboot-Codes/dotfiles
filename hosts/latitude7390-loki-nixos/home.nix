@@ -256,7 +256,7 @@
             handbrake
             easyeffects
             imagemagickBig
-            carla
+            # carla
             rnnoise
             rnnoise-plugin
             sdrpp
