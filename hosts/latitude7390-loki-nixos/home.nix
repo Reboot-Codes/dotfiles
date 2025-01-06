@@ -175,19 +175,6 @@
             python3Full
             filezilla
             powershell
-
-            (symlinkJoin {
-              name = "idea-community";
-              paths = [ jetbrains.idea-community ];
-              buildInputs = [ makeWrapper ];
-
-              # stuff to make MC modding work.
-              postBuild = ''
-                wrapProgram $out/bin/idea-community \
-                --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [libpulseaudio libGL glfw openal stdenv.cc.cc.lib]}"
-              '';
-            })
-
             fzf
             x11docker
             arduino
@@ -198,12 +185,12 @@
             pandoc
 	          qemu
             wimlib
+	    vagrant
 
             # Object Creation (check stable)
             fritzing
             qmk
 	          mission-planner
-            brlcad
             solvespace
             (lib.hiPrio freecad)
             rpi-imager
@@ -238,7 +225,6 @@
             audacity
             polyphone
             qsynth
-            gimp-with-plugins
             krita
             libresprite
             vlc
@@ -251,12 +237,10 @@
             obs-studio-plugins.obs-3d-effect
             obs-studio-plugins.looking-glass-obs
             obs-cli
-            lmms
             vital
             handbrake
             easyeffects
             imagemagickBig
-            # carla
             rnnoise
             rnnoise-plugin
             sdrpp
@@ -319,7 +303,7 @@
             zim-tools
             pdfslicer
             asciidoc-full-with-plugins
-            whisper-ctranslate2
+            # whisper-ctranslate2
             diamond
             libretranslate
             morsel
@@ -405,12 +389,14 @@
             # Object creation
             kicad
             orca-slicer
+	    # brlcad
 
             # Remote Access
             (lib.hiPrio rustdesk-flutter)
 
             # A/V/I
             blender
+            gimp-with-plugins
 
             # Maps
             qgis
@@ -431,6 +417,22 @@
             cutterPlugins.sigdb
             cutterPlugins.jsdec
             cryptomator
+
+            # Dev
+            (symlinkJoin {
+              name = "idea-community";
+              paths = [ jetbrains.idea-community ];
+              buildInputs = [ makeWrapper ];
+
+              # stuff to make MC modding work.
+              postBuild = ''
+                wrapProgram $out/bin/idea-community \
+                --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [libpulseaudio libGL glfw openal stdenv.cc.cc.lib]}"
+              '';
+            })
+
+	    lmms
+	    carla
           ];
         in
           unstable ++ stable;

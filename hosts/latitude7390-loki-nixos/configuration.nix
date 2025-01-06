@@ -158,8 +158,6 @@
       daemon.enable = true;
     };
 
-    pulseaudio.enable = false; # This is a pipewire-based system!
-
     bluetooth = {
       enable = true;
       powerOnBoot = true;
@@ -381,6 +379,8 @@
       jack.enable = true;
     };
 
+    pulseaudio.enable = false; # This is a pipewire-based system!
+    
     btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
@@ -589,11 +589,6 @@
       libnotify
       appimage-run
       xorg.xhost
-      SDL
-      SDL.dev
-      SDL2
-      SDL2.dev
-      SDL_gpu
       glfw
       freetype
       vulkan-headers
