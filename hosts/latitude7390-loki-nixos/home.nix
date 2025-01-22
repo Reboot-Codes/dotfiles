@@ -110,7 +110,7 @@
             lokinet
             persepolis
             motrix
-	          ungoogled-chromium
+            ungoogled-chromium
             megasync
 
             # Games (see stable)
@@ -129,7 +129,7 @@
             gzdoom
             openrct2
             r2modman
-	          ruffle
+            ruffle
 
             (lutris.override {
               extraLibraries = pkgs: [
@@ -150,7 +150,7 @@
             vscode
             vscodium-fhs
             (lib.hiPrio vscodium)
-	    zed-editor
+            zed-editor
             starship
             kate
             openldap
@@ -183,13 +183,13 @@
             minipro
             rust-bin.stable.latest.default
             pandoc
-	          qemu
+            qemu
             wimlib
 
             # Object Creation (check stable)
             fritzing
             qmk
-	          mission-planner
+            mission-planner
             solvespace
             (lib.hiPrio freecad)
             rpi-imager
@@ -258,8 +258,8 @@
             qbittorrent
             unshield
             spotify
-	          youtube-music
-	          ytmdl
+            youtube-music
+            ytmdl
             ipget
             torsocks
             lbry
@@ -283,7 +283,7 @@
             # System
             libsForQt5.kclock
             libsForQt5.kleopatra
-	    kdePackages.filelight
+            kdePackages.filelight
 
             # Office (see stable)
             keepassxc
@@ -308,37 +308,37 @@
             libretranslate
             morsel
             translatelocally
-	    translatelocally-models.uk-en-tiny
-	    translatelocally-models.tr-en-tiny
-	    translatelocally-models.sq-en-tiny
-	    translatelocally-models.sl-en-tiny
-	    translatelocally-models.pl-en-tiny
-	    translatelocally-models.nn-en-tiny
-	    translatelocally-models.nb-en-tiny
-	    translatelocally-models.mt-en-tiny
-	    translatelocally-models.mk-en-tiny
-	    translatelocally-models.is-en-tiny
-	    translatelocally-models.is-en-base
-	    translatelocally-models.fr-en-tiny
-	    translatelocally-models.et-en-tiny
-	    translatelocally-models.es-en-tiny
-	    translatelocally-models.en-pl-tiny
-	    translatelocally-models.en-fr-tiny
-	    translatelocally-models.en-et-tiny
-	    translatelocally-models.en-es-tiny
-	    translatelocally-models.en-de-tiny
-	    translatelocally-models.en-de-base
-	    translatelocally-models.en-cs-tiny
-	    translatelocally-models.en-cs-base
-	    translatelocally-models.en-bg-tiny
-	    translatelocally-models.el-en-tiny
-	    translatelocally-models.de-en-tiny
-	    translatelocally-models.de-en-base
-	    translatelocally-models.cs-en-tiny
-	    translatelocally-models.cs-en-base
-	    translatelocally-models.ca-en-tiny
-	    translatelocally-models.bg-en-tiny
-	    translatelocally-models.hbs-eng-tiny
+            translatelocally-models.uk-en-tiny
+            translatelocally-models.tr-en-tiny
+            translatelocally-models.sq-en-tiny
+            translatelocally-models.sl-en-tiny
+            translatelocally-models.pl-en-tiny
+            translatelocally-models.nn-en-tiny
+            translatelocally-models.nb-en-tiny
+            translatelocally-models.mt-en-tiny
+            translatelocally-models.mk-en-tiny
+            translatelocally-models.is-en-tiny
+            translatelocally-models.is-en-base
+            translatelocally-models.fr-en-tiny
+            translatelocally-models.et-en-tiny
+            translatelocally-models.es-en-tiny
+            translatelocally-models.en-pl-tiny
+            translatelocally-models.en-fr-tiny
+            translatelocally-models.en-et-tiny
+            translatelocally-models.en-es-tiny
+            translatelocally-models.en-de-tiny
+            translatelocally-models.en-de-base
+            translatelocally-models.en-cs-tiny
+            translatelocally-models.en-cs-base
+            translatelocally-models.en-bg-tiny
+            translatelocally-models.el-en-tiny
+            translatelocally-models.de-en-tiny
+            translatelocally-models.de-en-base
+            translatelocally-models.cs-en-tiny
+            translatelocally-models.cs-en-base
+            translatelocally-models.ca-en-tiny
+            translatelocally-models.bg-en-tiny
+            translatelocally-models.hbs-eng-tiny
 
             # Crypto (see stable)
             monero-gui
@@ -389,7 +389,7 @@
             # Object creation
             kicad
             orca-slicer
-	    # brlcad
+            # brlcad
 
             # Remote Access
             (lib.hiPrio rustdesk-flutter)
@@ -429,10 +429,10 @@
                 --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [libpulseaudio libGL glfw openal stdenv.cc.cc.lib]}"
               '';
             })
-	    # vagrant
 
-	    lmms
-	    carla
+            # vagrant
+            lmms
+            carla
           ];
         in
           unstable ++ stable;

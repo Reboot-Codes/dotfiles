@@ -7,7 +7,7 @@
 in {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
-    ../../common/nix-alien.nix
+    ../../common/utils
   ];
 
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
@@ -22,7 +22,7 @@ in {
       ];
 
       packageOverrides = pkgs: {
-        intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };      
+        intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
       };
     };
 

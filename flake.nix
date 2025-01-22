@@ -6,6 +6,7 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
     ];
+
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
@@ -20,7 +21,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flatpaks = { 
+    flatpaks = {
       url = "github:GermanBread/declarative-flatpak/stable-v3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -45,97 +46,7 @@
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL }: {
-    nixosConfigurations = {
-      "ressd-loki-nixos" = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-
-	      # The `specialArgs` parameter passes the
-        # non-default nixpkgs instances to other nix modules
-        specialArgs = {
-          # To use packages from nixpkgs-stable,
-          # we configure some parameters for it first
-          pkgs-stable = import nixpkgs-stable {
-            # Refer to the `system` parameter from
-            # the outer scope recursively
-            inherit system;
-            config = { 
-              allowUnfree = true; 
-              permittedInsecurePackages = [
-                "electron-27.3.11" # Allows logseq stable. Annoying.
-              ];  
-            };
-          };
-
-	        inherit rust-overlay;
-          inherit nixGL;
-        };
-
-        modules = [
-	        # Imported Flakes
-          {
-            nixpkgs.overlays = [
-              nixGL.overlays.default
-            ];
-          }
-          home-manager.nixosModules.home-manager
-          flatpaks.nixosModules.declarative-flatpak
-	  nur.modules.nixos.default
-          chaotic.nixosModules.default
-          # https://github.com/ezKEa/aagl-gtk-on-nix
-          {
-            imports = [ aagl.nixosModules.default ];
-            nix.settings = aagl.nixConfig; # Set up Cachix
-          }
-          
-          ./hosts/ressd-loki-nixos/default.nix # Our Configs
-        ];
-      };
-
-      "latitude7390-loki-nixos" = nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
-
-	      # The `specialArgs` parameter passes the
-        # non-default nixpkgs instances to other nix modules
-        specialArgs = {
-          # To use packages from nixpkgs-stable,
-          # we configure some parameters for it first
-          pkgs-stable = import nixpkgs-stable {
-            # Refer to the `system` parameter from
-            # the outer scope recursively
-            inherit system;
-            config = { 
-              allowUnfree = true; 
-              permittedInsecurePackages = [
-                "electron-27.3.11" # Allows logseq stable. Annoying.
-              ];  
-            };
-          };
-
-	        inherit rust-overlay;
-          inherit nixGL;
-        };
-
-        modules = [
-	        # Imported Flakes
-          {
-            nixpkgs.overlays = [
-              nixGL.overlays.default
-            ];
-          }
-          home-manager.nixosModules.home-manager
-          flatpaks.nixosModules.declarative-flatpak
-	  nur.modules.nixos.default
-          chaotic.nixosModules.default
-          # https://github.com/ezKEa/aagl-gtk-on-nix
-          {
-            imports = [ aagl.nixosModules.default ];
-            nix.settings = aagl.nixConfig; # Set up Cachix
-          }
-          
-          ./hosts/latitude7390-loki-nixos/default.nix # Our Configs
-        ];
-      };
-    };
+    nixosConfigurations = import ./hosts/nixos.nix;
 
     # For *nix systems that are not NixOS or macOS
     homeConfigurations = {

@@ -1,5 +1,5 @@
 { config, pkgs, pkgs-stable, home-manager, ...}: {
-  imports = [ ../../common/home.nix ];
+  imports = [ ../../common/home ];
 
   home = {
     stateVersion = "24.11";
