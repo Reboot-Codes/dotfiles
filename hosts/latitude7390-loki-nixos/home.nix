@@ -185,7 +185,6 @@
             pandoc
 	          qemu
             wimlib
-	    vagrant
 
             # Object Creation (check stable)
             fritzing
@@ -250,6 +249,7 @@
             strawberry-qt6
             elisa
             drawpile
+            blender
 
             # Media Acquisition
             ani-cli
@@ -395,7 +395,6 @@
             (lib.hiPrio rustdesk-flutter)
 
             # A/V/I
-            blender
             gimp-with-plugins
 
             # Maps
@@ -430,6 +429,7 @@
                 --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [libpulseaudio libGL glfw openal stdenv.cc.cc.lib]}"
               '';
             })
+	    # vagrant
 
 	    lmms
 	    carla

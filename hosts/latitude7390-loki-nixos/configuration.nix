@@ -9,7 +9,10 @@
   ];
 
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    trusted-users = [ "reboot" ];
+  };
 
   nixpkgs = {
     config = {
@@ -380,7 +383,9 @@
     };
 
     pulseaudio.enable = false; # This is a pipewire-based system!
-    
+
+    hardware.openrgb.enable = true;
+
     btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
@@ -460,6 +465,8 @@
         };
       };
     };
+
+    
 
     # displayManager.sddm.enable = true; # It's kinda broken right now.
     spice-autorandr.enable = true;
@@ -615,6 +622,7 @@
       smartmontools
       glxinfo
       piper
+      openrgb-with-all-plugins
 
       # Network
       nmap
