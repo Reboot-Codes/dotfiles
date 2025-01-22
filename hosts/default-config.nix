@@ -1,7 +1,6 @@
-{ config, pkgs, self, rust-overlay, ... }: {
+{ config, pkgs, self, rust-overlay, nixGL, ... }: {
   imports = [
-    aagl.nixosModules.default
-    ../../common/utils
+    ../common/utils
   ];
 
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
@@ -75,7 +74,7 @@
 
   boot.loader.grub = {
     configurationLimit = 15;
-    theme = import ../../common/derivations/distro-grub-themes.nix { inherit pkgs; };
+    theme = import ../common/derivations/distro-grub-themes.nix { inherit pkgs; };
   };
 
   i18n = {
