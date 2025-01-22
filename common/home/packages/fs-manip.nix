@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # FS Manipulation
     btrfs-progs
     exfat
@@ -9,4 +9,6 @@
     fuse-7z-ng
     bchunk
   ];
+
+  packages = unstable;
 }

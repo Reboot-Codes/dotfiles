@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # Games (see stable)
     prismlauncher
     steamcmd
@@ -34,9 +34,11 @@
     mangohud
   ];
 
-  stable = [
+  stable =with pkgs-stable; [
     # Games
     steam-tui
     retroarchFull
   ];
+
+  packages = unstable ++ stable;
 }

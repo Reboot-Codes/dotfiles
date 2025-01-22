@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # Remote access (see stable)
     parsec-bin
     remmina
@@ -9,8 +9,10 @@
     kdePackages.krfb
   ];
 
-  stable = [
+  stable = with pkgs-stable; [
     # Remote Access
     (lib.hiPrio rustdesk-flutter)
   ];
+
+  packages = unstable ++ stable;
 }

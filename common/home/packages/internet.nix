@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     firefox-devedition
     tor-browser-bundle-bin
     brave
@@ -11,7 +11,9 @@
     megasync
   ];
 
-  stable = [
+  stable = with pkgs-stable; [
     onionshare-gui
   ];
+
+  packages = unstable ++ stable;
 }

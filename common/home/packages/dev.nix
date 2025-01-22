@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # Dev
     vscode
     vscodium-fhs
@@ -41,7 +41,7 @@
     wimlib
   ];
 
-  stable = [
+  stable = with pkgs-stable; [
     # Dev
     (symlinkJoin {
       name = "idea-community";
@@ -57,4 +57,6 @@
 
     # vagrant
   ];
+
+  packages = unstable ++ stable;
 }

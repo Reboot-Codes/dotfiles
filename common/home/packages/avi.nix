@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # A/V/I (check stable)
     kdenlive
     audacity
@@ -33,10 +33,12 @@
     blender
   ];
 
-  stable = [
+  stable = with pkgs-stable; [
     # A/V/I
     gimp-with-plugins
     lmms
     carla
   ];
+
+  packages = unstable ++ stable;
 }

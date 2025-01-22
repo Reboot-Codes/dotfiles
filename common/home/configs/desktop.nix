@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, pkgs-stable, ... }: {
   systemd.user.services = {
     arrpc = {
       Unit = {
@@ -69,31 +69,28 @@
     #      "posy-improved-cursor-linux"
     #      "Posy_Cursor_Mono";
 
-    packages = let
-      packages = import ./get-packages {
-        inherit pkgs pkgs-stable;
+    packages = import ./get-packages.nix {
+      inherit pkgs pkgs-stable;
 
-        groups = [
-          "alien"
-          "internet"
-          "avi"
-          "comms"
-          "crypto"
-          "dev"
-          "fs-manip"
-          "games"
-          "hacking"
-          "horny"
-          "maps"
-          "media-acquisition"
-          "object-creation"
-          "office"
-          "remote-access"
-          "repair"
-          "toys"
-        ];
-      };
-    in
-      packages;
+      groups = [
+        "alien"
+        "internet"
+        "avi"
+        "comms"
+        "crypto"
+        "dev"
+        "fs-manip"
+        "games"
+        "hacking"
+        "horny"
+        "maps"
+        "media-acquisition"
+        "object-creation"
+        "office"
+        "remote-access"
+        "repair"
+        "toys"
+      ];
+    };
   };
 }

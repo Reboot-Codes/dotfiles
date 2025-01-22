@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # Run Alien Software
     dosbox-x
     bottles
@@ -7,4 +7,6 @@
     distrobox
     boxbuddy
   ];
+
+  packages = unstable;
 }

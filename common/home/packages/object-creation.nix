@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     fritzing
     qmk
     mission-planner
@@ -10,10 +10,12 @@
     weylus
   ];
 
-  stable = [
+  stable = with pkgs-stable; [
     # Object creation
     kicad
     orca-slicer
     # brlcad
   ];
+
+  packages = unstable ++ stable;
 }

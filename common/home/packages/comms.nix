@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # Comms
     zoom-us
     session-desktop
@@ -13,4 +13,6 @@
     sigtop
     # check system flatpak config for signal desktop
   ];
+
+  packages = unstable;
 }

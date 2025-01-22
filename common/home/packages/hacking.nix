@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # Hacking (see stable)
     wireshark
     ettercap
@@ -19,7 +19,7 @@
     veracrypt
   ];
 
-  stable = [
+  stable = with pkgs-stable; [
     # Hacking
     rizin
     rizinPlugins.rz-ghidra
@@ -28,4 +28,6 @@
     cutterPlugins.jsdec
     cryptomator
   ];
+
+  packages = unstable ++ stable;
 }

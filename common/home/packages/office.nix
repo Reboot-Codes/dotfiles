@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # Office (see stable)
     keepassxc
     libreoffice-qt
@@ -61,8 +61,10 @@
     translatelocally-models.hbs-eng-tiny
   ];
 
-  stable = [
+  stable = with pkgs-stable; [
     # Office
     logseq
   ];
+
+  packages = unstable ++ stable;
 }

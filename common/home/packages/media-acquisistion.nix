@@ -1,5 +1,5 @@
-{
-  unstable = [
+{ pkgs, pkgs-unstable, ... }: {
+  unstable = with pkgs; [
     # Media Acquisition
     ani-cli
     losslessaudiochecker
@@ -16,4 +16,6 @@
     vcdimager
     gImageReader
   ];
+
+  packages = unstable;
 }

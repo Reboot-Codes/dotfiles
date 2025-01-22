@@ -1,9 +1,3 @@
-{ pkgs, pkgs-stable, groups }: {
-  unstable = with pkgs; lib.lists.flatten (
-    builtins.map (group: let group = import (../. + "/packages/${group}.nix"); in (if builtins.hasAttr "unstable" then group.unstable)) groups
-  );
-
-  stable = with pkgs; lib.lists.flatten (
-    builtins.map (group: let group = import (../. + "/packages/${group}.nix"); in (if builtins.hasAttr "stable" then group.stable)) groups
-  );
-}
+{ pkgs, pkgs-stable, groups }: pkgs.lib.lists.flatten (
+  builtins.map (groupName: let group = import (../. + "/packages/${groupName}.nix"); in (if (builtins.hasAttr "packages" group) then group.packages else [])) groups
+)
