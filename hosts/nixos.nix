@@ -1,4 +1,4 @@
-{ nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL }: let
+let
   targets = [ "ressd-loki-nixos" "latitude7390-loki-nixos" ];
 in (nixpkgs.lib.genAttrs targets (target: nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
