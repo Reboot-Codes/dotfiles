@@ -93,7 +93,6 @@
   time.timeZone = "America/Phoenix";
 
   networking = {
-    hostName = "latitude7390-loki-nixos"; # Define your hostname.
     networkmanager.enable = true;
     # wireless.enable = true; # WPA Supplicant, is mutually exclusive with networkmanager btw.
 

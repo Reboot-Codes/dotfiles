@@ -84,7 +84,6 @@
   time.timeZone = "America/Phoenix";
 
   networking = {
-    hostName = "latitude7390-loki-nixos"; # Define your hostname.
     networkmanager.enable = true;
 
     firewall = {

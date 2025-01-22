@@ -1,11 +1,13 @@
 { nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL }: let
-  hosts = [
-    {
-      hostname = "latitude7390-loki-nixos";
+  hosts = {
+    "latitude7390-loki-nixos" = {
       system = "x86_64-linux";
-    }
-  ];
-in (nixpkgs.lib.genAttrs hosts (host: nixpkgs.lib.nixosSystem rec {
+    };
+  };
+
+in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
+  host = hosts."${hostname}";
+in nixpkgs.lib.nixosSystem rec {
   system = host.system;
 
   # The `specialArgs` parameter passes the non-default nixpkgs instances to other nix modules
@@ -31,6 +33,9 @@ in (nixpkgs.lib.genAttrs hosts (host: nixpkgs.lib.nixosSystem rec {
   modules = [
     # Imported Flakes
     {
+      networking.hostName = "${hostname}"; # Define your hostname.
+
+      # AAGL stuff.
       imports = [ aagl.nixosModules.default ];
       nix.settings = aagl.nixConfig;
     }
@@ -41,6 +46,6 @@ in (nixpkgs.lib.genAttrs hosts (host: nixpkgs.lib.nixosSystem rec {
     # https://github.com/ezKEa/aagl-gtk-on-nix
 
     ./default-config.nix
-    (./. + "/${host.hostname}/default.nix") # Our Configs
+    (./. + "/${hostname}/default.nix") # Our Configs
   ];
 }))
