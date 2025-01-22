@@ -3,7 +3,7 @@
     "latitude7390-loki-nixos" = {
       username = "reboot";
       system = "x86_64-linux";
-      type = "desktop";
+      systemType = "desktop";
     };
   };
 

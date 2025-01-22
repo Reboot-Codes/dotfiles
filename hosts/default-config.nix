@@ -1,14 +1,14 @@
-{ username, installType, config, pkgs, pkgs-stable, self, rust-overlay, nixGL, ... }: {
+{ hostConfig, installType, config, pkgs, pkgs-stable, self, rust-overlay, nixGL, ... }: {
   imports = [
     ../common/utils
   ];
 
-  home-manager.users."${username}" = import ../common/home { inherit installType pkgs pkgs-stable; };
+  home-manager.users."${hostConfig.username}" = import ../common/home { inherit installType pkgs pkgs-stable; };
 
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "${username}" ];
+    trusted-users = [ "${hostConfig.username}" ];
   };
 
   nixpkgs = {
