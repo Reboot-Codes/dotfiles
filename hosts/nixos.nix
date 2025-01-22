@@ -1,12 +1,14 @@
 { nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, ... }: let
-  hosts = {
-    "latitude7390-loki-nixos" = {
-      username = "reboot";
-      system = "x86_64-linux";
-      systemType = "desktop";
-    };
+  defaultDesktop = {
+    username = "reboot";
+    system = "x86_64-linux";
+    systemType = "desktop";
   };
 
+  hosts = {
+    "latitude7390-loki-nixos" = defaultDesktop;
+    "omen25l-odin-nixos" = defaultDesktop;
+  };
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
   hostConfig = hosts."${hostname}";
   system = hostConfig.system;
