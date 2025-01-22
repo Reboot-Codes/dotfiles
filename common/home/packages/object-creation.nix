@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     fritzing
     qmk
@@ -16,6 +16,6 @@
     orca-slicer
     # brlcad
   ];
-
+in {
   packages = unstable ++ stable;
 }

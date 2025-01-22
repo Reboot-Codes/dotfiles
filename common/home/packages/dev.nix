@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Dev
     vscode
@@ -57,6 +57,6 @@
 
     # vagrant
   ];
-
+in {
   packages = unstable ++ stable;
 }

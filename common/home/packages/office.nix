@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Office (see stable)
     keepassxc
@@ -65,6 +65,6 @@
     # Office
     logseq
   ];
-
+in {
   packages = unstable ++ stable;
 }

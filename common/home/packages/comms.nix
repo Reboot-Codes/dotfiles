@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Comms
     zoom-us
@@ -13,6 +13,6 @@
     sigtop
     # check system flatpak config for signal desktop
   ];
-
+in {
   packages = unstable;
 }

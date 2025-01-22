@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # A/V/I (check stable)
     kdenlive
@@ -39,6 +39,6 @@
     lmms
     carla
   ];
-
+in {
   packages = unstable ++ stable;
 }

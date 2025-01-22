@@ -1,9 +1,9 @@
-{ username, installType, config, pkgs, self, rust-overlay, nixGL, ... }: {
+{ username, installType, config, pkgs, pkgs-stable, self, rust-overlay, nixGL, ... }: {
   imports = [
     ../common/utils
   ];
 
-  home-manager.users."${username}" = import ../common/home { inherit installType; };
+  home-manager.users."${username}" = import ../common/home { inherit installType pkgs pkgs-stable; };
 
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
   nix.settings = {

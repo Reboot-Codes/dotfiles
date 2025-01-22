@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Media Acquisition
     ani-cli
@@ -16,6 +16,6 @@
     vcdimager
     gImageReader
   ];
-
+in {
   packages = unstable;
 }

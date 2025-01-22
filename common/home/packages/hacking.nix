@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Hacking (see stable)
     wireshark
@@ -28,6 +28,6 @@
     cutterPlugins.jsdec
     cryptomator
   ];
-
+in {
   packages = unstable ++ stable;
 }

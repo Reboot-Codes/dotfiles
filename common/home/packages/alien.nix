@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Run Alien Software
     dosbox-x
@@ -7,6 +7,6 @@
     distrobox
     boxbuddy
   ];
-
+in {
   packages = unstable;
 }

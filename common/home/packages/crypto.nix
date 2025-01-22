@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Crypto (see stable)
     monero-gui
@@ -11,6 +11,6 @@
     electrum
     electrum-ltc
   ];
-
+in {
   packages = unstable ++ stable;
 }

@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # FS Manipulation
     btrfs-progs
@@ -9,6 +9,6 @@
     fuse-7z-ng
     bchunk
   ];
-
+in {
   packages = unstable;
 }

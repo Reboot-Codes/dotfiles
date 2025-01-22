@@ -1,4 +1,4 @@
-{ pkgs, pkgs-unstable, ... }: {
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Games (see stable)
     prismlauncher
@@ -34,11 +34,11 @@
     mangohud
   ];
 
-  stable =with pkgs-stable; [
+  stable = with pkgs-stable; [
     # Games
     steam-tui
     retroarchFull
   ];
-
+in {
   packages = unstable ++ stable;
 }
