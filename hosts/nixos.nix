@@ -1,5 +1,5 @@
-let
-  targets = [ "ressd-loki-nixos" "latitude7390-loki-nixos" ];
+{ nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL }: let
+  targets = [ "latitude7390-loki-nixos" ];
 in (nixpkgs.lib.genAttrs targets (target: nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
 
@@ -25,21 +25,14 @@ in (nixpkgs.lib.genAttrs targets (target: nixpkgs.lib.nixosSystem rec {
 
   modules = [
     # Imported Flakes
-    {
-      nixpkgs.overlays = [
-        nixGL.overlays.default
-      ];
-    }
+    { nix.settings = aagl.nixConfig; }
     home-manager.nixosModules.home-manager
     flatpaks.nixosModules.declarative-flatpak
     nur.modules.nixos.default
     chaotic.nixosModules.default
     # https://github.com/ezKEa/aagl-gtk-on-nix
-    {
-      imports = [ aagl.nixosModules.default ];
-      nix.settings = aagl.nixConfig; # Set up Cachix
-    }
 
-    "./${target}/default.nix" # Our Configs
+    ./default-config.nix
+    (./. + "/${target}/default.nix") # Our Configs
   ];
 }))

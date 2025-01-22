@@ -2,7 +2,7 @@
 { pkgs, nixGL }:
 
 # Wrap a single package
-pkg: 
+pkg:
 # Wrap the package's binaries with nixGL, while preserving the rest of
 # the outputs and derivation attributes.
   (pkg.overrideAttrs (old: {

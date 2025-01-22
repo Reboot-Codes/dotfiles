@@ -1,3 +1,3 @@
 {
-  imports = [ ./nix-alien.nix ./nix-gl-wrapper.nix ];
+  imports = [ ./nix-alien.nix ];
 }
