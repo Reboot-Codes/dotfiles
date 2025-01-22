@@ -84,7 +84,7 @@
         "hacking"
         "horny"
         "maps"
-        "media-acquisition"
+        "media-acquisistion"
         "object-creation"
         "office"
         "remote-access"

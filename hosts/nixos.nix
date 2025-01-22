@@ -1,20 +1,17 @@
 { nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL }: let
-  defaultHost = {
-    system = "x86_64-linux";
-    type = "desktop";
-  };
-
-  username = "reboot";
-
   hosts = {
-    "latitude7390-loki-nixos" = defaultHost;
+    "latitude7390-loki-nixos" = {
+      username = "reboot";
+      system = "x86_64-linux";
+      type = "desktop";
+    };
   };
 
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
-  host = hosts."${hostname}";
-  installType = host.type;
+  hostConfig = hosts."${hostname}";
+  system = hostConfig.system;
 in nixpkgs.lib.nixosSystem rec {
-  system = host.system;
+  system = hostConfig.system;
 
   # The `specialArgs` parameter passes the non-default nixpkgs instances to other nix modules
   specialArgs = {
@@ -34,8 +31,7 @@ in nixpkgs.lib.nixosSystem rec {
 
     inherit rust-overlay;
     inherit nixGL;
-    inherit installType;
-    inherit username;
+    inherit hostConfig;
   };
 
   modules = [
