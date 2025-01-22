@@ -1,9 +1,8 @@
 # This file has general setting configs to make sure that our experiences are consistent.
 
 { config, pkgs, pkgs-stable, home-manager, ...}: {
-  programs = { 
+  programs = {
     home-manager.enable = true;
-
     direnv.enable = true;
 
     zsh = {
@@ -17,7 +16,7 @@
 
       envExtra = ''
         PATH=$PATH":/home/reboot/dev/bin:/home/reboot/bin"
-        
+
         export CARGO_MOMMYS_PRONOUNS="his/their"
         export CARGO_MOMMYS_LITTLE="boy/pup/puppy"
         export CARGO_MOMMYS_ROLES="daddy/master/owner/handler"
@@ -53,9 +52,9 @@
         # bindkey  "^[[1~"   beginning-of-line
         # bindkey  "^[[4~"   end-of-line
         # bindkey  "^[[3~"   delete-char
-        
+
         # Check if this session is interactive (fix `scp` lmao)
-        if [[ $- == *i* ]]; then          
+        if [[ $- == *i* ]]; then
           # Runs tmux on ssh conn, see: https://stackoverflow.com/a/40192494
           if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
             tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
@@ -92,10 +91,10 @@
 
     starship = {
       enable = true;
-      
+
       settings = {
         format = "$username$hostname$directory$all$line_break$character";
-        
+
         directory = {
           read_only = " ";
           repo_root_style = "underline bold cyan";
@@ -244,7 +243,7 @@
         };
 
         cursor.style = "Beam";
-        
+
         env = {
           "TERM" = "xterm-256color";
         };

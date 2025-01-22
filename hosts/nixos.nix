@@ -1,12 +1,18 @@
 { nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL }: let
+  defaultHost = {
+    system = "x86_64-linux";
+    type = "desktop";
+  };
+
+  username = "reboot";
+
   hosts = {
-    "latitude7390-loki-nixos" = {
-      system = "x86_64-linux";
-    };
+    "latitude7390-loki-nixos" = defaultHost;
   };
 
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
   host = hosts."${hostname}";
+  installType = host.type;
 in nixpkgs.lib.nixosSystem rec {
   system = host.system;
 
@@ -28,6 +34,8 @@ in nixpkgs.lib.nixosSystem rec {
 
     inherit rust-overlay;
     inherit nixGL;
+    inherit installType;
+    inherit username;
   };
 
   modules = [
@@ -46,6 +54,6 @@ in nixpkgs.lib.nixosSystem rec {
     # https://github.com/ezKEa/aagl-gtk-on-nix
 
     ./default-config.nix
-    (./. + "/${hostname}/default.nix") # Our Configs
+    (./. + "/${hostname}") # Our Configs
   ];
 }))

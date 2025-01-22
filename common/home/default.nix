@@ -1,3 +1,3 @@
-{
-  imports = [ ./home.nix ];
+{ installType }: {
+  imports = [ ./home.nix (./. + "/configs/${installType}.nix") ];
 }

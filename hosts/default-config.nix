@@ -1,12 +1,14 @@
-{ config, pkgs, self, rust-overlay, nixGL, ... }: {
+{ username, installType, config, pkgs, self, rust-overlay, nixGL, ... }: {
   imports = [
     ../common/utils
   ];
 
+  home-manager.users."${username}" = import ../common/home { inherit installType; };
+
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "reboot" ];
+    trusted-users = [ "${username}" ];
   };
 
   nixpkgs = {

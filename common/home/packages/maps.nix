@@ -1,0 +1,7 @@
+{
+  stable = [
+    # Maps
+    qgis
+    josm
+  ];
+}
