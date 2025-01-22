@@ -1,4 +1,4 @@
-{ nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL }: let
+{ nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, ... }: let
   hosts = {
     "latitude7390-loki-nixos" = {
       username = "reboot";
@@ -10,28 +10,23 @@
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
   hostConfig = hosts."${hostname}";
   system = hostConfig.system;
+  pkgs-stable = import nixpkgs-stable {
+    # Refer to the `system` parameter from
+    # the outer scope recursively
+    inherit system;
+    config = {
+      allowUnfree = true;
+      permittedInsecurePackages = [
+        "electron-27.3.11" # Allows logseq stable. Annoying.
+      ];
+    };
+  };
 in nixpkgs.lib.nixosSystem rec {
   system = hostConfig.system;
 
   # The `specialArgs` parameter passes the non-default nixpkgs instances to other nix modules
   specialArgs = {
-    # To use packages from nixpkgs-stable,
-    # we configure some parameters for it first
-    pkgs-stable = import nixpkgs-stable {
-      # Refer to the `system` parameter from
-      # the outer scope recursively
-      inherit system;
-      config = {
-        allowUnfree = true;
-        permittedInsecurePackages = [
-          "electron-27.3.11" # Allows logseq stable. Annoying.
-        ];
-      };
-    };
-
-    inherit rust-overlay;
-    inherit nixGL;
-    inherit hostConfig;
+    inherit pkgs-stable rust-overlay nixGL hostConfig;
   };
 
   modules = [

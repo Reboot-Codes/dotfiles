@@ -1,3 +1,5 @@
-{ hostConfig, pkgs, pkgs-stable }: {
-  imports = [ ./home.nix (./configs + "/${hostConfig.systemType}.nix")];
+{ hostConfig, pkgs, pkgs-stable, ... }: {
+  home-manager.users."${hostConfig.username}" = {
+    imports = [ ./home.nix (./configs + "/${hostConfig.systemType}.nix")];
+  };
 }
