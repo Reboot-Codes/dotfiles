@@ -1,4 +1,4 @@
-{ pkgs }: {
+{ config, pkgs, self, rust-overlay, ... }: {
   imports = [
     aagl.nixosModules.default
     ../../common/utils
