@@ -4,7 +4,6 @@
     qmk
     mission-planner
     solvespace
-    (lib.hiPrio freecad)
     rpi-imager
     usbimager
     weylus
@@ -14,6 +13,7 @@
     # Object creation
     kicad
     orca-slicer
+    (lib.hiPrio freecad)
     # brlcad
   ];
 in {
