@@ -104,7 +104,7 @@
     socat
     openssl
     speedtest-cli
-    zeditor
+    zed-editor
     vscodium
     btrfs-progs
     btrbk
