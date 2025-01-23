@@ -241,6 +241,14 @@
       jack.enable = true;
     };
 
+    zerotierone = {
+      enable = true;
+
+      joinNetworks = [
+        "56374ac9a475ea79"
+      ];
+    };
+
     pulseaudio.enable = false; # This is a pipewire-based system!
     hardware.openrgb.enable = true;
 

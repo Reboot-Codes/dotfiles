@@ -330,6 +330,14 @@
       package = pkgs.usbmuxd2;
     };
 
+    zerotierone = {
+      enable = true;
+
+      joinNetworks = [
+        "56374ac9a475ea79"
+      ];
+    };
+
     flatpak = {
       enable = true;
 

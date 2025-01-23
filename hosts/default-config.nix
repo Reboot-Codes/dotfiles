@@ -132,14 +132,6 @@
   };
 
   services = {
-    zerotierone = {
-      enable = true;
-
-      joinNetworks = [
-        "56374ac9a475ea79"
-      ];
-    };
-
     openssh.enable = true;
     atd.enable = true;
 
@@ -162,7 +154,7 @@
   users = {
     defaultUserShell = pkgs.zsh;
 
-    users.reboot = {
+    users."${hostConfig.username}" = {
       isNormalUser = true;
       description = "Reboot"; # GCOS Field, basically the Pretty Name for this user.
 

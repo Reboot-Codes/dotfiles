@@ -2,12 +2,19 @@
   defaultDesktop = {
     username = "reboot";
     system = "x86_64-linux";
+    systemType = "desktop-full";
+  };
+
+  installISO = {
+    username = "reboot";
+    system = "x86_64-linux";
     systemType = "desktop";
   };
 
   hosts = {
     "latitude7390-loki-nixos" = defaultDesktop;
     "omen25l-odin-nixos" = defaultDesktop;
+    "temp-installer-nixos" = installISO;
   };
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
   hostConfig = hosts."${hostname}";
