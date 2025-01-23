@@ -55,10 +55,15 @@ in nixpkgs.lib.nixosSystem rec {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
+
+        extraSpecialArgs = {
+          inherit pkgs-stable;
+        };
       };
     }
 
     ./default-config.nix
+    ../common/home
     (./. + "/${hostname}") # Our Configs
   ];
 }))
