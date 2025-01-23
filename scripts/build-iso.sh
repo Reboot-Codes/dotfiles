@@ -1,1 +1,1 @@
-nix build $(dirname "$( realpath "$0" )")/../#nixosConfigurations.temp-installer-nixos.config.system.build.isoImage
+nix build $(dirname "$( realpath "$0" )")/../#nixosConfigurations.temp-installer-nixos.config.system.build.isoImage --impure -L --show-trace
