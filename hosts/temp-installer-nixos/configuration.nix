@@ -2,6 +2,7 @@
   imports = [(modulesPath + "/installer/cd-dvd/installation-cd-base.nix")];
 
   users.users."${hostConfig.username}".password = "password";
+  boot.plymouth.enable = true;
 
   hardware = {
     graphics = {
