@@ -123,5 +123,6 @@
     syncthing
     kdePackages.breeze
     libsForQt5.breeze-gtk
+    gparted
   ];
 }
