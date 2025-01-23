@@ -1,5 +1,5 @@
 { pkgs, config, modulesPath, hostConfig, ... }: {
-  imports = [(modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")];
+  imports = [(modulesPath + "/installer/cd-dvd/installation-cd-graphical-kde.nix")];
 
   users.users."${hostConfig.username}".password = "password";
 
