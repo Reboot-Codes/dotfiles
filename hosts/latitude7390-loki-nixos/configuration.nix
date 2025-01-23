@@ -73,8 +73,6 @@
   time.timeZone = "America/Phoenix";
 
   networking = {
-    networkmanager.enable = true;
-
     firewall = {
       # Open ports in the firewall.
       allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];

@@ -107,6 +107,16 @@
     };
   };
 
+  networking = {
+    networkmanager.enable = true;
+    wireless.enable = false;
+  };
+
+  security = {
+    rtkit.enable = true;
+    polkit.enable = true;
+  };
+
   programs = {
     zsh = {
       enable = true;

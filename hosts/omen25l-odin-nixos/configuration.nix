@@ -82,9 +82,6 @@
   time.timeZone = "America/Phoenix";
 
   networking = {
-    networkmanager.enable = true;
-    # wireless.enable = true; # WPA Supplicant, is mutually exclusive with networkmanager btw.
-
     firewall = {
       # Open ports in the firewall.
       allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
@@ -97,9 +94,6 @@
   };
 
   security = {
-    rtkit.enable = true;
-    polkit.enable = true;
-
     # For hibernation
     protectKernelImage = false;
 
