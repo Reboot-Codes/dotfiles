@@ -40,18 +40,23 @@ in nixpkgs.lib.nixosSystem rec {
 
   modules = [
     # Imported Flakes
+    home-manager.nixosModules.home-manager
+    flatpaks.nixosModules.declarative-flatpak
+    nur.modules.nixos.default
+    chaotic.nixosModules.default
+    # https://github.com/ezKEa/aagl-gtk-on-nix
+
     {
       networking.hostName = "${hostname}"; # Define your hostname.
 
       # AAGL stuff.
       imports = [ aagl.nixosModules.default ];
       nix.settings = aagl.nixConfig;
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+      };
     }
-    home-manager.nixosModules.home-manager
-    flatpaks.nixosModules.declarative-flatpak
-    nur.modules.nixos.default
-    chaotic.nixosModules.default
-    # https://github.com/ezKEa/aagl-gtk-on-nix
 
     ./default-config.nix
     (./. + "/${hostname}") # Our Configs

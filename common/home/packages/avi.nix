@@ -17,7 +17,7 @@
     obs-studio-plugins.obs-3d-effect
     obs-studio-plugins.looking-glass-obs
     obs-cli
-    vital
+    # vital
     handbrake
     easyeffects
     imagemagickBig
