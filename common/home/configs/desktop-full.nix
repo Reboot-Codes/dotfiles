@@ -58,10 +58,10 @@ in {
       exec = "${pkgs.renpy}/bin/renpy";
     };
 
-    #"Vital" = {
-    #  name = "Vital";
-    #  exec = "${pkgs.vital}/bin/Vital";
-    #};
+    "Vital" = {
+      name = "Vital";
+      exec = "${pkgs.vital}/bin/Vital";
+    };
   };
 
   home = {
