@@ -73,9 +73,22 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.11"; # Did you read the comment?
 
-  boot.loader.grub = {
-    configurationLimit = 15;
-    theme = import ../common/derivations/distro-grub-themes.nix { inherit pkgs; };
+  boot = {
+    loader.grub = {
+      configurationLimit = 15;
+      theme = import ../common/derivations/distro-grub-themes.nix { inherit pkgs; };
+    };
+
+    kernelPackages = pkgs.linuxPackages_zen;
+
+    extraModulePackages = with config.boot.kernelPackages; [
+      usbip
+      apfs
+      kvmfr
+      xone
+      gasket
+      # shufflecake
+    ];
   };
 
   i18n = {

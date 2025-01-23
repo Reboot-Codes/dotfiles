@@ -1,4 +1,4 @@
-{ pkgs, modulesPath, ... }: {
+{ pkgs, config, modulesPath, hostConfig, ... }: {
   imports = [(modulesPath + "/installer/cd-dvd/installation-cd-minimal.nix")];
 
   users.users."${hostConfig.username}".password = "password";

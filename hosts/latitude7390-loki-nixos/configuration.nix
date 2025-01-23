@@ -28,17 +28,6 @@
       };
     };
 
-    kernelPackages = pkgs.linuxPackages_zen;
-
-    extraModulePackages = with config.boot.kernelPackages; [
-      usbip
-      apfs
-      kvmfr
-      xone
-      gasket
-      # shufflecake
-    ];
-
     plymouth.enable = true;
 
     # https://wiki.nixos.org/wiki/OSX-KVM
