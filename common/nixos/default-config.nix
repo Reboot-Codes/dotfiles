@@ -43,7 +43,7 @@
   boot = {
     loader.grub = {
       configurationLimit = 15;
-      theme = import ../common/derivations/distro-grub-themes.nix { inherit pkgs; };
+      theme = import ../derivations/distro-grub-themes.nix { inherit pkgs; };
     };
 
     kernelPackages = pkgs.linuxPackages_zen;
