@@ -1,4 +1,4 @@
-(final: prev: {
+final: prev: {
   waydroid = prev.waydroid.overrideAttrs {
     version = "1.4.2-update-regex-for-deprecation-warning";
 
@@ -9,4 +9,4 @@
       hash = "sha256-ywlykYPLMx3cI6/7JOL0UDIcymzf0qug5A/c9JaCr+k";
     };
   };
-})
+}

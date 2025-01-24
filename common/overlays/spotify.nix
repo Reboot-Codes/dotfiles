@@ -1,4 +1,4 @@
-(final: prev: {
+final: prev: {
   spotify = prev.spotify // {
     installPhase = builtins.replaceStrings [
       "runHook postInstall"
@@ -9,4 +9,4 @@
     ]
     prev.spotify.installPhase;
   };
-})
+}

@@ -4,10 +4,10 @@
     system = "x86_64-linux";
     systemType = "external";
   };
+
+  hostConfig = defaultDesktop;
 in {
-  "${hostConfig.username}" = let
-    hostConfig = defaultDesktop;
-  in home-manager.lib.homeManagerConfiguration rec {
+  "${hostConfig.username}" = home-manager.lib.homeManagerConfiguration rec {
     pkgs = nixpkgs.legacyPackages."${hostConfig.system}";
     modules = [
       ../common/home
