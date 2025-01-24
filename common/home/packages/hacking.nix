@@ -17,6 +17,7 @@
     radare2
     iaito
     veracrypt
+    cryptomator
   ];
 
   stable = with pkgs-stable; [
@@ -26,7 +27,6 @@
     cutter
     cutterPlugins.sigdb
     cutterPlugins.jsdec
-    cryptomator
   ];
 in {
   packages = unstable ++ stable;

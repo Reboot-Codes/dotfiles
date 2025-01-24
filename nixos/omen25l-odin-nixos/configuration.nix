@@ -4,7 +4,7 @@
 
 { config, pkgs, self, rust-overlay, ... }: {
   imports = [
-    ./hardware-configuration.nix # Include the results of the hardware scan.
+    # ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
 
   boot = {

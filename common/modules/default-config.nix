@@ -1,7 +1,7 @@
 { pkgs, pkgs-stable, config, options, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, hostConfig, lib, specialArgs, ... }: {
   imports = [
-    ../common/utils
-    ../common/home
+    ../utils
+    ../home
   ];
 
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
