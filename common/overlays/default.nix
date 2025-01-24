@@ -1,0 +1,4 @@
+[
+  ./discord.nix
+  ./spotify.nix
+]

@@ -13,7 +13,7 @@
 
   hosts = {
     "latitude7390-loki-nixos" = defaultDesktop;
-    "omen25l-odin-nixos" = defaultDesktop;
+    # "omen25l-odin-nixos" = defaultDesktop;
     "temp-installer-nixos" = installISO;
   };
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
@@ -62,7 +62,7 @@ in nixpkgs.lib.nixosSystem rec {
       };
     }
 
-    ../common/modules
+    ../common/nixos
     ../common/home
     (./. + "/${hostname}") # Our Configs
   ];
