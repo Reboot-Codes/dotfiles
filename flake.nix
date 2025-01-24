@@ -46,12 +46,12 @@
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL }: {
-    nixosConfigurations = import ./hosts/nixos.nix {
+    nixosConfigurations = import ./nixos {
       inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL;
     };
 
     # For *nix systems that are not NixOS or macOS
-    homeConfigurations = import ./hosts/home-manager.nix {
+    homeConfigurations = import ./home-manager.nix {
       inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL;
     };
   };
