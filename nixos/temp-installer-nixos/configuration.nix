@@ -34,6 +34,13 @@
     };
   };
 
+  fonts.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+    roboto
+    roboto-serif
+    corefonts # the msft ones, seems to not load.
+  ];
+
   programs = {
     neovim = {
       viAlias = true;
@@ -78,6 +85,10 @@
     neovim
     tmux
     busybox
+    eza
+    fastfetch
+    fortune
+    lolcat
     btop
     btop
     firefox
