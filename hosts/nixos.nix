@@ -62,7 +62,7 @@ in nixpkgs.lib.nixosSystem rec {
       };
     }
 
-    ./default-config.nix
+    ../common/modules
     ../common/home
     (./. + "/${hostname}") # Our Configs
   ];

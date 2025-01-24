@@ -51,11 +51,8 @@
     };
 
     # For *nix systems that are not NixOS or macOS
-    homeConfigurations = {
-      "reboot" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        modules = [ ./hosts/generic-amd64-linux-gui/default.nix ];
-      };
+    homeConfigurations = import ./hosts/home-manager.nix {
+      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL;
     };
   };
 }

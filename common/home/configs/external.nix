@@ -1,8 +1,4 @@
-{ config, pkgs, pkgs-stable, home-manager, ...}: {
-  imports = [ ../../common/home ];
-
-  # TODO: packages to package sets in common/home/packages
-
+{ pkgs, ... }: {
   home = {
     stateVersion = "24.11";
     username = "reboot";
