@@ -13,7 +13,7 @@
 
   hosts = {
     "latitude7390-loki-nixos" = defaultDesktop;
-    "omen25l-odin-nixos" = defaultDesktop;
+    "omen25l-odin-nixos" = defaultDesktop // { useDisko = true; };
     "temp-installer-nixos" = installISO;
   };
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
@@ -65,5 +65,5 @@ in nixpkgs.lib.nixosSystem rec {
     ../common/nixos
     ../common/home
     (./. + "/${hostname}") # Our Configs
-  ];
+  ] ++ (if (nixpkgs.lib.hasAttr "useDisko" hostConfig) then (if hostConfig.useDisko then [(./. + "/${hostname}/disko.nix")] else []) else []);
 }))
