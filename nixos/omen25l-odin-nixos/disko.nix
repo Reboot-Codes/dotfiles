@@ -1,7 +1,7 @@
-{
+{ disks ? [ "/dev/sda" "/dev/sdb" ], ... }: {
   disko.devices = {
     disk = {
-      one = {
+      sda = {
         type = "disk";
         device = "/dev/sda";
 
@@ -21,7 +21,7 @@
               };
             };
 
-            primary = {
+            DATA = {
               size = "100%";
 
               content = {
@@ -33,18 +33,21 @@
         };
       };
 
-      two = {
+      sdb = {
         type = "disk";
         device = "/dev/sda";
 
         content = {
           type = "gpt";
-          primary = {
-            size = "100%";
 
-            content = {
-              type = "lvm_pv";
-              vg = "DATA";
+          partitions = {
+            DATA = {
+              size = "100%";
+
+              content = {
+                type = "lvm_pv";
+                vg = "DATA";
+              };
             };
           };
         };
@@ -108,10 +111,6 @@
                   size = "32G";
                 };
               };
-            };
-
-            key = {
-              size = "16M";
             };
           };
         };

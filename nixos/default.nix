@@ -1,4 +1,4 @@
-{ nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, ... }: let
+{ disko, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, ... }: let
   defaultDesktop = {
     username = "reboot";
     system = "x86_64-linux";
@@ -65,5 +65,5 @@ in nixpkgs.lib.nixosSystem rec {
     ../common/nixos
     ../common/home
     (./. + "/${hostname}") # Our Configs
-  ] ++ (if (nixpkgs.lib.hasAttr "useDisko" hostConfig) then (if hostConfig.useDisko then [(./. + "/${hostname}/disko.nix")] else []) else []);
+  ] ++ (if (nixpkgs.lib.hasAttr "useDisko" hostConfig) then (if hostConfig.useDisko then [disko.nixosModules.disko (./. + "/${hostname}/disko.nix")] else []) else []);
 }))
