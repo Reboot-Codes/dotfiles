@@ -1,9 +1,9 @@
 { disks ? [ "/dev/sda" "/dev/sdb" ], ... }: {
   disko.devices = {
     disk = {
-      sda = {
+      sdb = {
         type = "disk";
-        device = "/dev/sda";
+        device = "/dev/sdb";
 
         content = {
           type = "gpt";
@@ -21,6 +21,10 @@
               };
             };
 
+            KEY = {
+              size = "16M";
+            };
+
             DATA = {
               size = "100%";
 
@@ -33,7 +37,7 @@
         };
       };
 
-      sdb = {
+      sda = {
         type = "disk";
         device = "/dev/sda";
 
