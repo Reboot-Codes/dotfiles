@@ -31,6 +31,7 @@
     elisa
     drawpile
     blender
+    lunacy
   ];
 
   stable = with pkgs-stable; [

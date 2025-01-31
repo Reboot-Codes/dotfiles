@@ -39,6 +39,8 @@
     pandoc
     qemu
     wimlib
+    qtscrcpy
+    scrcpy
   ];
 
   stable = with pkgs-stable; [
