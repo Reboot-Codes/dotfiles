@@ -22,6 +22,8 @@
     libsForQt5.kclock
     libsForQt5.kleopatra
     kdePackages.filelight
+    gnome-decoder
+    junction
 
     # Translation
     # whisper-ctranslate2

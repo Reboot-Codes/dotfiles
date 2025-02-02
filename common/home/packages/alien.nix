@@ -6,6 +6,7 @@
     looking-glass-client
     distrobox
     boxbuddy
+    gearlever
   ];
 in {
   packages = unstable;

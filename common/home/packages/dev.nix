@@ -39,8 +39,10 @@
     pandoc
     qemu
     wimlib
-    qtscrcpy
     scrcpy
+    (lib.hiPrio kdePackages.qttools)
+    d-spy
+    kdePackages.yakuake
   ];
 
   stable = with pkgs-stable; [

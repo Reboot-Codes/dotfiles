@@ -18,6 +18,11 @@
     iaito
     veracrypt
     cryptomator
+    gephi
+    xxd
+    hexcurse
+    (lib.hiPrio autopsy)
+    sleuthkit
   ];
 
   stable = with pkgs-stable; [

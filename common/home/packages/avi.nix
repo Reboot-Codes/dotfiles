@@ -32,6 +32,13 @@
     drawpile
     blender
     lunacy
+    blockbench
+    fooyin
+    furnace
+    helvum
+    musescore
+    muse-sounds-manager
+    blanket
   ];
 
   stable = with pkgs-stable; [

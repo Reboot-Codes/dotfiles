@@ -11,6 +11,8 @@
     signalbackup-tools
     signal-export
     sigtop
+    briar-desktop
+    nheko
     # check system flatpak config for signal desktop
   ];
 in {

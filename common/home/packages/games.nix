@@ -32,6 +32,7 @@
     itch
     itchiodl
     mangohud
+    cockatrice
   ];
 
   stable = with pkgs-stable; [
