@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, config, options, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, hostConfig, lib, specialArgs, ... }: {
+{ pkgs, pkgs-stable, config, options, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, hostConfig, lib, specialArgs, pwndbg, ... }: {
   imports = [
     ../utils
     ../home
@@ -16,7 +16,7 @@
 
       permittedInsecurePackages = [
         "electron-25.9.0"
-	"olm-3.2.16"
+        "olm-3.2.16"
       ];
 
       packageOverrides = pkgs: {

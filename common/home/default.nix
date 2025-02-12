@@ -1,4 +1,4 @@
-{ hostConfig, pkgs, pkgs-stable, ... }: {
+{ hostConfig, pkgs, pkgs-stable, pwndbg, ... }: {
   home-manager.users."${hostConfig.username}" = {
     nixpkgs.config.allowUnfree = true;
 

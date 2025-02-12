@@ -15,7 +15,11 @@
       # TODO: Translate oh-my-zsh plugins.
 
       envExtra = ''
-        PATH=$PATH":/home/reboot/dev/bin:/home/reboot/bin"
+        PATH=$PATH"/home/reboot/.local/bin:/home/reboot/dev/bin:/home/reboot/bin"
+
+        if [ -e ~/dev/scripts/remind.sh ]; then
+          source ~/dev/scripts/remind.sh
+        fi
 
         export CARGO_MOMMYS_PRONOUNS="his/their"
         export CARGO_MOMMYS_LITTLE="boy/pup/puppy"
@@ -23,8 +27,6 @@
         export CARGO_MOMMYS_MOODS="chill/ominous/thirsty/yikes"
         export CARGO_MOMMYS_PARTS="milk/dick/ass/paws/pits/pecs/muscles/musk/piss/balls"
         export CARGO_MOMMYS_FUCKING="slut/toy/pet/pervert/whore/pup/cocksleeve/puppy"
-
-        source ~/dev/scripts/remind.sh
 
         if [ "$SSH_CLIENT" ]; then
           export PINENTRY_USER_DATA=pinentry-curses

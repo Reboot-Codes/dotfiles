@@ -19,14 +19,14 @@
       ];
     };
 
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = false;
-      open = false;
-      powerManagement.finegrained = false;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
+    #nvidia = {
+    #  modesetting.enable = true;
+    #  powerManagement.enable = false;
+    #  open = false;
+    #  powerManagement.finegrained = false;
+    #  nvidiaSettings = true;
+    #  package = config.boot.kernelPackages.nvidiaPackages.stable;
+    #};
 
     bluetooth = {
       enable = true;

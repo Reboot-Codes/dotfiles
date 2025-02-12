@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, lib, ... }: let
+{ pkgs, pkgs-stable, pwndbg, lib, ... }: let
   groups = [
     "alien"
     "internet"
@@ -35,18 +35,9 @@ in {
     #      "posy-improved-cursor-linux"
     #      "Posy_Cursor_Mono";
 
-    packages = lib.lists.flatten (
+    packages = lib.flatten (
       builtins.map (groupName:
-        let
-          group = {
-            imports = [(../packages + "/${groupName}.nix")];
-          };
-        in (
-          if (builtins.hasAttr "packages" group) then
-            group.packages
-          else
-            []
-        )
+        (import (../packages + "/${groupName}.nix") { inherit pkgs pkgs-stable pwndbg; }).packages
       ) groups
     );
   };

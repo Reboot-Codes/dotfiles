@@ -39,6 +39,7 @@
     musescore
     muse-sounds-manager
     blanket
+    qsstv
   ];
 
   stable = with pkgs-stable; [

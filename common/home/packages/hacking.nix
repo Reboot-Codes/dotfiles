@@ -23,6 +23,9 @@
     hexcurse
     (lib.hiPrio autopsy)
     sleuthkit
+    exiftool
+    samba4
+    smbnetfs
   ];
 
   stable = with pkgs-stable; [
