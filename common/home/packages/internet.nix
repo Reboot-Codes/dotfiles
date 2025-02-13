@@ -9,6 +9,7 @@
     motrix
     ungoogled-chromium
     megasync
+    floorp
   ];
 
   stable = with pkgs-stable; [
