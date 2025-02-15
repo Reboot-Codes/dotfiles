@@ -41,6 +41,7 @@
 
         # Created by `pipx` on 2024-03-24 18:26:33
         export PATH="$PATH:/home/reboot/.local/bin"
+        export PATH="$PATH:/run/current-system/sw/bin"
 
         alias sclear="clear; fastfetch && fortune | lolcat"
         alias cargo-daddy="cargo-mommy"

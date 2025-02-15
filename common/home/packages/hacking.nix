@@ -26,6 +26,8 @@
     exiftool
     samba4
     smbnetfs
+    gdb
+    pwndbg
   ];
 
   stable = with pkgs-stable; [
