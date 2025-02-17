@@ -15,7 +15,7 @@
       # TODO: Translate oh-my-zsh plugins.
 
       envExtra = ''
-        PATH=$PATH"/home/reboot/.local/bin:/home/reboot/dev/bin:/home/reboot/bin:.:/run/current-system/sw/bin"
+        PATH=$PATH"/home/reboot/.local/bin:/home/reboot/dev/bin:/home/reboot/bin:.:/run/current-system/sw/bin:~/.config/emacs/bin"
 
         if [ -e ~/dev/scripts/remind.sh ]; then
           source ~/dev/scripts/remind.sh
@@ -87,6 +87,11 @@
 
       # TODO: Configure lightline.
     };
+
+    # doom-emacs = {
+    #   enable = true;
+    #   doomPrivateDir = ./doom.d;
+    # };
 
     starship = {
       enable = true;
@@ -298,6 +303,8 @@
       enableSshSupport = true;
       sshKeys = [ "F4DB81CBA107C76D0F7A75B18A0D03A6C3DCBA53" ];
     };
+
+    # emacs.enable = true;
   };
 
   # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar)

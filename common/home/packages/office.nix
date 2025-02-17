@@ -19,8 +19,8 @@
     pdfslicer
     asciidoc-full-with-plugins
     diamond
-    libsForQt5.kclock
-    libsForQt5.kleopatra
+    kdePackages.kclock
+    kdePackages.kleopatra
     kdePackages.filelight
     gnome-decoder
     junction

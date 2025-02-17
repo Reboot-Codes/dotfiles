@@ -3,7 +3,7 @@
     # Run Alien Software
     dosbox-x
     bottles
-    looking-glass-client
+    # looking-glass-client
     distrobox
     boxbuddy
     gearlever

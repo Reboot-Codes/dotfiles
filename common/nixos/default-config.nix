@@ -52,9 +52,9 @@
     extraModulePackages = with config.boot.kernelPackages; [
       usbip
       apfs
-      kvmfr
+      # kvmfr
       xone
-      gasket
+      # gasket
       # shufflecake
     ];
   };

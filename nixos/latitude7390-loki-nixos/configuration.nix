@@ -465,8 +465,7 @@
       kdePackages.qt6ct
       kdePackages.breeze
       libsForQt5.qt5ct
-      libsForQt5.breeze-qt5
-      libsForQt5.breeze-gtk
+      kdePackages.breeze-gtk
 
       # VMs and Containers
       dive

@@ -1,7 +1,5 @@
-{ hostConfig, pkgs, pkgs-stable, pwndbg, ... }: {
+{ hostConfig, pkgs, pkgs-stable, pwndbg, nix-doom-emacs, ... }: {
   home-manager.users."${hostConfig.username}" = {
-    nixpkgs.config.allowUnfree = true;
-
-    imports = [ ./home.nix (./configs + "/${hostConfig.systemType}.nix")];
+    imports = [ ./home.nix (./configs + "/${hostConfig.systemType}.nix") nix-doom-emacs.hmModule ];
   };
 }
