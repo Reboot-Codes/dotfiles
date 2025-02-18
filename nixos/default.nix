@@ -19,16 +19,13 @@
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
   hostConfig = hosts."${hostname}";
   system = hostConfig.system;
+
   pkgs-stable = import nixpkgs-stable {
     # Refer to the `system` parameter from
     # the outer scope recursively
     inherit system;
-    config = {
-      allowUnfree = true;
-      permittedInsecurePackages = [
-        "electron-27.3.11" # Allows logseq stable. Annoying.
-      ];
-    };
+
+    config = import ../common/utils/nix-config.nix;
   };
 in nixpkgs.lib.nixosSystem rec {
   system = hostConfig.system;
@@ -44,18 +41,19 @@ in nixpkgs.lib.nixosSystem rec {
     flatpaks.nixosModules.declarative-flatpak
     nur.modules.nixos.default
     chaotic.nixosModules.default
-    # https://github.com/ezKEa/aagl-gtk-on-nix
 
     {
       networking.hostName = "${hostname}"; # Define your hostname.
 
-      # AAGL stuff.
+      # AAGL stuff: https://github.com/ezKEa/aagl-gtk-on-nix
       imports = [ aagl.nixosModules.default ];
       nix.settings = aagl.nixConfig;
+
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
 
+        #! IMPORTANT: Any custom package inputs **need** to be placed here as well if they should be used by home-manager!
         extraSpecialArgs = {
           inherit pkgs-stable pwndbg;
         };

@@ -1,5 +1,5 @@
 { pkgs, config, modulesPath, hostConfig, ... }: {
-  imports = [(modulesPath + "/installer/cd-dvd/installation-cd-base.nix")];
+  imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-base.nix") ];
 
   users.users."${hostConfig.username}".password = "password";
   boot.plymouth.enable = true;
