@@ -41,7 +41,7 @@
   pwndbg-packages = let
     pkgs-pwndbg = pwndbg.packages."${pkgs.system}";
   in with pkgs-pwndbg; [
-    pwndbg
+    default
     pwndbg-lldb
   ];
 in {
