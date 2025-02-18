@@ -27,6 +27,7 @@
     samba4
     smbnetfs
     gdb
+    binwalk
   ];
 
   stable = with pkgs-stable; [
