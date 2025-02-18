@@ -43,7 +43,7 @@
     (lib.hiPrio kdePackages.qttools)
     d-spy
     kdePackages.yakuake
-    eclipses.eclipse-java
+    (lib.hiPrio eclipses.eclipse-java)
     eclipses.eclipse-cpp
     eclipses.eclipse-embedcpp
   ];
