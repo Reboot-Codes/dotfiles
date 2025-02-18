@@ -43,6 +43,9 @@
     (lib.hiPrio kdePackages.qttools)
     d-spy
     kdePackages.yakuake
+    eclipses.eclipse-java
+    eclipses.eclipse-cpp
+    eclipses.eclipse-embedcpp
   ];
 
   stable = with pkgs-stable; [

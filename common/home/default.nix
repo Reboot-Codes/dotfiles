@@ -1,5 +1,5 @@
-{ hostConfig, pkgs, pkgs-stable, pwndbg, nix-doom-emacs, ... }: {
+{ hostConfig, pkgs, pkgs-stable, pwndbg, ... }: {
   home-manager.users."${hostConfig.username}" = {
-    imports = [ ./home.nix (./configs + "/${hostConfig.systemType}.nix") nix-doom-emacs.hmModule ];
+    imports = [ ./home.nix (./configs + "/${hostConfig.systemType}.nix") ];
   };
 }

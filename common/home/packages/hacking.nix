@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, pwndbg, ... }: let
   unstable = with pkgs; [
     # Hacking (see stable)
     wireshark
@@ -37,6 +37,13 @@
     cutterPlugins.sigdb
     cutterPlugins.jsdec
   ];
+
+  pwndbg-packages = let
+    pkgs-pwndbg = pwndbg.packages."${pkgs.system}";
+  in with pkgs-pwndbg; [
+    pwndbg
+    pwndbg-lldb
+  ];
 in {
-  packages = unstable ++ stable;
+  packages = unstable ++ stable ++ pwndbg-packages;
 }

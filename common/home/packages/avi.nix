@@ -33,7 +33,7 @@
     blender
     lunacy
     blockbench
-    fooyin
+    # fooyin
     furnace
     helvum
     musescore

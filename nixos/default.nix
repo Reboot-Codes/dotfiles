@@ -1,4 +1,4 @@
-{ disko, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, pwndbg, nix-doom-emacs, ... }: let
+{ disko, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, pwndbg, ... }: let
   defaultDesktop = {
     username = "reboot";
     system = "x86_64-linux";
@@ -35,7 +35,7 @@ in nixpkgs.lib.nixosSystem rec {
 
   # The `specialArgs` parameter passes the non-default nixpkgs instances to other nix modules
   specialArgs = {
-    inherit pkgs-stable rust-overlay nixGL hostConfig pwndbg nix-doom-emacs;
+    inherit pkgs-stable rust-overlay nixGL hostConfig pwndbg;
   };
 
   modules = [
@@ -57,7 +57,7 @@ in nixpkgs.lib.nixosSystem rec {
         useUserPackages = true;
 
         extraSpecialArgs = {
-          inherit pkgs-stable pwndbg nix-doom-emacs;
+          inherit pkgs-stable pwndbg;
         };
       };
     }

@@ -55,21 +55,16 @@
       url = "github:pwndbg/pwndbg";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nix-doom-emacs = {
-      url = "github:nix-community/nix-doom-emacs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, disko, pwndbg, nix-doom-emacs }: {
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, disko, pwndbg }: {
     nixosConfigurations = import ./nixos {
-      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL disko pwndbg nix-doom-emacs;
+      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL disko pwndbg;
     };
 
     # For *nix systems that are not NixOS or macOS
     homeConfigurations = import ./home-manager.nix {
-      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL pwndbg nix-doom-emacs;
+      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL pwndbg;
     };
   };
 }

@@ -88,11 +88,6 @@
       # TODO: Configure lightline.
     };
 
-    # doom-emacs = {
-    #   enable = true;
-    #   doomPrivateDir = ./doom.d;
-    # };
-
     starship = {
       enable = true;
 

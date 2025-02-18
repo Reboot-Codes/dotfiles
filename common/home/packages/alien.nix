@@ -7,6 +7,7 @@
     distrobox
     boxbuddy
     gearlever
+    simh
   ];
 in {
   packages = unstable;
