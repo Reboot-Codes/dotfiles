@@ -28,6 +28,7 @@
     smbnetfs
     gdb
     binwalk
+    ltrace
   ];
 
   stable = with pkgs-stable; [
