@@ -8,14 +8,39 @@
     krita
     libresprite
     vlc
-    obs-studio
-    obs-studio-plugins.obs-multi-rtmp
-    obs-studio-plugins.obs-mute-filter
-    obs-studio-plugins.input-overlay
-    obs-studio-plugins.obs-gstreamer
-    obs-studio-plugins.waveform
-    obs-studio-plugins.obs-3d-effect
-    obs-studio-plugins.looking-glass-obs
+
+    (pkgs.wrapOBS {
+      plugins = with pkgs.obs-studio-plugins; [
+        wlrobs
+        obs-backgroundremoval
+        obs-pipewire-audio-capture
+        obs-multi-rtmp
+        obs-mute-filter
+        input-overlay
+        obs-gstreamer
+        waveform
+        obs-3d-effect
+        looking-glass-obs
+        obs-vkcapture
+        obs-shaderfilter
+        obs-source-record
+        # obs-replay-source
+        obs-freeze-filter
+        obs-vintage-filter
+        obs-composite-blur
+        obs-command-source
+        obs-vertical-canvas
+        obs-move-transition
+        obs-transition-table
+        obs-3d-effect
+        obs-tuna
+        obs-vaapi
+        # obs-nvfbc
+        obs-teleport
+        obs-webkitgtk
+      ];
+    })
+
     obs-cli
     vital
     handbrake
@@ -40,13 +65,14 @@
     muse-sounds-manager
     blanket
     qsstv
+    inkscape-with-extensions
+    gimp-with-plugins
+    lmms
+    carla
   ];
 
   stable = with pkgs-stable; [
     # A/V/I
-    gimp-with-plugins
-    lmms
-    carla
   ];
 in {
   packages = unstable ++ stable;
