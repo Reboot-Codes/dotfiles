@@ -382,6 +382,14 @@
 
       # System
       man-pages
+      glibcInfo
+      stdmanpages
+      c-intro-and-ref
+      tkman
+      wikiman
+      stdman
+      texinfo
+      nixpkgs-manual
       wl-clipboard
       gnupg
       libnotify

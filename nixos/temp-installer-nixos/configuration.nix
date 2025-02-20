@@ -137,5 +137,13 @@
     kdePackages.breeze-gtk
     gparted
     man-pages
+    glibcInfo
+    stdmanpages
+    c-intro-and-ref
+    tkman
+    wikiman
+    stdman
+    texinfo
+    nixpkgs-manual
   ];
 }
