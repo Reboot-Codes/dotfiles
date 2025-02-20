@@ -136,5 +136,6 @@
     kdePackages.breeze
     kdePackages.breeze-gtk
     gparted
+    man-pages
   ];
 }

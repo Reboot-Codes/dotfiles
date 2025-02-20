@@ -381,6 +381,7 @@
       bash
 
       # System
+      man-pages
       wl-clipboard
       gnupg
       libnotify

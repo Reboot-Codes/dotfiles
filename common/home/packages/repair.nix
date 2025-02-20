@@ -4,6 +4,7 @@
     gparted
     ventoy-full
     idevicerestore
+    man-pages
   ];
 in {
   packages = unstable;
