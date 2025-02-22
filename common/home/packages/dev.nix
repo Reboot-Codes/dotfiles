@@ -46,6 +46,10 @@
     (lib.hiPrio eclipses.eclipse-java)
     eclipses.eclipse-cpp
     eclipses.eclipse-embedcpp
+    insomnia
+    glade
+    pods
+    forge-sparks
   ];
 
   stable = with pkgs-stable; [

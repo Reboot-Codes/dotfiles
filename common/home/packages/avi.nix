@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, ... }: let
   unstable = with pkgs; [
     # A/V/I (check stable)
     kdenlive
@@ -69,11 +69,18 @@
     gimp-with-plugins
     lmms
     carla
-  ];
-
-  stable = with pkgs-stable; [
-    # A/V/I
+    shortwave
+    quodlibet-full
+    # natron
+    nuclear
+    losslesscut-bin
+    # sooperlooper
+    fretboard
+    livecaptions
+    pulseeffects-legacy
+    polyphone
+    # mandelbulber
   ];
 in {
-  packages = unstable ++ stable;
+  packages = unstable;
 }

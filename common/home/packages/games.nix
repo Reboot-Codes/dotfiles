@@ -33,6 +33,14 @@
     itchiodl
     mangohud
     cockatrice
+    kdePackages.knetwalk
+    kdePackages.kapman
+    kdePackages.kolf
+    kdePackages.kreversi
+    superTuxKart
+    gargoyle
+    # colobot
+    rrootage
   ];
 
   stable = with pkgs-stable; [

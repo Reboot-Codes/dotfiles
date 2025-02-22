@@ -14,6 +14,8 @@
     briar-desktop
     nheko
     # check system flatpak config for signal desktop
+    mumble
+    discover-overlay
   ];
 in {
   packages = unstable;

@@ -20,6 +20,11 @@
     gdb
     binwalk
     ltrace
+    pe-bear
+    flare-floss
+    garble
+    synchrony
+    ipgrep
 
     (ghidra.withExtensions (ext: with ext; [
       ret-sync

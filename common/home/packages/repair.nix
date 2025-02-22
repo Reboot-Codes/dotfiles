@@ -13,6 +13,11 @@
     stdman
     texinfo
     nixpkgs-manual
+    popsicle
+    putty
+    kdiskmark
+    impression
+    czkawka-full
   ];
 in {
   packages = unstable;

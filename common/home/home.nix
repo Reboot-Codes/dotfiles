@@ -186,6 +186,11 @@
       shortcut = "a";
       historyLimit = 500000;
 
+      plugins = with pkgs.tmuxPlugins; [
+        tmux-powerline
+        tmux-powerline
+      ];
+
       extraConfig = ''
         # Use CRTL+A, | to split horizontally
         bind | split-window -h

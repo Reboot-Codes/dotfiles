@@ -8,6 +8,8 @@
     asciicam
     asciigraph
     ascii-draw
+    oneko
+    emote
   ];
 in {
   packages = unstable;

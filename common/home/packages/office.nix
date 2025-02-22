@@ -24,6 +24,21 @@
     kdePackages.filelight
     gnome-decoder
     junction
+    sigil
+    openboard
+    kdePackages.marble
+    kdePackages.itinerary
+    scribus
+    upscayl
+    collision
+    paperwork
+    simple-scan
+    kana
+    warp
+    authenticator
+    gnome-obfuscate
+    curtail
+    xournalpp
 
     # Translation
     # whisper-ctranslate2

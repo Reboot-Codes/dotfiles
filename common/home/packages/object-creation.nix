@@ -7,6 +7,7 @@
     rpi-imager
     usbimager
     weylus
+    librecad
   ];
 
   stable = with pkgs-stable; [
