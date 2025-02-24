@@ -131,6 +131,11 @@
     openssh.enable = true;
     atd.enable = true;
 
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = "client";
+    };
+
     tor = {
       enable = true;
 

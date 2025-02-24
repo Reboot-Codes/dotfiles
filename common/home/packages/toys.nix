@@ -11,6 +11,8 @@
     oneko
     emote
     glib
+    protonvpn-gui
+    ktailctl
   ];
 in {
   packages = unstable;
