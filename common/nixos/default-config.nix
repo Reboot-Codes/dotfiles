@@ -145,6 +145,55 @@
         };
       };
     };
+
+    flatpak = {
+      remotes = [
+        {
+          name = "flathub";
+          location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+        }
+        {
+          name = "flathub-beta";
+          location = "https://dl.flathub.org/beta-repo/flathub-beta.flatpakrepo";
+        }
+      ];
+
+      update.auto = {
+        enable = true;
+        onCalendar = "weekly";
+      };
+
+      overrides = {
+        global = {
+          Context = {
+            filesystems = [
+              "/home/reboot/.icons,ro"
+              "/run/current-system/sw/share/X11/fonts:ro"
+              "/nix/store:ro"
+              "/home/reboot/.config/gtk-2.0/:ro"
+              "/home/reboot/.config/gtk-3.0/:ro"
+              "/home/reboot/.config/gtk-4.0/:ro"
+            ];
+
+            sockets = ["wayland" "!x11" "fallback-x11"];
+          };
+
+          Environment = {
+            XCURSOR_PATH = "/run/host/user-share/icons:/run/host/share/icons:/home/reboot/.icons";
+          };
+        };
+      };
+
+      restartOnFailure = {
+        enable = true;
+        restartDelay = "60s";
+        exponentialBackoff = {
+          enable = false;
+          steps = 10;
+          maxDelay = "1h";
+        };
+      };
+    };
   };
 
   users = {
@@ -168,6 +217,8 @@
       ];
     };
   };
+
+  fonts.fontDir.enable = true;
 
   environment = {
     # Install Soundfonts TODO: only Fluid copies over... might wanna fix that soon.

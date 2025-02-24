@@ -12,7 +12,6 @@
     ps3netsrv
     xemu
     the-powder-toy
-    openttd
     gzdoom
     openrct2
     r2modman
@@ -47,6 +46,7 @@
     # Games
     steam-tui
     retroarchFull
+    openttd
   ];
 in {
   packages = unstable ++ stable;

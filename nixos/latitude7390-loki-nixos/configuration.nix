@@ -307,29 +307,12 @@
       enable = true;
 
       packages = [
-        "flathub:app/dev.vencord.Vesktop//stable"
-        "flathub:app/net.davidotek.pupgui2//stable"
-        "flathub:app/com.belmoussaoui.Obfuscate//stable"
-        "flathub:app/com.github.tchx84.Flatseal//stable"
-	      "flathub:app/org.signal.Signal/x86_64/master"
-	      "flathub:app/io.github.hydrusnetwork.hydrus/x86_64/stable"
+        "dev.vencord.Vesktop"
+        "net.davidotek.pupgui2"
+        "com.github.tchx84.Flatseal"
+        "org.signal.Signal"
+        "io.github.hydrusnetwork.hydrus"
       ];
-
-      remotes = {
-        "flathub" = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-        "flathub-beta" = "https://dl.flathub.org/beta-repo/flathub-beta.flatpakrepo";
-      };
-
-      overrides = {
-        "global" = {
-          filesystems = [
-            "/home/reboot/.icons,ro"
-          ];
-          environment = {
-            "XCURSOR_PATH" = "/run/host/user-share/icons:/run/host/share/icons:/home/reboot/.icons";
-          };
-        };
-      };
     };
   };
 

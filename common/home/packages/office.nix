@@ -12,10 +12,6 @@
     obsidian
     emacs-gtk
     organicmaps
-    kiwix
-    kiwix-tools
-    zim
-    zim-tools
     pdfslicer
     asciidoc-full-with-plugins
     diamond
@@ -81,6 +77,10 @@
   stable = with pkgs-stable; [
     # Office
     logseq
+    kiwix
+    kiwix-tools
+    zim
+    zim-tools
   ];
 in {
   packages = unstable ++ stable;

@@ -10,6 +10,7 @@
     ascii-draw
     oneko
     emote
+    glib
   ];
 in {
   packages = unstable;

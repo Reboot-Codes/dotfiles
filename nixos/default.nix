@@ -38,7 +38,7 @@ in nixpkgs.lib.nixosSystem rec {
   modules = [
     # Imported Flakes
     home-manager.nixosModules.home-manager
-    flatpaks.nixosModules.declarative-flatpak
+    flatpaks.nixosModules.nix-flatpak
     nur.modules.nixos.default
     chaotic.nixosModules.default
 

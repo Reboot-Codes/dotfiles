@@ -4,7 +4,6 @@
     vscode
     vscodium-fhs
     (lib.hiPrio vscodium)
-    zed-editor
     starship
     kate
     openldap
@@ -67,6 +66,7 @@
     })
 
     # vagrant
+    zed-editor
   ];
 in {
   packages = unstable ++ stable;

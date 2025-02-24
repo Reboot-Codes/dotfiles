@@ -23,10 +23,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    flatpaks = {
-      url = "github:GermanBread/declarative-flatpak/stable-v3";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    flatpaks.url = "github:gmodena/nix-flatpak/?ref=latest";
 
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
