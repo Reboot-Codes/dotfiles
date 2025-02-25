@@ -18,6 +18,8 @@
     kdiskmark
     impression
     czkawka-full
+    minipro
+    minicom
   ];
 in {
   packages = unstable;
