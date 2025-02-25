@@ -1,0 +1,112 @@
+IS IT THIS ONE? dayum. no. IS IT THIS ONE? NAHHH.
+%
+These aren't your pup's fortunes! ;3
+%
+Fortune nix flake go brrr!!!!11!!1!
+%
+Remember to use python < 3.0!
+%
+`random.choice(taglines)` or just `fortune reboot`.
+%
+Eurolands(tm)
+%
+Like UNIX, but better.
+%
+%99 Python, %1 Work.
+%
+Your drink might be too hot!
+%
+Eh, I have 4 JDKs already.
+%
+Nice terminal bro.
+%
+wInDoWs sUcKs!!!!!! NIXOS + QUBES FOREVAHHHHHHHHHH
+%
+Rember to run nix-update!
+%
+I just learned something!
+%
+Made with love, some python, and nix.
+%
+Again, this isn't fortune!
+%
+At least use GNU/Linux
+%
+Yes, it's really called GNU/Linux
+%
+What keyboard is that
+%
+Shouldn't you be working on schoolwork?
+%
+Learn to use NeoVim, or just Vim, or just Vi
+%
+WHERE IS VIM!?
+%
+Learn Rust lol
+%
+skirrrrrrrt!
+%
+Deno is BETTER THAN Node.js
+%
+These were written over SSH, then put into a nix flake.
+%
+All they want is my money.
+%
+Buy cheap, get cheap.
+%
+Code Quality: Who Cares? It works.
+%
+Get a nice camera, then don't use it, sTONKS!!!!!1!!1!!
+%
+How do you setup GitHub with Git again?
+%
+What's an SSH key?
+%
+https://example.com/
+%
+echo \".env\" | cat > .gitingore
+%
+Google: How to write a makefile????????
+%
+open -a Finder.app .
+%
+.flatpak > .appimage > .app > .exe
+%
+NVim + VimPlug + Coc = SLOW AF
+%
+Google: How to create a mac app in xcode?
+%
+codium .
+%
+Google: what is \":=\" in go?
+%
+cbonsai
+%
+cmatrix
+%
+Cmd > Ctrl
+%
+Google: how to use 11ty
+%
+podman compose up ./docker-compose
+%
+pm2 start ./ecosystem.config.js
+%
+Google: develop- hacker? it pr- *throws up*- GAYMER, there we go, desk setup
+%
+Google: what is life?
+%
+42
+%
+This is a fortune.
+%
+https://gist.github.com/Reboot-Codes
+%
+https://github.com/Reboot-Codes
+%
+Reminder: MIT can be sold, BSD-2-Clause can not!
+%
+If Functions from Hell!
+%
+Check your matrix and signal!
+%
