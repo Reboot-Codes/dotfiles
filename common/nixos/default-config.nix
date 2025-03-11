@@ -182,12 +182,16 @@
 	      "/home/reboot/.config/gtkrc-2.0:ro"
             ];
 
-            sockets = ["wayland" "!x11" "fallback-x11"];
+            # sockets = ["wayland" "!x11" "fallback-x11"];
           };
 
           Environment = {
             XCURSOR_PATH = "/run/host/user-share/icons:/run/host/share/icons:/home/reboot/.icons";
           };
+        };
+
+        "org.signal.Signal".Environment = {
+          ELECTRON_OZONE_PLATFORM_HINT="auto";
         };
       };
 

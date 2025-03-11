@@ -123,6 +123,10 @@
         key = "F4DB81CBA107C76D0F7A75B18A0D03A6C3DCBA53";
         signByDefault = true;
       };
+
+      aliases = {
+        pushall = "!git remote | xargs -L1 git push --all";
+      };
     };
 
     neovim = {

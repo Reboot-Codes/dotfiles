@@ -40,6 +40,8 @@
     gargoyle
     # colobot
     rrootage
+    # lime3ds
+    duckstation
   ];
 
   stable = with pkgs-stable; [
