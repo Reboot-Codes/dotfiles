@@ -8,12 +8,15 @@
     usbimager
     weylus
     librecad
+    orca-slicer
+    (lib.hiPrio super-slicer-latest)
+    prusa-slicer
+    bambu-studio
   ];
 
   stable = with pkgs-stable; [
     # Object creation
     kicad
-    orca-slicer
     (lib.hiPrio freecad)
     # brlcad
   ];
