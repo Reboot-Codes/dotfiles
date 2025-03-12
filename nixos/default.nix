@@ -11,6 +11,8 @@
     systemType = "desktop";
   };
 
+	# TODO: Add `server` systemType!
+
   hosts = {
     "latitude7390-loki-nixos" = defaultDesktop;
     "omen25l-odin-nixos" = defaultDesktop;# // { useDisko = true; };
@@ -60,8 +62,8 @@ in nixpkgs.lib.nixosSystem rec {
       };
     }
 
-    ../common/nixos
+    ../common/nixos # TODO: Set default system packages!
     ../common/home
-    (./. + "/${hostname}") # Our Configs
+    (./. + "/${hostname}") # Our Configs, TODO: Make sure that home and system packages are `//`'d together with previous configs. (Use lib.mkForce for force overrides?)
   ] ++ (if (nixpkgs.lib.hasAttr "useDisko" hostConfig) then (if hostConfig.useDisko then [disko.nixosModules.disko (./. + "/${hostname}/disko.nix")] else []) else []);
 }))

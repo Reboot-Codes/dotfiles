@@ -14,6 +14,7 @@
     protonvpn-gui
     ktailctl
     kdePackages.wallpaper-engine-plugin
+    lightly-qt
   ];
 in {
   packages = unstable;
