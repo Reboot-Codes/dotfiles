@@ -145,5 +145,8 @@
     stdman
     texinfo
     nixpkgs-manual
+    kitty
+    kitty-img
+    kitty-themes
   ];
 }

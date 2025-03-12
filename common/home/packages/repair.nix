@@ -20,6 +20,9 @@
     czkawka-full
     minipro
     minicom
+    kitty
+    kitty-img
+    kitty-themes
   ];
 in {
   packages = unstable;

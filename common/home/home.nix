@@ -347,6 +347,47 @@
       };
     };
 
+    hyprlock = {
+      enable = true;
+
+      settings = {
+        general = {
+          hide_cursor = true;
+        };
+
+        background = [{
+          path = "screenshot";
+          blur_passes = 4;
+          blur_size = 8;
+        }];
+
+        input-field = [{
+          size = "500, 50";
+          font_color = "rgb(124, 207, 158)";
+          inner_color = "rgb(0, 0, 0)";
+          outline_color = "rgb(124, 207, 158)";
+          dots_center = true;
+        }];
+      };
+    };
+
+    waybar = {
+      enable = true;
+      systemd.enable = false;
+
+      settings = {
+        main = {
+          layer = "top";
+	  position = "top";
+          height = 32;
+
+          modules-left = [ "hyprland/workspaces" ];
+          modules-center = [];
+          modules-right = [ "battery" "clock" ];
+        };
+      };
+    };
+
     # TODO: Configure KDE with `qt.kde.settings`
   };
 
@@ -362,4 +403,33 @@
   };
 
   # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar)
+  wayland.windowManager.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    
+
+    settings = let 
+      toggle = program: "pkill ${program} || ${program}";
+      runOnce = program: "pgrep ${program} || ${program}";
+    in {
+      "exec-once" = [
+        "waybar"
+        "dunst"
+      ];
+
+      "$mod" = "SUPER";
+
+      bind = [
+        "ALT, space, exec, ${toggle "wofi --show drun"}"
+        "$mod, Return, exec, alacritty"
+        "$mod, M, exit,"
+	"$mod, BackSpace, killactive,"
+	"SUPER, left, workspace, -1"
+	"SUPER, right, workspace, +1"
+        "SHIFT + SUPER, left, movetoworkspace, -1"
+        "SHIFT + SUPER, right, movetoworkspace, +1"
+	"$mod, L, exec, ${runOnce "hyprlock"}"
+      ];
+    };
+  };
 }

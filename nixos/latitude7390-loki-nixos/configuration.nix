@@ -441,6 +441,9 @@
       hyprcursor
       hypridle
       dunst
+      kitty
+      kitty-img
+      kitty-themes
 
       # QT
       kdePackages.qt6ct
