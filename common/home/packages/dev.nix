@@ -34,7 +34,7 @@
     arduino-ide
     screen
     minipro
-    rust-bin.stable.latest.default
+    rust-bin.nightly.latest.default
     pandoc
     qemu
     wimlib

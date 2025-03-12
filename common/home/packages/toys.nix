@@ -13,6 +13,7 @@
     glib
     protonvpn-gui
     ktailctl
+    kdePackages.wallpaper-engine-plugin
   ];
 in {
   packages = unstable;
