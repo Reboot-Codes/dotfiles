@@ -1,7 +1,7 @@
 { pkgs, ... }: let
   unstable = with pkgs; [
     # A/V/I (check stable)
-    kdenlive
+    kdePackages.kdenlive
     audacity
     polyphone
     qsynth
@@ -53,7 +53,7 @@
     cubicsdr
     amarok
     strawberry-qt6
-    elisa
+    kdePackages.elisa
     drawpile
     blender
     lunacy

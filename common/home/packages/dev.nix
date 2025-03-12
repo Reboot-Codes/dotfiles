@@ -5,7 +5,7 @@
     vscodium-fhs
     (lib.hiPrio vscodium)
     starship
-    kate
+    kdePackages.kate
     openldap
     openssl
     pinentry-curses

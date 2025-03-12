@@ -1,6 +1,6 @@
 { pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
-    firefox-devedition
+    # firefox-devedition
     tor-browser-bundle-bin
     brave
     onioncircuits

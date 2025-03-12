@@ -7,7 +7,7 @@
     hunspellDicts.en-us
     hunspellDicts.de-de
     hunspellDicts.es-mx
-    kcalc
+    kdePackages.kcalc
     zotero
     obsidian
     emacs-gtk
