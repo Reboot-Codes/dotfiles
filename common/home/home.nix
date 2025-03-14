@@ -46,6 +46,70 @@
       ];
     };
 
+		zed-editor = {
+			enable = true;
+			installRemoteServer = true;
+
+			userKeymaps = [
+  			{
+          context = "Workspace";
+
+          bindings = {
+            ctrl-tab = "pane::ActivateNextItem";
+            ctrl-shift-tab = "pane::ActivatePrevItem";
+          };
+        }
+			];
+
+			userSettings = {
+			 tab_size = 2;
+        buffer_font_family = "JetBrainsMono Nerd Font";
+        ui_font_family = "Roboto";
+        soft_wrap = "editor_width";
+        ui_font_size = 14;
+        buffer_font_size = 14;
+        auto_update = false;
+        load_direnv = "shell_hook";
+        base_keymap = "VSCode";
+
+        telemetry = {
+          diagnostics = false;
+          metrics =  false;
+        };
+
+        theme = {
+          mode = "system";
+          light = "One Light";
+          dark =  "Carbonfox";
+        };
+
+        node = {
+          path = pkgs.lib.getExe pkgs.nodejs;
+          npm_path = pkgs.lib.getExe' pkgs.nodejs "npm";
+        };
+
+        lsp = {
+          rust-analyzer = {
+            binary = {
+              path_lookup = true;
+            };
+
+            initialization_options = {
+              rustfmt =  {
+                extraArgs = [ "+nightly" ];
+              };
+            };
+          };
+        };
+
+        nix = {
+          binary = {
+            path_lookup = true;
+          };
+        };
+      };
+		};
+
     starship = {
       enable = true;
 
@@ -159,12 +223,23 @@
     # emacs.enable = true;
   };
 
+  home.file = {
+    # Configure the `rustfmt` formatter!
+    "rustfmt.toml" = {
+      target = ".config/rustfmt/rustfmt.toml";
+      enable = true;
+      text = builtins.readFile ./dotfiles/rustfmt.toml;
+    };
+
+    # TODO: add remind script to this!
+  };
+
   # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar)
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
 
-    settings = let 
+    settings = let
       toggle = program: "pkill ${program} || ${program}";
       runOnce = program: "pgrep ${program} || ${program}";
     in {

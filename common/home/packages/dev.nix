@@ -49,6 +49,7 @@
     glade
     pods
     forge-sparks
+    nixd
   ];
 
   stable = with pkgs-stable; [
@@ -66,7 +67,7 @@
     })
 
     # vagrant
-    zed-editor
+    (lib.hiPrio zed-editor)
   ];
 in {
   packages = unstable ++ stable;
