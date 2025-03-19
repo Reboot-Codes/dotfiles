@@ -34,6 +34,10 @@ if [ -e ~/.config/emacs/bin ]; then
   PATH="$PATH:~/.config/emacs/bin"
 fi
 
+if command -v plasmashell &> /dev/null; then
+	alias restart-plasmashell="killall plasmashell; kstart plasmashell"
+fi
+
 if command -v eza &> /dev/null; then
   alias ll="eza -l --icons"
   alias ls="eza --icons"
