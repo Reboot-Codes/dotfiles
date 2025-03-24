@@ -78,7 +78,7 @@
         };
 
         theme = {
-          mode = "system";
+          mode = "dark";
           light = "One Light";
           dark =  "Carbonfox";
         };
@@ -159,11 +159,34 @@
       historyLimit = 500000;
 
       plugins = with pkgs.tmuxPlugins; [
-        tmux-powerline
-        tmux-powerline
+        tmux-fzf
+        mode-indicator
+      ] ++ [
+        (pkgs.tmuxPlugins.mkTmuxPlugin {
+          pluginName = "tmux-suspend";
+          rtpFilePath = "suspend.tmux";
+          version = "1a2f806666e0bfed37535372279fa00d27d50d14";
+
+          postInstall = ''
+            patchShebangs suspend.tmux
+          '';
+
+          src = pkgs.fetchFromGitHub {
+            owner = "MunifTanjim";
+            repo = "tmux-suspend";
+            rev = "1a2f806666e0bfed37535372279fa00d27d50d14";
+            hash = "sha256-+1fKkwDmr5iqro0XeL8gkjOGGB/YHBD25NG+w3iW+0g=";
+          };
+        })
       ];
 
       extraConfig = builtins.readFile ./dotfiles/tmux.conf;
+    };
+
+    fzf = {
+      enable = true;
+      tmux.enableShellIntegration = true;
+      enableZshIntegration = true;
     };
 
     alacritty = import ./programs/alacritty.nix;
@@ -223,16 +246,23 @@
     # emacs.enable = true;
   };
 
-  home.file = {
-    # Configure the `rustfmt` formatter!
-    "rustfmt.toml" = {
-      target = ".config/rustfmt/rustfmt.toml";
-      enable = true;
-      text = builtins.readFile ./dotfiles/rustfmt.toml;
-    };
+  home = {
+		file = {
+			# Configure the `rustfmt` formatter!
+			"rustfmt.toml" = {
+	      target = ".config/rustfmt/rustfmt.toml";
+	      enable = true;
+	      text = builtins.readFile ./dotfiles/rustfmt.toml;
+	    };
 
-    # TODO: add remind script to this!
-  };
+	    # TODO: add remind script to this!
+	  };
+
+		sessionVariables = {
+			GTK_THEME = "Breeze-Dark";
+			NIXOS_OZONE_WL = "1";
+		};
+	};
 
   # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar)
   wayland.windowManager.hyprland = {

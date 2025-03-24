@@ -44,6 +44,12 @@ if command -v eza &> /dev/null; then
   alias tree="eza --icons --tree --git-ignore"
 fi
 
+if command -v git &> /dev/null; then
+  if [ -d /etc/nixos ]; then
+    alias nix-git="git -C '$@'"
+  fi
+fi
+
 if command -v cargo-mommy &> /dev/null; then
   export CARGO_MOMMYS_PRONOUNS="his/their"
   export CARGO_MOMMYS_LITTLE="boy/pup/puppy"
@@ -99,4 +105,3 @@ if [[ $- == *i* ]]; then
   fastfetch
   fortune | lolcat
 fi
-

@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, config, options, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, hostConfig, lib, specialArgs, pwndbg, ... }: {
+{ pkgs, lib, config, rust-overlay, nixGL, hostConfig, ... }: {
   imports = [
     ../home
   ];
@@ -10,11 +10,7 @@
   };
 
   nixpkgs = {
-    config = import ../utils/nix-config.nix // {
-      packageOverrides = pkgs: {
-        intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
-      };
-    };
+    config = import ../utils/nix-config.nix;
 
     overlays = [
       nixGL.overlays.default
@@ -44,11 +40,11 @@
     extraModulePackages = with config.boot.kernelPackages; [
       usbip
       apfs
-      # kvmfr
-      xone
+      kvmfr
       # gasket
       # shufflecake
       v4l2loopback
+			systemtap
     ];
 
     # https://wiki.nixos.org/wiki/OSX-KVM
@@ -121,15 +117,25 @@
         theme = "robbyrussell";
       };
     };
+		
+		java = {
+      enable = true;
+      binfmt = true;
+    };
+
+		nix-ld = {
+			enable = true;
+      libraries = import ../utils/nix-ld.nix { inherit pkgs lib; };
+    };
 
     command-not-found.enable = true; # This basically doesn't work imo.
-    nix-ld.enable = true;
     appimage.binfmt = true;
   };
 
   services = {
     openssh.enable = true;
     atd.enable = true;
+		envfs.enable = true;
 
     tailscale = {
       enable = true;

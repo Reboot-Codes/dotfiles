@@ -2,7 +2,10 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ pkgs, ... }: {
+{ config, pkgs, ... }: let
+  # TODO: Check if this exists and is the right display.
+  virtualDisplayId = "HDMI-A-2";
+in {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
@@ -29,6 +32,11 @@
     };
 
     plymouth.enable = true;
+
+    kernelParams = [
+      "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
+      "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
+    ];
   };
 
   powerManagement.enable = true;
@@ -39,16 +47,31 @@
 
     graphics = {
       enable = true;
-      enable32Bit = true; # For steam specifically, but will be for all of opengl...
+      enable32Bit = true;
 
       extraPackages = with pkgs; [
-        intel-media-driver # LIBVA_DRIVER_NAME=iHD
-        intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-        libvdpau-va-gl
         mesa.drivers
-        intel-media-sdk
-        vpl-gpu-rt
       ];
+    };
+
+    # Use AMD's driver implementation (it's more correct when it comes to vulkan impl, but not as fast as RADV by freedesktop).
+    amdgpu = {
+      initrd.enable = true;
+      opencl.enable = true;
+
+      amdvlk = {
+        enable = true;
+        support32Bit.enable = true;
+      };
+    };
+
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      open = true;
+      powerManagement.finegrained = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
 
     opentabletdriver = {
@@ -60,6 +83,14 @@
       enable = true;
       powerOnBoot = true;
     };
+
+    firmware = [
+      # Add the EDID of our monitors to use for the virtual display.
+      (pkgs.runCommandNoCC "firmware-custom-edid" { compressFirmware = false; } ''
+        mkdir -p $out/lib/firmware/edid/
+        cp "${../../common/firmware/EDID.bin}" $out/lib/firmware/edid/reboots-virtual-display.bin
+      '')
+    ];
   };
 
   time.timeZone = "America/Phoenix";
@@ -82,13 +113,6 @@
 
     # For hibernation
     protectKernelImage = false;
-
-    wrappers.sunshine = {
-      owner = "root";
-      group = "root";
-      capabilities = "cap_sys_admin+p";
-      source = "${pkgs.sunshine}/bin/sunshine";
-    };
   };
 
   fonts.packages = with pkgs; [
@@ -109,6 +133,7 @@
   };
 
   virtualisation = {
+    # Note, make sure to tell waydroid to use an AMD GPU (discrete or internal) with: https://github.com/Quackdoc/waydroid-scripts/blob/main/waydroid-choose-gpu.sh
     waydroid.enable = true;
     containers.enable = true;
 
@@ -254,6 +279,46 @@
     sunshine = {
       enable = true;
       openFirewall = true;
+      capSysAdmin = true;
+
+      applications = {
+        apps = [
+          {
+            name = "1080p Desktop";
+            prep-cmd = [
+              {
+                # Runs:
+                #   ${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor -o | ${pkgs.gnused}/bin/sed -e 's/\x1b\[[0-9;]*m//g' | ${pkgs.gnused}/bin/sed -nE 's/^Output: [0-9]+ ([A-Za-z]+-[0-9]+) enabled connected (priority( 1))?.*$/\1\3/p' > /tmp/reboots-sunshine-display-config-backup
+                # First, which saves which display is primary and all the currently enabled screens in a temp file.
+                #
+                # Enables and makes the virtual display the primary display.
+                #
+                # After that, runs:
+                #   cat /tmp/reboots-sunshine-display-config-backup | sed -nE 's/^([^ ]*)( 1)?$/output.\1.disable/p' | tr '\n' ' ' | rev | cut -d' ' -f2- | rev
+                # Which turns the list of enabled screens into configs that kscreen-doctor accepts.
+                #
+                # This is basically because I don't wanna fuck with telling nix with what display connector is primary, etc every time I change displays or whatever.
+                do = ''
+                  ${pkgs.bash}/bin/bash -c "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor -o | ${pkgs.gnused}/bin/sed -e 's/\x1b\[[0-9;]*m//g' | ${pkgs.gnused}/bin/sed -nE 's/^Output: [0-9]+ ([A-Za-z]+-[0-9]+) enabled connected (priority( 1))?.*$/\1\3/p' > /tmp/reboots-sunshine-display-config-backup && ${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.${virtualDisplayId}.enable output.${virtualDisplayId}.priority.1 $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.disable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.utils-linux}/bin/rev)"
+                '';
+
+                # Runs:
+                #   ${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.enable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.utils-linux}/bin/rev
+                # To re-enable all disabled displays
+                #
+                # And then:
+                #   ${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)$/output.\1.priority.1/p'
+                # To set the primary display again.
+                #
+                # And then turns off the virtual display.
+                undo = ''
+                  ${pkgs.bash}/bin/bash -c "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.enable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.utils-linux}/bin/rev) $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)$/output.\1.priority.1/p') output.${virtualDisplayId}.disable"
+                '';
+              }
+            ];
+          }
+        ];
+      };
     };
 
     desktopManager.plasma6.enable = true;
@@ -270,22 +335,24 @@
 
     xserver = {
       enable = true;
+      # Prefer AMD GPUs over Nvidia over the modesetting over just fbdev. (But if one of the accelerators dies, use software rendering I guess.)
+      videoDrivers = [ "amdgpu" "nvidia" "modesetting" "fbdev" ];
 
       xkb = {
         layout = "us";
         variant = "";
       };
+
+      # displayManager = {
+      #   lightdm = {
+      #     greeter.enable = true;
+      #     greeters.gtk.enable = true;
+      #   };
+      # };
     };
 
-    # displayManager.sddm.enable = true; # It's kinda broken right now.
+    # displayManager.sddm.enable = true; # Not broken anymore probably, I'm just too lazy to deal with it.
     spice-autorandr.enable = true;
-
-    # This doesn't work btw, afaik. Use the one in plasma!
-    # xrdp = {
-    #   enable = true;
-    #   defaultWindowManager = "plasmashell";
-    #   openFirewall = true;
-    # };
 
     avahi.publish = {
       enable = true;

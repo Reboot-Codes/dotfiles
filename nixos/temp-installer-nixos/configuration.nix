@@ -1,4 +1,4 @@
-{ pkgs, config, modulesPath, hostConfig, ... }: {
+{ pkgs, modulesPath, hostConfig, ... }: {
   imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-base.nix") ];
 
   users.users."${hostConfig.username}".password = "password";
@@ -22,7 +22,7 @@
     #nvidia = {
     #  modesetting.enable = true;
     #  powerManagement.enable = false;
-    #  open = false;
+    #  open = true;
     #  powerManagement.finegrained = false;
     #  nvidiaSettings = true;
     #  package = config.boot.kernelPackages.nvidiaPackages.stable;
