@@ -47,7 +47,7 @@
     };
 
 		zed-editor = {
-			enable = true;
+			enable = false;
 			installRemoteServer = true;
 
 			userKeymaps = [

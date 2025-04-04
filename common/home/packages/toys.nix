@@ -4,7 +4,6 @@
     cmatrix
     cool-retro-term
     sl
-    barrier
     asciicam
     asciigraph
     ascii-draw
@@ -15,6 +14,7 @@
     ktailctl
     kdePackages.wallpaper-engine-plugin
     lightly-qt
+		input-leap
   ];
 in {
   packages = unstable;

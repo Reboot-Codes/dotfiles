@@ -12,6 +12,7 @@
     (lib.hiPrio super-slicer-latest)
     prusa-slicer
     bambu-studio
+		openrocket
   ];
 
   stable = with pkgs-stable; [

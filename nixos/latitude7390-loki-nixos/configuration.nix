@@ -260,16 +260,18 @@
 
     displayManager = {
       defaultSession = "plasma";
-
-      ly = {
-        enable = true;
-
-        settings = {};
-      };
     };
 
     xserver = {
       enable = true;
+
+      displayManager.lightdm = {
+				greeter.enable = true;
+
+				greeters.gtk = {
+					enable = true;
+				};
+			};
 
       xkb = {
         layout = "us";

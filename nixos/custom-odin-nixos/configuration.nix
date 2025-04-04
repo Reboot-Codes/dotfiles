@@ -4,7 +4,7 @@
 
 { config, pkgs, ... }: let
   # TODO: Check if this exists and is the right display.
-  virtualDisplayId = "HDMI-A-2";
+  virtualDisplayId = "HDMI-A-1";
 in {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
@@ -35,7 +35,7 @@ in {
 
     kernelParams = [
       "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
-      "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
+      # "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
     ];
   };
 
@@ -54,15 +54,9 @@ in {
       ];
     };
 
-    # Use AMD's driver implementation (it's more correct when it comes to vulkan impl, but not as fast as RADV by freedesktop).
     amdgpu = {
       initrd.enable = true;
       opencl.enable = true;
-
-      amdvlk = {
-        enable = true;
-        support32Bit.enable = true;
-      };
     };
 
     nvidia = {
@@ -299,11 +293,11 @@ in {
                 #
                 # This is basically because I don't wanna fuck with telling nix with what display connector is primary, etc every time I change displays or whatever.
                 do = ''
-                  ${pkgs.bash}/bin/bash -c "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor -o | ${pkgs.gnused}/bin/sed -e 's/\x1b\[[0-9;]*m//g' | ${pkgs.gnused}/bin/sed -nE 's/^Output: [0-9]+ ([A-Za-z]+-[0-9]+) enabled connected (priority( 1))?.*$/\1\3/p' > /tmp/reboots-sunshine-display-config-backup && ${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.${virtualDisplayId}.enable output.${virtualDisplayId}.priority.1 $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.disable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.utils-linux}/bin/rev)"
+                  ${pkgs.bash}/bin/bash -c "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor -o | ${pkgs.gnused}/bin/sed -e 's/\x1b\[[0-9;]*m//g' | ${pkgs.gnused}/bin/sed -nE 's/^Output: [0-9]+ ([A-Za-z]+-[0-9]+) enabled connected (priority( 1))?.*$/\1\3/p' > /tmp/reboots-sunshine-display-config-backup && ${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.${virtualDisplayId}.enable output.${virtualDisplayId}.priority.1 $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.disable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.util-linux}/bin/rev)"
                 '';
 
                 # Runs:
-                #   ${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.enable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.utils-linux}/bin/rev
+                #   ${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.enable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.util-linux}/bin/rev
                 # To re-enable all disabled displays
                 #
                 # And then:
@@ -312,7 +306,7 @@ in {
                 #
                 # And then turns off the virtual display.
                 undo = ''
-                  ${pkgs.bash}/bin/bash -c "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.enable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.utils-linux}/bin/rev) $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)$/output.\1.priority.1/p') output.${virtualDisplayId}.disable"
+                  ${pkgs.bash}/bin/bash -c "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.enable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.util-linux}/bin/rev) $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)$/output.\1.priority.1/p') output.${virtualDisplayId}.disable"
                 '';
               }
             ];
@@ -325,30 +319,24 @@ in {
 
     displayManager = {
       defaultSession = "plasma";
-
-      ly = {
-        enable = true;
-
-        settings = {};
-      };
     };
 
     xserver = {
       enable = true;
       # Prefer AMD GPUs over Nvidia over the modesetting over just fbdev. (But if one of the accelerators dies, use software rendering I guess.)
-      videoDrivers = [ "amdgpu" "nvidia" "modesetting" "fbdev" ];
+      # videoDrivers = [ "amdgpu" "nvidia" "modesetting" "fbdev" ];
 
       xkb = {
         layout = "us";
         variant = "";
       };
 
-      # displayManager = {
-      #   lightdm = {
-      #     greeter.enable = true;
-      #     greeters.gtk.enable = true;
-      #   };
-      # };
+      displayManager = {
+        lightdm = {
+          greeter.enable = true;
+          greeters.gtk.enable = true;
+        };
+      };
     };
 
     # displayManager.sddm.enable = true; # Not broken anymore probably, I'm just too lazy to deal with it.

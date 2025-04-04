@@ -6,10 +6,40 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "vmd" "nvme" "usb_storage" "uas" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "thunderbolt" "usb_storage" "usbhid" "sd_mod" "vmd" "nvme" "uas" "rtsx_pci_sdmmc"  ];
+  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/82862926-048f-4b62-a7e1-df224cae1d73";
+      fsType = "btrfs";
+      options = [ "subvol=root,compress=zstd" ];
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/12CE-A600";
+      fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
+    };
+
+  fileSystems."/home" =
+    { device = "/dev/disk/by-uuid/82862926-048f-4b62-a7e1-df224cae1d73";
+      fsType = "btrfs";
+      options = [ "subvol=home,compress=zstd" ];
+    };
+
+  fileSystems."/nix" =
+    { device = "/dev/disk/by-uuid/82862926-048f-4b62-a7e1-df224cae1d73";
+      fsType = "btrfs";
+      options = [ "subvol=nix,compress=zstd,noatime" ];
+    };
+
+  fileSystems."/swap" =
+    { device = "/dev/disk/by-uuid/82862926-048f-4b62-a7e1-df224cae1d73";
+      fsType = "btrfs";
+      options = [ "subvol=swap,noatime" ];
+    };
 
   swapDevices = [
     { device = "/swap/swapfile"; }
@@ -20,16 +50,6 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.cni0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp0s31f6.useDHCP = lib.mkDefault true;
-  # networking.interfaces.flannel.1.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth0456fdfb.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth35a0afbe.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth39cb70bf.useDHCP = lib.mkDefault true;
-  # networking.interfaces.vethdee336b8.useDHCP = lib.mkDefault true;
-  # networking.interfaces.vethe7e2f709.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.ztt6jt6i65.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

@@ -24,6 +24,9 @@
 	kdePackages.wayland-protocols
 	pkg-config
 	cmake
+	kdePackages.qtbase
+	kdePackages.qqc2-desktop-style
+	kdePackages.kirigami
 
   # It tries to execute xdg-user-dir and spams the log with command not founds
   xdg-user-dirs

@@ -7,6 +7,8 @@
     teamviewer
     anydesk
     kdePackages.krfb
+		vmware-horizon-client
+		waypipe
   ];
 
   stable = with pkgs-stable; [
