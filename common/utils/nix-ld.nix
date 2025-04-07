@@ -21,6 +21,7 @@
 
 	opencl-clhpp
 	opencl-clang
+	opencl-headers
 	fuse3
 	fuse
 	wayland
