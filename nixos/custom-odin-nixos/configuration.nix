@@ -51,6 +51,7 @@ in {
 
       extraPackages = with pkgs; [
         mesa.drivers
+				intel-compute-runtime
       ];
     };
 

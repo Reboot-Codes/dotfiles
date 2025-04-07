@@ -19,7 +19,10 @@
   procps
   usbutils
 
+	opencl-clhpp
+	opencl-clang
 	fuse3
+	fuse
 	wayland
 	kdePackages.wayland-protocols
 	pkg-config
