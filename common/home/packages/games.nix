@@ -42,6 +42,7 @@
     rrootage
     # lime3ds
     duckstation
+		shadps4
   ];
 
   stable = with pkgs-stable; [

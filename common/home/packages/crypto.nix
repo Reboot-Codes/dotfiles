@@ -3,7 +3,9 @@
     # Crypto (see stable)
     monero-gui
     monero-cli
-    xmrig
+    xmrig-mo
+		xmrig-proxy
+		bisq2
   ];
 
   stable = with pkgs-stable; [

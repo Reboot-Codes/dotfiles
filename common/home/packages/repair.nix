@@ -23,6 +23,7 @@
     kitty
     kitty-img
     kitty-themes
+		v4l-utils
   ];
 in {
   packages = unstable;
