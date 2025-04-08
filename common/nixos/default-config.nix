@@ -4,10 +4,18 @@
   ];
 
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "${hostConfig.username}" ];
-  };
+  nix = {
+		settings = {
+			experimental-features = [ "nix-command" "flakes" ];
+			trusted-users = [ "${hostConfig.username}" ];
+		};
+
+		gc = {
+			automatic = true;
+			persistent = true;
+			dates = "weekly";
+		};
+	};
 
   nixpkgs = {
     config = import ../utils/nix-config.nix;

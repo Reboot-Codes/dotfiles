@@ -6,11 +6,13 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://pwndbg.cachix.org"
+			"http://custom-odin-nixos.tail90c5.ts.net"
     ];
 
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "pwndbg.cachix.org-1:HhtIpP7j73SnuzLgobqqa8LVTng5Qi36sQtNt79cD3k="
+			"custom-odin-nixos.tail90c5.ts.net:4HayvfsG++iTVCjRk4OtrrKwvLJhwFpKE84RrKOCej4="
     ];
   };
 
