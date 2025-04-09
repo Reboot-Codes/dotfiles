@@ -95,7 +95,7 @@ in {
       # Open ports in the firewall.
       allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
       allowedUDPPortRanges = [ { from = 47998; to = 48010; } ];
-      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 services.nix-serve.port ];
+      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 config.services.nix-serve.port ];
       allowedUDPPorts = [ 3389 4455 4444 50001 5567 1701 9001 ];
 
       enable = true; # ~~false; # Or disable the firewall altogether.~~
