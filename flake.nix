@@ -6,7 +6,7 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://pwndbg.cachix.org"
-			"http://custom-odin-nixos.tail90c5.ts.net"
+			"http://custom-odin-nixos.tail90c5.ts.net:5000"
     ];
 
     extra-trusted-public-keys = [
