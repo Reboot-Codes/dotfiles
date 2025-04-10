@@ -9,6 +9,9 @@
     gearlever
     simh
 		kdePackages.kdialog
+		wineWowPackages.waylandFull
+		winetricks
+		protontricks
   ];
 in {
   packages = unstable;

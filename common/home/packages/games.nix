@@ -24,7 +24,7 @@
       ];
 
       extraPkgs = pkgs: [
-        # List package dependencies here
+        wineWowPackages.waylandFull
       ];
     })
 

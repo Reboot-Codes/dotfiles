@@ -255,6 +255,14 @@
 	      text = builtins.readFile ./dotfiles/rustfmt.toml;
 	    };
 
+			"qemu.conf" = {
+			  target = ".config/libvirt/qemu.conf";
+				enable = true;
+			  text = ''
+					nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
+				'';
+			};
+
 	    # TODO: add remind script to this!
 	  };
 

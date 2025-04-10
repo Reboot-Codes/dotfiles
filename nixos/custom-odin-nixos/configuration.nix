@@ -148,7 +148,14 @@ in {
 
       qemu = {
         swtpm.enable = true;
-        ovmf.enable = true;
+
+        ovmf = {
+          enable = true;
+          packages = [(pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd];
+        };
       };
     };
 
@@ -195,6 +202,7 @@ in {
       dedicatedServer.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
       gamescopeSession.enable = true;
+      protontricks.enable = true;
     };
 
     gamemode.enable = true;

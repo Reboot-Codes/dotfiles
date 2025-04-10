@@ -45,7 +45,7 @@
         intel-media-driver # LIBVA_DRIVER_NAME=iHD
         intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
         libvdpau-va-gl
-        mesa.drivers
+        mesa
         intel-media-sdk
         vpl-gpu-rt
       ];
@@ -175,6 +175,7 @@
       dedicatedServer.openFirewall = true;
       localNetworkGameTransfers.openFirewall = true;
       gamescopeSession.enable = true;
+      protontricks.enable = true;
     };
 
     gamemode.enable = true;

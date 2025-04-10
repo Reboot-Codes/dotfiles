@@ -125,7 +125,7 @@
         theme = "robbyrussell";
       };
     };
-		
+
 		java = {
       enable = true;
       binfmt = true;
@@ -192,8 +192,8 @@
               "/home/reboot/.config/gtk-2.0/:ro"
               "/home/reboot/.config/gtk-3.0/:ro"
               "/home/reboot/.config/gtk-4.0/:ro"
-	      "/home/reboot/.config/gtkrc:ro"
-	      "/home/reboot/.config/gtkrc-2.0:ro"
+       	      "/home/reboot/.config/gtkrc:ro"
+       	      "/home/reboot/.config/gtkrc-2.0:ro"
             ];
 
             # sockets = ["wayland" "!x11" "fallback-x11"];
