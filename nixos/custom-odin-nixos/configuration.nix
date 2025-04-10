@@ -37,6 +37,8 @@ in {
       "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
       # "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
     ];
+
+    availableKernelModules = [ "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
   };
 
   powerManagement.enable = true;
@@ -125,6 +127,14 @@ in {
         User = "reboot";
       };
     };
+
+    libvirtd.path = with pkgs; [
+      bash
+      coreutils
+      pciutils # For lspci
+      kmod # For modprobe
+      systemd
+    ];
   };
 
   virtualisation = {
@@ -156,6 +166,73 @@ in {
             tpmSupport = true;
           }).fd];
         };
+      };
+
+      hooks.qemu = let
+        windows-vm-name = "gayming";
+      in {
+        "${windows-vm-name}" = ''
+          #!${pkgs.bash}/bin/bash
+          VM_NAME="$1"
+          PHASE="$2"
+          STEP="$3"
+          GPU_PCI_ID="0000:03:00.0"
+          GPU_AUDIO_PCI_ID="0000:03:00.0"
+          HOST_GFX_DRIVER="amdgpu"
+          HOST_AUDIO_DRIVER="snd_hda_intel"
+
+          if [ "$VM_NAME" = "${windows-vm-name}" ]; then
+            case "$PHASE" in
+              "prepare")
+                case "$STEP" in
+                  "begin")
+                    echo "Unbinding GPU $GPU_PCI_ID and $GPU_AUDIO_PCI_ID from host drivers..."
+
+                    echo "$GPU_PCI_ID" > /sys/bus/pci/devices/"$GPU_PCI_ID"/driver/unbind
+                    echo "$GPU_AUDIO_PCI_ID" > /sys/bus/pci/devices/"$GPU_AUDIO_PCI_ID"/driver/unbind
+
+                    echo "vfio-pci" > /sys/bus/pci/devices/"$GPU_PCI_ID"/driver_override
+                    echo "vfio-pci" > /sys/bus/pci/devices/"$GPU_AUDIO_PCI_ID"/driver_override
+
+                    echo "$GPU_PCI_ID" > /sys/bus/pci/drivers/vfio-pci/bind
+                    echo "$GPU_AUDIO_PCI_ID" > /sys/bus/pci/drivers/vfio-pci/bind
+
+                    echo "GPU $GPU_PCI_ID and $GPU_AUDIO_PCI_ID bound to vfio-pci."
+                    ;;
+                esac
+                ;;
+              "release")
+                case "$STEP" in
+                  "end")
+                    echo "Rebinding GPU $GPU_PCI_ID and $GPU_AUDIO_PCI_ID to host drivers..."
+
+                    echo "$GPU_PCI_ID" > /sys/bus/pci/drivers/vfio-pci/unbind
+                    echo "$GPU_AUDIO_PCI_ID" > /sys/bus/pci/drivers/vfio-pci/unbind
+
+                    echo "$HOST_GFX_DRIVER" > /sys/bus/pci/devices/"$GPU_PCI_ID"/driver_override
+                    echo "$HOST_AUDIO_DRIVER" > /sys/bus/pci/devices/"$GPU_AUDIO_PCI_ID"/driver_override
+
+                    echo "$GPU_PCI_ID" > /sys/bus/pci/drivers/"$HOST_GFX_DRIVER"/bind
+
+                    if [ $? -ne 0 ]; then
+                      echo "Failed to bind to $HOST_AUDIO_DRIVER. You might need to manually rebind."
+                    else
+                      echo "GPU $GPU_AUDIO_PCI_ID rebound to $HOST_AUDIO_DRIVER."
+                    fi
+
+                    echo "$GPU_AUDIO_PCI_ID" > /sys/bus/pci/drivers/"$HOST_AUDIO_DRIVER"/bind
+
+                    if [ $? -ne 0 ]; then
+                      echo "Failed to bind to $HOST_GFX_DRIVER. You might need to manually rebind."
+                    else
+                      echo "GPU $GPU_PCI_ID rebound to $HOST_GFX_DRIVER."
+                    fi
+                    ;;
+                esac
+                ;;
+            esac
+          fi
+        '';
       };
     };
 
