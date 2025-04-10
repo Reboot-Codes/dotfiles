@@ -171,7 +171,7 @@ in {
       hooks.qemu = let
         windows-vm-name = "gayming";
       in {
-        "${windows-vm-name}" = ''
+        "${windows-vm-name}" = pkgs.writeShellScript windows-vm-name ''
           #!${pkgs.bash}/bin/bash
           VM_NAME="$1"
           PHASE="$2"
