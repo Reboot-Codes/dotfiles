@@ -177,7 +177,7 @@ in {
           PHASE="$2"
           STEP="$3"
           GPU_PCI_ID="0000:03:00.0"
-          GPU_AUDIO_PCI_ID="0000:03:00.0"
+          GPU_AUDIO_PCI_ID="0000:03:00.1"
           HOST_GFX_DRIVER="amdgpu"
           HOST_AUDIO_DRIVER="snd_hda_intel"
 

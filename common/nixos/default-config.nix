@@ -53,6 +53,7 @@
       # shufflecake
       v4l2loopback
 			systemtap
+			vendor-reset
     ];
 
     # https://wiki.nixos.org/wiki/OSX-KVM
