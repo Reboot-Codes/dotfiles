@@ -239,6 +239,7 @@
         "adbusers"
         "xrdp"
         "gamemode"
+        "video"
         config.services.kubo.group
       ];
     };

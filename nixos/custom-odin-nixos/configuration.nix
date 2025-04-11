@@ -97,8 +97,8 @@ in {
       # Open ports in the firewall.
       allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
       allowedUDPPortRanges = [ { from = 47998; to = 48010; } ];
-      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 config.services.nix-serve.port ];
-      allowedUDPPorts = [ 3389 4455 4444 50001 5567 1701 9001 ];
+      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 4001 config.services.nix-serve.port ];
+      allowedUDPPorts = [ 3389 4455 4444 50001 5567 1701 9001 4001 ];
 
       enable = true; # ~~false; # Or disable the firewall altogether.~~
     };
@@ -359,7 +359,22 @@ in {
       ];
     };
 
-    kubo.enable = true;
+    kubo = {
+      enable = true;
+
+      settings.Addresses = {
+        API = [ "/ip4/127.0.0.1/tcp/5001" ];
+
+        Swarm = [
+          "/ip4/0.0.0.0/tcp/4001"
+          "/ip6/::/tcp/4001"
+          "/ip4/0.0.0.0/udp/4001/quic-v1"
+          "/ip4/0.0.0.0/udp/4001/quic-v1/webtransport"
+          "/ip6/::/udp/4001/quic-v1"
+          "/ip6/::/udp/4001/quic-v1/webtransport"
+        ];
+      };
+    };
 
     sunshine = {
       enable = true;
