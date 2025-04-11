@@ -9,6 +9,7 @@
     kdePackages.krfb
 		vmware-horizon-client
 		waypipe
+		syncthingtray
   ];
 
   stable = with pkgs-stable; [
