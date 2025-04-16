@@ -56,14 +56,6 @@
 			vendor-reset
     ];
 
-    # https://wiki.nixos.org/wiki/OSX-KVM
-    extraModprobeConfig = ''
-      options kvm_intel nested=1
-      options kvm_intel emulate_invalid_guest_state=0
-      options kvm ignore_msrs=1
-      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-    '';
-
     kernelParams = [
       "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
     ];

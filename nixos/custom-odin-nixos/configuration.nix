@@ -2,9 +2,16 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, ... }: let
+{ config, pkgs, lib, ... }: let
   # TODO: Check if this exists and is the right display.
   virtualDisplayId = "HDMI-A-1";
+
+	vfio-pci-ids = [
+		"10de:1f08"
+		"10de:10f9"
+		"10de:1ada"
+		"10de:1adb"
+	];
 in {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
@@ -33,12 +40,25 @@ in {
 
     plymouth.enable = true;
 
+    # https://wiki.nixos.org/wiki/OSX-KVM
+    extraModprobeConfig = ''
+      options kvm_amd nested=1
+      options kvm_amd emulate_invalid_guest_state=0
+      options kvm ignore_msrs=1
+      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+      blacklist nouveau
+      options nouveau modeset=0
+			options kvmfr static_size_mb=64
+    '';
+
     kernelParams = [
       "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
       # "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
+			("vfio-pci.ids=" + lib.concatStringsSep "," vfio-pci-ids)
     ];
 
-    kernelModules = [ "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
+    kernelModules = [ "kvm-amd" "kvmfr" "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
+		blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_uvm" "nvidia_modeset" "i2c_nvidia_gpu" ];
   };
 
   powerManagement.enable = true;
@@ -60,15 +80,6 @@ in {
     amdgpu = {
       initrd.enable = true;
       opencl.enable = true;
-    };
-
-    nvidia = {
-      modesetting.enable = true;
-      powerManagement.enable = false;
-      open = true;
-      powerManagement.finegrained = false;
-      nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
 
     opentabletdriver = {
@@ -166,9 +177,19 @@ in {
             tpmSupport = true;
           }).fd];
         };
+
+				verbatimConfig = ''
+					cgroup_device_acl = [
+				    "/dev/null", "/dev/full", "/dev/zero",
+				    "/dev/random", "/dev/urandom",
+				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+						"/dev/kvmfr0"
+					]
+				'';
       };
 
-      hooks.qemu = let
+			hooks.qemu = let
         windows-vm-name = "gayming";
       in {
         "${windows-vm-name}" = pkgs.writeShellScript windows-vm-name ''
@@ -340,10 +361,16 @@ in {
     libinput.enable = true;
     pcscd.enable = true;
 
-    udev.packages = with pkgs; [
-      qmk-udev-rules
-      android-udev-rules
-    ];
+    udev = {
+      packages = with pkgs; [
+        qmk-udev-rules
+        android-udev-rules
+      ];
+
+			extraRules = ''
+				SUBSYSTEM=="kvmfr", OWNER="reboot", GROUP="kvm", MODE="0660"
+			'';
+    };
 
     ratbagd.enable = true;
     k3s.enable = true;

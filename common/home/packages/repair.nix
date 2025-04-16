@@ -24,6 +24,8 @@
     kitty-img
     kitty-themes
 		v4l-utils
+		okteta
+		rar
   ];
 in {
   packages = unstable;

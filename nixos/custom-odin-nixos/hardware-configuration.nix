@@ -8,7 +8,6 @@
 
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "thunderbolt" "usb_storage" "usbhid" "sd_mod" "vmd" "nvme" "uas" "rtsx_pci_sdmmc"  ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
@@ -40,6 +39,12 @@
       fsType = "btrfs";
       options = [ "subvol=swap,noatime" ];
     };
+	
+	#fileSystems."/dev/pts" = {
+	#	fsType = "devpts";
+	#	device = "devpts";
+	#	options = [ "gid=5,mode=620" ];
+	#};
 
   swapDevices = [
     { device = "/swap/swapfile"; }

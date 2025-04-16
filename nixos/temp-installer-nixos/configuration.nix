@@ -1,8 +1,9 @@
-{ pkgs, modulesPath, hostConfig, ... }: {
+{ config, pkgs, modulesPath, hostConfig, lib, ... }: {
   imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-base.nix") ];
 
   users.users."${hostConfig.username}".password = "password";
   boot.plymouth.enable = true;
+	boot.kernelPackages = lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
 
   hardware = {
     graphics = {
@@ -13,20 +14,20 @@
         intel-media-driver # LIBVA_DRIVER_NAME=iHD
         intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
         libvdpau-va-gl
-        mesa.drivers
+        mesa
         intel-media-sdk
         vpl-gpu-rt
       ];
     };
 
-    #nvidia = {
-    #  modesetting.enable = true;
-    #  powerManagement.enable = false;
-    #  open = true;
-    #  powerManagement.finegrained = false;
-    #  nvidiaSettings = true;
-    #  package = config.boot.kernelPackages.nvidiaPackages.stable;
-    #};
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      open = true;
+      powerManagement.finegrained = false;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
 
     bluetooth = {
       enable = true;

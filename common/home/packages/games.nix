@@ -15,6 +15,7 @@
     gzdoom
     openrct2
     r2modman
+		gale
     ruffle
 
     (lutris.override {
