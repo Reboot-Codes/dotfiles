@@ -80,6 +80,18 @@
   networking = {
     networkmanager.enable = true;
     wireless.enable = false;
+		
+		firewall.interfaces = {
+			"tailscale0" = {
+				allowedUDPPortRanges = [ { from = 0; to = 65535; } ];
+				allowedTCPPortRanges = [ { from = 0; to = 65535; } ];
+			};
+      
+			"ztt6jt6i65" = {
+				allowedUDPPortRanges = [ { from = 0; to = 65535; } ];
+				allowedTCPPortRanges = [ { from = 0; to = 65535; } ];
+			};
+		};
   };
 
   security = {
