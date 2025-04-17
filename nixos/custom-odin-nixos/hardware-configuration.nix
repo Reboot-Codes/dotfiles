@@ -10,14 +10,22 @@
   boot.initrd.kernelModules = [ "dm-snapshot" ];
   boot.extraModulePackages = [ ];
 
+  boot.initrd.luks.devices."cryptroot" = {
+    device = "/dev/disk/by-uuid/87e29a50-5620-4e91-b158-3be0dc890db1";
+    allowDiscards = true;
+    keyFileSize = 4096;
+    keyFile = "/dev/disk/by-partuuid/6c3b0218-edb2-4740-9c15-482667f229d8";
+    fallbackToPassword = true;
+  };
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/82862926-048f-4b62-a7e1-df224cae1d73";
       fsType = "btrfs";
-      options = [ "subvol=root,compress=zstd" ];
+      options = [ "subvol=root" "compress=zstd" ];
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/12CE-A600";
+    { device = "/dev/disk/by-uuid/04BA-15B1";
       fsType = "vfat";
       options = [ "fmask=0022" "dmask=0022" ];
     };
@@ -25,13 +33,13 @@
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/82862926-048f-4b62-a7e1-df224cae1d73";
       fsType = "btrfs";
-      options = [ "subvol=home,compress=zstd" ];
+      options = [ "subvol=home" "compress=zstd" ];
     };
 
   fileSystems."/nix" =
     { device = "/dev/disk/by-uuid/82862926-048f-4b62-a7e1-df224cae1d73";
       fsType = "btrfs";
-      options = [ "subvol=nix,compress=zstd,noatime" ];
+      options = [ "subvol=nix" "compress=zstd" "noatime" ];
     };
 
   fileSystems."/swap" =
