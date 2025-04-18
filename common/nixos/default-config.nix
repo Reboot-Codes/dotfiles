@@ -252,6 +252,11 @@
   fonts.fontDir.enable = true;
 
   environment = {
+		sessionVariables = {
+			# TL;DR: all of our QT shit uses wayland. or... should, anyways, so this is global, and makes theming work.
+			QT_QPA_PLATFORM = "wayland";
+		};
+
     # Install Soundfonts TODO: only Fluid copies over... might wanna fix that soon.
     etc = {
       "/soundfonts/FluidR3_GM2-2.sf2".source = "${pkgs.soundfont-fluid}/share/soundfonts/FluidR3_GM2-2.sf2";
