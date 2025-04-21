@@ -50,6 +50,7 @@
     pods
     forge-sparks
     nixd
+		crc
   ];
 
   stable = with pkgs-stable; [
