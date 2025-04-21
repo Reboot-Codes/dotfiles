@@ -104,7 +104,7 @@ in {
   time.timeZone = "America/Phoenix";
 
   networking = {
-		bridges."rebootvmbr0".interfaces = [ "enp13s0" ];
+		# bridges."rebootvmbr0".interfaces = [ "enp13s0" ];
 
     firewall = {
       # Open ports in the firewall.

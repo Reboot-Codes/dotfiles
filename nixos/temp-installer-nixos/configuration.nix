@@ -3,7 +3,7 @@
 
   users.users."${hostConfig.username}".password = "password";
   boot.plymouth.enable = true;
-	boot.kernelPackages = lib.mkForce config.boot.zfs.package.latestCompatibleLinuxPackages;
+	boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
 
   hardware = {
     graphics = {
@@ -63,10 +63,10 @@
 
     desktopManager.plasma6.enable = true;
     displayManager.defaultSession = "plasma";
+		displayManager.autoLogin.user = "reboot";
 
     xserver = {
       enable = true;
-      videoDrivers = [ "nvidia" ];
 
       xkb = {
         layout = "us";
