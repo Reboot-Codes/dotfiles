@@ -253,6 +253,7 @@
         "adbuser"
         "docker"
         "libvirtd"
+				"libvirt"
         "kvm"
         "adbusers"
         "xrdp"
