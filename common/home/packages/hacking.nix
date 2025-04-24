@@ -25,6 +25,27 @@
     garble
     synchrony
     ipgrep
+		cewl
+		cewler
+		john
+		hashcat-utils
+		hashcat
+		metasploit
+		exploitdb
+		sqlmap
+		smbmap
+		theharvester
+		thc-hydra
+		wpscan
+		kerbrute
+		hcxdumptool
+		wordlists
+		bloodhound
+		bloodhound-py
+		aircrack-ng
+		arp-scan
+		enum4linux
+		enum4linux-ng
 
     (ghidra.withExtensions (ext: with ext; [
       ret-sync
