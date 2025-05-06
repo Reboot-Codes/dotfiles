@@ -8,6 +8,7 @@
     krita
     libresprite
     vlc
+		openutau
 
     (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [

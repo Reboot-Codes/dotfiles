@@ -59,6 +59,13 @@ in {
 
     kernelModules = [ "kvm-amd" "kvmfr" "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
 		blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_uvm" "nvidia_modeset" "i2c_nvidia_gpu" ];
+
+		binfmt = {
+			emulatedSystems = [
+				"aarch64-linux"
+				"riscv64-linux"
+			];
+		};
   };
 
   powerManagement.enable = true;
@@ -132,23 +139,29 @@ in {
     corefonts # the msft ones, seems to not load.
   ];
 
-  systemd.services = {
-    syncthing = {
-      description = "Run Syncthing";
-      serviceConfig = {
-        ExecStart = "${pkgs.syncthing}/bin/syncthing";
-        User = "reboot";
-      };
-    };
+  systemd = {
+		tmpfiles.rules = [
+			"f /srv/win11/pipewire-0 700 reboot reboot - -"
+		];
 
-    libvirtd.path = with pkgs; [
-      bash
-      coreutils
-      pciutils # For lspci
-      kmod # For modprobe
-      systemd
-    ];
-  };
+		services = {
+			syncthing = {
+				description = "Run Syncthing";
+				serviceConfig = {
+					ExecStart = "${pkgs.syncthing}/bin/syncthing";
+					User = "reboot";
+				};
+			};
+
+			libvirtd.path = with pkgs; [
+				bash
+				coreutils
+				pciutils # For lspci
+				kmod # For modprobe
+				systemd
+			];
+		};
+	};
 
   virtualisation = {
     # Note, make sure to tell waydroid to use an AMD GPU (discrete or internal) with: https://github.com/Quackdoc/waydroid-scripts/blob/main/waydroid-choose-gpu.sh
@@ -181,12 +194,14 @@ in {
         };
 
 				verbatimConfig = ''
+					user = "reboot"
+
 					cgroup_device_acl = [
 				    "/dev/null", "/dev/full", "/dev/zero",
 				    "/dev/random", "/dev/urandom",
 				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
 				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
-						"/dev/kvmfr0"
+						"/dev/kvmfr0", "/run/user/1000/pipewire-0"
 					]
 				'';
       };
@@ -240,6 +255,11 @@ in {
 
     gamemode.enable = true;
     dconf.enable = true;
+
+		java = {
+			binfmt = true;
+			enable = true;
+		};
   };
 
   xdg.portal = {
@@ -577,6 +597,7 @@ in {
       podman-compose
       virtiofsd
       appvm
+			qemu_full
     ];
   };
 }

@@ -12,6 +12,8 @@
 		wineWowPackages.waylandFull
 		winetricks
 		protontricks
+		qemu_full
+		qtemu
   ];
 in {
   packages = unstable;

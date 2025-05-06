@@ -17,6 +17,7 @@
     r2modman
 		gale
     ruffle
+		steamtinkerlaunch
 
     (lutris.override {
       extraLibraries = pkgs: [

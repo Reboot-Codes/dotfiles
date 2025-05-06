@@ -54,6 +54,12 @@
 	#	options = [ "gid=5,mode=620" ];
 	#};
 
+	fileSystems."/srv/win11/pipewire-0" = {
+		device = "/run/user/1000/pipewire-0";
+		fsType = "none";
+		options = [ "bind,rw,user,noauto" ];
+	};
+
   swapDevices = [
     { device = "/swap/swapfile"; }
   ];
