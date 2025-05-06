@@ -80,7 +80,11 @@
   networking = {
     networkmanager.enable = true;
     wireless.enable = false;
-		
+	
+		hosts = {
+			"192.168.0.219" = [ "server.idm.reboot-codes.com" ];
+		};
+
 		firewall.interfaces = {
 			"tailscale0" = {
 				allowedUDPPortRanges = [ { from = 0; to = 65535; } ];
