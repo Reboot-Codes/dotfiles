@@ -137,6 +137,8 @@ in {
     roboto
     roboto-serif
     corefonts # the msft ones, seems to not load.
+		noto-fonts-cjk-sans
+		noto-fonts-cjk-serif
   ];
 
   systemd = {
