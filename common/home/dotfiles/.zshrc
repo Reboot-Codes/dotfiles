@@ -18,20 +18,20 @@ if [ -e ~/dev/scripts/remind.sh ]; then
   source ~/dev/scripts/remind.sh
 fi
 
-if [ -e /home/reboot/.local/bin ]; then
-  PATH="$PATH:~/.local/bin"
+if [ -e "/home/reboot/.local/bin" ]; then
+  PATH="$PATH:/home/reboot/.local/bin"
 fi
 
 if [ -e ~/dev/bin ]; then
-  PATH="$PATH:~/dev/bin"
+  PATH="$PATH:/home/reboot/dev/bin"
 fi
 
 if [ -e ~/bin ]; then
-  PATH="$PATH:~/bin"
+  PATH="$PATH:/home/reboot/bin"
 fi
 
-if [ -e ~/.config/emacs/bin ]; then
-  PATH="$PATH:~/.config/emacs/bin"
+if [ -e "/home/reboot/.config/emacs/bin" ]; then
+  PATH="$PATH:/home/reboot/.config/emacs/bin"
 fi
 
 if command -v plasmashell &> /dev/null; then
