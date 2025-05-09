@@ -99,7 +99,7 @@ PATH="$PATH:."
 if [[ $- == *i* ]]; then
   # Runs tmux on ssh conn, see: https://stackoverflow.com/a/40192494
   if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
-    tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+    alias con-tmux="tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux"
   fi
 
   fastfetch
