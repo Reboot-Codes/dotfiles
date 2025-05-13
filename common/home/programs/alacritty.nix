@@ -80,6 +80,7 @@
     };
   
     terminal.shell = {
+      args = ["-l" "-c" "tmux attach || tmux"];
       program = "zsh";
     };
   };
