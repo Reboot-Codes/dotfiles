@@ -51,6 +51,8 @@
     forge-sparks
     nixd
 		crc
+		qtcreator
+		kdePackages.full
   ];
 
   stable = with pkgs-stable; [
