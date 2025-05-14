@@ -2,6 +2,7 @@
   unstable = with pkgs; [
     # A/V/I (check stable)
     kdePackages.kdenlive
+		glaxnimate
     audacity
     polyphone
     qsynth
