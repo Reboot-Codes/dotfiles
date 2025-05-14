@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ pkgs, ... }: {
+{ pkgs, pkgs-stable, ... }: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
@@ -122,13 +122,14 @@
       defaultNetwork.settings.dns_enabled = true;
     };
 
-    # virtualbox.host.enable = true;
-    # virtualbox.host.enableExtensionPack = true; # Requires previous, will compile all of vbox if enabled!
+    virtualbox.host.enable = true;
+    virtualbox.host.enableExtensionPack = true; # Requires previous, will compile all of vbox if enabled!
 
     libvirtd = {
       enable = true;
 
       qemu = {
+				package = pkgs-stable.qemu;
         swtpm.enable = true;
         ovmf.enable = true;
       };
@@ -334,7 +335,7 @@
   environment = {
     sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
 
-    systemPackages = with pkgs; [
+    systemPackages = (with pkgs; [
       # Utils
       cryptsetup
       vim
@@ -474,6 +475,6 @@
       podman-compose
       virtiofsd
       appvm
-    ];
+    ]);
   };
 }

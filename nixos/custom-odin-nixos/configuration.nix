@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, lib, ... }: let
+{ config, pkgs, pkgs-stable, lib, ... }: let
   # TODO: Check if this exists and is the right display.
   virtualDisplayId = "HDMI-A-1";
 
@@ -62,8 +62,8 @@ in {
 
 		binfmt = {
 			emulatedSystems = [
-				"aarch64-linux"
-				"riscv64-linux"
+				# "aarch64-linux"
+				# "riscv64-linux"
 			];
 		};
   };
@@ -178,13 +178,16 @@ in {
       defaultNetwork.settings.dns_enabled = true;
     };
 
-    # virtualbox.host.enable = true;
-    # virtualbox.host.enableExtensionPack = true; # Requires previous, will compile all of vbox if enabled!
+    virtualbox.host.enable = true;
+    virtualbox.host.enableExtensionPack = true; # Requires previous, will compile all of vbox if enabled!
 
     libvirtd = {
       enable = true;
 
       qemu = {
+				# Fucking.... ceph... also. so sorry y'all at nixpkgs, noob momence go brr.
+				package = pkgs-stable.qemu;
+
         swtpm.enable = true;
 
         ovmf = {
@@ -459,7 +462,7 @@ in {
   environment = {
     sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
 
-    systemPackages = with pkgs; [
+    systemPackages = (with pkgs; [
       # Utils
       cryptsetup
       vim
@@ -599,7 +602,8 @@ in {
       podman-compose
       virtiofsd
       appvm
+    ]) ++ (with pkgs-stable; [
 			qemu_full
-    ];
+		]);
   };
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }: let
+{ pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Run Alien Software
     dosbox-x
@@ -12,9 +12,12 @@
 		wineWowPackages.waylandFull
 		winetricks
 		protontricks
+  ];
+
+	stable = with pkgs-stable; [
 		qemu_full
 		qtemu
-  ];
+	];
 in {
-  packages = unstable;
+  packages = unstable ++ stable;
 }

@@ -14,7 +14,7 @@
     ktailctl
     kdePackages.wallpaper-engine-plugin
     lightly-qt
-		input-leap
+		# input-leap
 		python3Full
 		python3Packages.pip
 		python3Packages.srt
