@@ -62,8 +62,28 @@ in {
 
 		binfmt = {
 			emulatedSystems = [
-				# "aarch64-linux"
-				# "riscv64-linux"
+				"armv6l-linux"
+				"armv7l-linux"
+				"aarch64-linux"
+				"aarch64_be-linux"
+				"alpha-linux"
+				"sparc64-linux"
+				"sparc-linux"
+				"powerpc-linux"
+				"powerpc64-linux"
+				"powerpc64le-linux"
+				"mips-linux"
+				"mipsel-linux"
+				"mips64-linux"
+				"mips64el-linux"
+				"mips64-linuxabin32"
+				"mips64el-linuxabin32"
+				"riscv32-linux"
+				"riscv64-linux"
+				"loongarch64-linux"
+				"wasm32-wasi"
+				"wasm64-wasi"
+				"s390x-linux"
 			];
 		};
   };
