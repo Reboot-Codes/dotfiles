@@ -72,7 +72,7 @@
       allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 4001 ];
       allowedUDPPorts = [ 3389 4455 4444 50001 5567 1701 9001 4001 ];
 
-      enable = true; # ~~false; # Or disable the firewall altogether.~~
+      enable = false; # Or disable the firewall altogether.~~
     };
   };
 

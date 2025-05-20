@@ -6,6 +6,8 @@
     telegram-desktop
     thunderbird
     element-desktop
+		telegram-desktop
+		kotatogram-desktop
     discord
     signal-cli
     signalbackup-tools
