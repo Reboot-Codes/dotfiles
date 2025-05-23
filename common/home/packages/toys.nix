@@ -20,6 +20,7 @@
 		python3Packages.srt
 		python3Packages.torch
 		python3Packages.openai-whisper
+		kdePackages.kdeconnect-kde
   ];
 in {
   packages = unstable;
