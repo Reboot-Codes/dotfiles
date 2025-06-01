@@ -34,7 +34,10 @@
     arduino-ide
     screen
     minipro
-    rust-bin.nightly.latest.default
+		(rust-bin.stable.latest.default.override {
+			extensions = [ "rust-src" ];
+			targets = [ "arm-unknown-linux-gnueabihf" "x86_64-pc-windows-gnu" ];
+		})
     pandoc
     qemu
     wimlib
