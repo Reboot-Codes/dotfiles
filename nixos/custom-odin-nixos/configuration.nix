@@ -285,6 +285,11 @@ in {
 			binfmt = true;
 			enable = true;
 		};
+
+    alvr = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   xdg.portal = {
@@ -314,6 +319,12 @@ in {
       alsa.support32Bit = true;
       pulse.enable = true;
       jack.enable = true;
+    };
+
+    monado = {
+      enable = true;
+      # SteamVR is what we prefer, but it's nice to have options.
+      defaultRuntime = false;
     };
 
 		nix-serve = {

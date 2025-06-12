@@ -4,7 +4,6 @@
     wireshark
     ettercap
     bettercap
-    ida-free # TODO: Crack this mofo
     radare2
     iaito
     veracrypt

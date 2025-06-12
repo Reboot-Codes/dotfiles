@@ -10,7 +10,7 @@
     ungoogled-chromium
     megasync
     floorp
-		vivaldi
+		# vivaldi
   ];
 
   stable = with pkgs-stable; [

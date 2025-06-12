@@ -23,6 +23,7 @@
     renpy
     godot_4
     android-studio
+		androidStudioPackages.canary
     android-tools
     pipx
     python3Full
@@ -34,10 +35,10 @@
     arduino-ide
     screen
     minipro
-		(rust-bin.stable.latest.default.override {
+		(rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
 			extensions = [ "rust-src" ];
 			targets = [ "arm-unknown-linux-gnueabihf" "x86_64-pc-windows-gnu" ];
-		})
+		}))
     pandoc
     qemu
     wimlib

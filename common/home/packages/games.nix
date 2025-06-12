@@ -18,6 +18,8 @@
 		gale
     ruffle
 		steamtinkerlaunch
+		alvr
+		sidequest
 
     (lutris.override {
       extraLibraries = pkgs: [

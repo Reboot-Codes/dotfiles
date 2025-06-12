@@ -35,7 +35,7 @@
         obs-move-transition
         obs-transition-table
         obs-3d-effect
-        obs-tuna
+        # obs-tuna
         obs-vaapi
         # obs-nvfbc
         obs-teleport
