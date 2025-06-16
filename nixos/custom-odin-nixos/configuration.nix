@@ -290,6 +290,11 @@ in {
       enable = true;
       openFirewall = true;
     };
+
+    envision = {
+      enable = true;
+      openFirewall = true;
+    };
   };
 
   xdg.portal = {
@@ -325,6 +330,11 @@ in {
       enable = true;
       # SteamVR is what we prefer, but it's nice to have options.
       defaultRuntime = false;
+    };
+
+    wivrn = {
+      enable = true;
+      openFirewall = true;
     };
 
 		nix-serve = {
@@ -396,6 +406,7 @@ in {
 
     sunshine = {
       enable = true;
+      autoStart = true;
       openFirewall = true;
       capSysAdmin = true;
 
@@ -405,35 +416,12 @@ in {
             name = "1080p Desktop";
             prep-cmd = [
               {
-                # Runs:
-                #   ${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor -o | ${pkgs.gnused}/bin/sed -e 's/\x1b\[[0-9;]*m//g' | ${pkgs.gnused}/bin/sed -nE 's/^Output: [0-9]+ ([A-Za-z]+-[0-9]+) enabled connected (priority( 1))?.*$/\1\3/p' > /tmp/reboots-sunshine-display-config-backup
-                # First, which saves which display is primary and all the currently enabled screens in a temp file.
-                #
-                # Enables and makes the virtual display the primary display.
-                #
-                # After that, runs:
-                #   cat /tmp/reboots-sunshine-display-config-backup | sed -nE 's/^([^ ]*)( 1)?$/output.\1.disable/p' | tr '\n' ' ' | rev | cut -d' ' -f2- | rev
-                # Which turns the list of enabled screens into configs that kscreen-doctor accepts.
-                #
-                # This is basically because I don't wanna fuck with telling nix with what display connector is primary, etc every time I change displays or whatever.
-                do = ''
-                  ${pkgs.bash}/bin/bash -c "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor -o | ${pkgs.gnused}/bin/sed -e 's/\x1b\[[0-9;]*m//g' | ${pkgs.gnused}/bin/sed -nE 's/^Output: [0-9]+ ([A-Za-z]+-[0-9]+) enabled connected (priority( 1))?.*$/\1\3/p' > /tmp/reboots-sunshine-display-config-backup && ${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.${virtualDisplayId}.enable output.${virtualDisplayId}.priority.1 $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.disable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.util-linux}/bin/rev)"
-                '';
-
-                # Runs:
-                #   ${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.enable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.util-linux}/bin/rev
-                # To re-enable all disabled displays
-                #
-                # And then:
-                #   ${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)$/output.\1.priority.1/p'
-                # To set the primary display again.
-                #
-                # And then turns off the virtual display.
-                undo = ''
-                  ${pkgs.bash}/bin/bash -c "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)?$/output.\1.enable/p' | ${pkgs.coreutils-full}/bin/tr '\n' ' ' | ${pkgs.util-linux}/bin/rev | ${pkgs.coreutils-full}/bin/cut -d' ' -f2- | ${pkgs.util-linux}/bin/rev) $(${pkgs.coreutils-full}/bin/cat /tmp/reboots-sunshine-display-config-backup | ${pkgs.gnused}/bin/sed -nE 's/^([^ ]*)( 1)$/output.\1.priority.1/p') output.${virtualDisplayId}.disable"
-                '';
+                do = "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.HDMI-A-1.disable output.DP-3.position.0,0";
+                undo = "${pkgs.kdePackages.libkscreen}/bin/kscreen-doctor output.HDMI-A-1.enable output.DP-3.enable output.HDMI-A-1.priority.2 output.HDMI-A-1.position.0,0 output.DP-3.position.1920,0 output.DP-3.priority.1";
               }
             ];
+            exclude-global-prep-cmd = "false";
+            auto-detach = "true";
           }
         ];
       };
