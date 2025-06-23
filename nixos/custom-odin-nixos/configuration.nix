@@ -173,12 +173,55 @@ in {
 			"f /srv/win11/pipewire-0 700 reboot reboot - -"
 		];
 
+		timers = {
+			dl-music = {
+				wantedBy = [ "user@1000.service" ];
+				
+				timerConfig = {
+					OnUnitActiveSec = "1w";
+					Unit = "dl-music.service";
+				};
+			};
+
+			nix-clean = {
+				wantedBy = [ "timers.target" ];
+
+				timerConfig = {
+					OnUnitActiveSec = "1w";
+					Unit = "nix-clean.service";
+				};
+			};
+		};
+
 		services = {
 			syncthing = {
 				description = "Run Syncthing";
 				serviceConfig = {
 					ExecStart = "${pkgs.syncthing}/bin/syncthing";
 					User = "reboot";
+				};
+			};
+
+			dl-music = {
+				script = ''
+					set -eu
+					${pkgs.zsh}/bin/zsh -c "/home/reboot/Music/YT/download.sh"
+				'';
+
+				serviceConfig = {
+					Type = "oneshot";
+					User = "reboot";
+				};
+			};
+
+			nix-clean = {
+				script = ''
+					${pkgs.nix}/bin/nix-store --gc
+				'';
+
+				serviceConfig = {
+					Type = "oneshot";
+					User = "root";
 				};
 			};
 

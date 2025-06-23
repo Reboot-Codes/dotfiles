@@ -160,6 +160,13 @@
       useRoutingFeatures = "client";
     };
 
+		cron.enable = true;
+
+		fcron = {
+			# enable = true;
+			allow = ["reboot"];
+		};
+
     tor = {
       enable = true;
 
