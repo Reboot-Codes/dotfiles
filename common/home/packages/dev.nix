@@ -57,6 +57,9 @@
 		crc
 		qtcreator
 		kdePackages.full
+		unityhub
+		vrc-get
+		alcom
   ];
 
   stable = with pkgs-stable; [

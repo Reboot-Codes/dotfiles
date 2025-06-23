@@ -1,4 +1,4 @@
-{ pkgs, lib, config, rust-overlay, nixGL, hostConfig, ... }: {
+{ pkgs, pkgs-stable, lib, config, rust-overlay, nixGL, hostConfig, ... }: {
   imports = [
     ../home
   ];
@@ -54,6 +54,7 @@
       v4l2loopback
 			systemtap
 			vendor-reset
+			# rtl8852au
     ];
 
     kernelParams = [
