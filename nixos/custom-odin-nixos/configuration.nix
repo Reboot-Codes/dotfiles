@@ -157,6 +157,9 @@ in {
 
     # For hibernation
     protectKernelImage = false;
+
+		# https://discourse.nixos.org/t/distrobox-selinux-oci-permission-error/64943/15 ; TL;DR: distrobox mounted the empty SELinux directory when my containers were created, and the SELinux module isn't ready yet, so this is a temp fix due to this pull existing: https://github.com/NixOS/nixpkgs/pull/407748
+		lsm = lib.mkForce [ ];
   };
 
   fonts.packages = with pkgs; [

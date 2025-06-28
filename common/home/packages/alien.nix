@@ -12,6 +12,7 @@
 		wineWowPackages.waylandFull
 		winetricks
 		protontricks
+		basiliskii
   ];
 
 	stable = with pkgs-stable; [
