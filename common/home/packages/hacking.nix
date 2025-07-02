@@ -25,26 +25,19 @@
     synchrony
     ipgrep
 		cewl
-		cewler
 		john
 		hashcat-utils
 		hashcat
 		metasploit
 		exploitdb
 		sqlmap
-		smbmap
 		theharvester
 		thc-hydra
 		wpscan
-		kerbrute
 		hcxdumptool
 		wordlists
-		bloodhound
-		bloodhound-py
 		aircrack-ng
 		arp-scan
-		enum4linux
-		enum4linux-ng
 
     (ghidra.withExtensions (ext: with ext; [
       ret-sync
@@ -62,6 +55,16 @@
     (pkgs.lib.hiPrio (cutter.withPlugins (ps: with ps; [ jsdec rz-ghidra sigdb ])))
   ];
 
+	stable = with pkgs-stable; [
+		smbmap
+		kerbrute
+		bloodhound
+		bloodhound-py
+		enum4linux
+		enum4linux-ng
+		cewler
+	];
+
   pwndbg-packages = let
     pkgs-pwndbg = pwndbg.packages."${pkgs.system}";
   in with pkgs-pwndbg; [
@@ -69,5 +72,5 @@
     pwndbg-lldb
   ];
 in {
-  packages = unstable ++ pwndbg-packages;
+  packages = unstable ++ stable ++ pwndbg-packages;
 }

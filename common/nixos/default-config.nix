@@ -143,7 +143,7 @@
 
 		nix-ld = {
 			enable = true;
-      libraries = import ../utils/nix-ld.nix { inherit pkgs lib; };
+      libraries = import ../utils/nix-ld.nix { inherit pkgs pkgs-stable lib; };
     };
 
     command-not-found.enable = true; # This basically doesn't work imo.
@@ -272,6 +272,7 @@
         "gamemode"
         "video"
         config.services.kubo.group
+				"vboxusers"
       ];
     };
   };

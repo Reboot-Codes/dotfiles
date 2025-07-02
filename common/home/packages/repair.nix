@@ -3,7 +3,6 @@
     # Repair
     gparted
     ventoy-full
-    idevicerestore
     man-pages
     glibcInfo
     (pkgs.lib.hiPrio stdmanpages)
@@ -27,6 +26,10 @@
 		okteta
 		rar
   ];
+
+	stable = with pkgs-stable; [
+    idevicerestore
+	];
 in {
-  packages = unstable;
+  packages = unstable ++ stable;
 }

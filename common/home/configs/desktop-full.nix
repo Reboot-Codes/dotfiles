@@ -55,7 +55,7 @@ in {
   xdg.desktopEntries = {
     "renpy" = {
       name = "RenPy";
-      exec = "${pkgs.renpy}/bin/renpy";
+      exec = "${pkgs-stable.renpy}/bin/renpy";
     };
 
     "Vital" = {

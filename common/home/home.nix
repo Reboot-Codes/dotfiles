@@ -255,6 +255,12 @@
 	      text = builtins.readFile ./dotfiles/rustfmt.toml;
 	    };
 
+			"ignore-dev-edition-profile" = {
+				target = ".mozilla/firefox/ignore-dev-edition-profile";
+				enable = true;
+				text = "";
+			};
+
 			"qemu.conf" = {
 			  target = ".config/libvirt/qemu.conf";
 				enable = true;

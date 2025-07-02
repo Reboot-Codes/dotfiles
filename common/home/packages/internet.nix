@@ -1,6 +1,6 @@
 { pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
-    # firefox-devedition
+    firefox-devedition
     tor-browser-bundle-bin
     brave
     onioncircuits
@@ -10,7 +10,7 @@
     ungoogled-chromium
     megasync
     floorp
-		# vivaldi
+		vivaldi
   ];
 
   stable = with pkgs-stable; [

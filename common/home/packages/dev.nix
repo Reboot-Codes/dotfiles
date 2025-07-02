@@ -20,7 +20,6 @@
     codeberg-pages
     zsh
     git
-    renpy
     godot_4
     android-studio
 		androidStudioPackages.canary
@@ -57,7 +56,6 @@
 		crc
 		qtcreator
 		kdePackages.full
-		unityhub
 		vrc-get
 		alcom
   ];
@@ -78,6 +76,8 @@
 
     # vagrant
     (lib.hiPrio zed-editor)
+    renpy
+		unityhub
   ];
 in {
   packages = unstable ++ stable;
