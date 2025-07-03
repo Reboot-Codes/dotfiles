@@ -146,7 +146,6 @@
       libraries = import ../utils/nix-ld.nix { inherit pkgs pkgs-stable lib; };
     };
 
-    command-not-found.enable = true; # This basically doesn't work imo.
     appimage.binfmt = true;
   };
 

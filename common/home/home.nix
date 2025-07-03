@@ -1,9 +1,10 @@
 # This file has general setting configs to make sure that our experiences are consistent.
 
-{ config, pkgs, pkgs-stable, home-manager, ...}: {
+{ config, pkgs, pkgs-stable, home-manager, nix-index-database, ...}: {
   programs = {
     home-manager.enable = true;
     direnv.enable = true;
+		nix-index.enable = true;
 
     zsh = {
       enable = true;
