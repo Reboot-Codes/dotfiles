@@ -104,6 +104,8 @@
     polkit.enable = true;
   };
 
+	hardware.flipperzero.enable = true;
+
   programs = {
     zsh = {
       enable = true;
@@ -272,6 +274,7 @@
         "video"
         config.services.kubo.group
 				"vboxusers"
+				"dialout"
       ];
     };
   };

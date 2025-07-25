@@ -21,6 +21,8 @@
 		python3Packages.torch
 		python3Packages.openai-whisper
 		kdePackages.kdeconnect-kde
+		python313Packages.meshtastic
+		rymdport
   ];
 in {
   packages = unstable;

@@ -423,6 +423,7 @@ in {
 
 			extraRules = ''
 				SUBSYSTEM=="kvmfr", OWNER="reboot", GROUP="kvm", MODE="0660"
+				SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
 			'';
     };
 
