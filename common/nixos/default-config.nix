@@ -107,6 +107,12 @@
 	hardware.flipperzero.enable = true;
 
   programs = {
+    gnupg.agent = {
+      enable = true;
+      pinentryPackage = pkgs.pinentry-all; # HHHHHHH this is such a bitch and cmd-line fallbacks don't work.
+      enableSSHSupport = true;
+    };
+
     zsh = {
       enable = true;
       autosuggestions.enable = true;

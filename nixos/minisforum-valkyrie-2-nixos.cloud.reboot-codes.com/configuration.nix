@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ pkgs, pkgs-stable, ... }: {
+{ config, pkgs, pkgs-stable, lib, ... }: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
@@ -29,50 +29,89 @@
     };
 
     plymouth.enable = true;
+
+    # https://wiki.nixos.org/wiki/OSX-KVM
+    extraModprobeConfig = ''
+      options kvm_amd nested=1
+      options kvm_amd emulate_invalid_guest_state=0
+      options kvm ignore_msrs=1
+			options kvmfr static_size_mb=64
+    '';
+
+    kernelParams = [
+      "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
+      # "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
+			("vfio-pci.ids=" + lib.concatStringsSep "," vfio-pci-ids)
+    ];
+
+    kernelModules = [ "kvm-amd" "kvmfr" "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
+
+		binfmt = {
+			emulatedSystems = [
+				"armv6l-linux"
+				"armv7l-linux"
+				"aarch64-linux"
+				"aarch64_be-linux"
+				"alpha-linux"
+				"sparc64-linux"
+				"sparc-linux"
+				"powerpc-linux"
+				"powerpc64-linux"
+				"powerpc64le-linux"
+				"mips-linux"
+				"mipsel-linux"
+				"mips64-linux"
+				"mips64el-linux"
+				"mips64-linuxabin32"
+				"mips64el-linuxabin32"
+				"riscv32-linux"
+				"riscv64-linux"
+				"loongarch64-linux"
+				"wasm32-wasi"
+				"wasm64-wasi"
+				"s390x-linux"
+			];
+		};
   };
 
   powerManagement.enable = true;
 
   hardware = {
-    steam-hardware.enable = true;
-    xone.enable = true;
-
     graphics = {
       enable = true;
-      enable32Bit = true; # For steam specifically, but will be for all of opengl...
+      enable32Bit = true;
 
       extraPackages = with pkgs; [
-        intel-media-driver # LIBVA_DRIVER_NAME=iHD
-        intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-        libvdpau-va-gl
         mesa
-        intel-media-sdk
-        vpl-gpu-rt
+				intel-compute-runtime
       ];
-    };
-
-    opentabletdriver = {
-      enable = true;
-      daemon.enable = true;
     };
 
     bluetooth = {
       enable = true;
       powerOnBoot = true;
     };
+
+    firmware = [
+      # Add the EDID of our monitors to use for the virtual display.
+      (pkgs.runCommandNoCC "firmware-custom-edid" { compressFirmware = false; } ''
+        mkdir -p $out/lib/firmware/edid/
+        cp "${../../common/firmware/EDID.bin}" $out/lib/firmware/edid/reboots-virtual-display.bin
+      '')
+    ];
   };
 
   time.timeZone = "America/Phoenix";
 
   networking = {
+		# bridges."rebootvmbr0".interfaces = [ "enp13s0" ];
+
     firewall = {
       # Open ports in the firewall.
-      allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
-      allowedUDPPortRanges = [ { from = 47998; to = 48010; } ];
-      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 4001 ];
-      allowedUDPPorts = [ 3389 4455 4444 50001 5567 1701 9001 4001 ];
+      allowedUDPPorts = [ 4001 ];
+      allowedTCPPorts = [ 4001 config.services.nix-serve.port ];
 
-      enable = false; # Or disable the firewall altogether.~~
+      enable = true;
     };
   };
 
@@ -83,12 +122,8 @@
     # For hibernation
     protectKernelImage = false;
 
-    wrappers.sunshine = {
-      owner = "root";
-      group = "root";
-      capabilities = "cap_sys_admin+p";
-      source = "${pkgs.sunshine}/bin/sunshine";
-    };
+		# https://discourse.nixos.org/t/distrobox-selinux-oci-permission-error/64943/15 ; TL;DR: distrobox mounted the empty SELinux directory when my containers were created, and the SELinux module isn't ready yet, so this is a temp fix due to this pull existing: https://github.com/NixOS/nixpkgs/pull/407748
+		lsm = lib.mkForce [ ];
   };
 
   fonts.packages = with pkgs; [
@@ -100,18 +135,53 @@
 		noto-fonts-cjk-serif
   ];
 
-  systemd.services = {
-    syncthing = {
-      description = "Run Syncthing";
-      serviceConfig = {
-        ExecStart = "${pkgs.syncthing}/bin/syncthing";
-        User = "reboot";
-      };
-    };
-  };
+  systemd = {
+		tmpfiles.rules = [
+			"f /srv/win11/pipewire-0 700 reboot reboot - -"
+		];
+
+		timers = {
+			nix-clean = {
+				wantedBy = [ "timers.target" ];
+
+				timerConfig = {
+					OnUnitActiveSec = "1w";
+					Unit = "nix-clean.service";
+				};
+			};
+		};
+
+		services = {
+			syncthing = {
+				description = "Run Syncthing";
+				serviceConfig = {
+					ExecStart = "${pkgs.syncthing}/bin/syncthing";
+					User = "reboot";
+				};
+			};
+
+			nix-clean = {
+				script = ''
+					${pkgs.nix}/bin/nix-store --gc
+				'';
+
+				serviceConfig = {
+					Type = "oneshot";
+					User = "root";
+				};
+			};
+
+			libvirtd.path = with pkgs; [
+				bash
+				coreutils
+				pciutils # For lspci
+				kmod # For modprobe
+				systemd
+			];
+		};
+	};
 
   virtualisation = {
-    waydroid.enable = true;
     containers.enable = true;
 
     podman = {
@@ -129,9 +199,30 @@
       enable = true;
 
       qemu = {
+				# Fucking.... ceph... also. so sorry y'all at nixpkgs, noob momence go brr.
 				package = pkgs-stable.qemu;
+
         swtpm.enable = true;
-        ovmf.enable = true;
+
+        ovmf = {
+          enable = true;
+          packages = [(pkgs.OVMF.override {
+            secureBoot = true;
+            tpmSupport = true;
+          }).fd];
+        };
+
+				verbatimConfig = ''
+					user = "reboot"
+
+					cgroup_device_acl = [
+				    "/dev/null", "/dev/full", "/dev/zero",
+				    "/dev/random", "/dev/urandom",
+				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+						"/dev/kvmfr0", "/run/user/1000/pipewire-0"
+					]
+				'';
       };
     };
 
@@ -141,16 +232,24 @@
     };
 
     spiceUSBRedirection.enable = true;
+
+    oci-containers = {
+      backend = "podman";
+      containers = { 
+        homeassistant = {
+          volumes = [ "/opt/home-assistant:/config" ];
+          environment.TZ = "America/Phoenix";
+          image = "ghcr.io/home-assistant/home-assistant:stable";
+          extraOptions = [ 
+            "--network=host" 
+            # "--device=/dev/ttyACM0:/dev/ttyACM0"
+          ];
+        };
+      };
+    };
   };
 
   programs = {
-    anime-game-launcher.enable = true; # Adds launcher and /etc/hosts rules
-    anime-games-launcher.enable = true;
-    honkers-railway-launcher.enable = true;
-    honkers-launcher.enable = true;
-    wavey-launcher.enable = true;
-    sleepy-launcher.enable = true;
-
     neovim = {
       viAlias = true;
       vimAlias = true;
@@ -161,22 +260,16 @@
     virt-manager.enable = true;
     nbd.enable = true;
     xwayland.enable = true;
-    hyprland.enable = true;
     # Some programs need SUID wrappers, can be configured further or are
     # started in user sessions.
     # mtr.enable = true;
 
-    steam = {
-      enable = true;
-      remotePlay.openFirewall = true;
-      dedicatedServer.openFirewall = true;
-      localNetworkGameTransfers.openFirewall = true;
-      gamescopeSession.enable = true;
-      protontricks.enable = true;
-    };
-
-    gamemode.enable = true;
     dconf.enable = true;
+
+		java = {
+			binfmt = true;
+			enable = true;
+		};
   };
 
   xdg.portal = {
@@ -184,7 +277,6 @@
 
     extraPortals = with pkgs; [
       kdePackages.xdg-desktop-portal-kde
-      xdg-desktop-portal-hyprland
     ];
 
     config = {
@@ -208,6 +300,11 @@
       jack.enable = true;
     };
 
+		nix-serve = {
+			# enable = true;
+			secretKeyFile = "/var/secrets/cache-private-key.pem";
+		};
+
     zerotierone = {
       enable = true;
 
@@ -217,7 +314,6 @@
     };
 
     pulseaudio.enable = false; # This is a pipewire-based system!
-    hardware.openrgb.enable = true;
 
     btrfs.autoScrub = {
       enable = true;
@@ -228,12 +324,18 @@
     libinput.enable = true;
     pcscd.enable = true;
 
-    udev.packages = with pkgs; [
-      qmk-udev-rules
-      android-udev-rules
-    ];
+    udev = {
+      packages = with pkgs; [
+        qmk-udev-rules
+        android-udev-rules
+      ];
 
-    ratbagd.enable = true;
+			extraRules = ''
+				SUBSYSTEM=="kvmfr", OWNER="reboot", GROUP="kvm", MODE="0660"
+				SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
+			'';
+    };
+
     k3s.enable = true;
     teamviewer.enable = true;
 
@@ -264,11 +366,6 @@
       };
     };
 
-    sunshine = {
-      enable = true;
-      openFirewall = true;
-    };
-
     desktopManager.plasma6.enable = true;
 
     displayManager = {
@@ -278,29 +375,21 @@
     xserver = {
       enable = true;
 
-      displayManager.lightdm = {
-				greeter.enable = true;
-
-				greeters.gtk = {
-					enable = true;
-				};
-			};
-
       xkb = {
         layout = "us";
         variant = "";
       };
+
+      displayManager = {
+        lightdm = {
+          greeter.enable = true;
+          greeters.gtk.enable = true;
+        };
+      };
     };
 
-    # displayManager.sddm.enable = true; # It's kinda broken right now.
+    # displayManager.sddm.enable = true; # Not broken anymore probably, I'm just too lazy to deal with it.
     spice-autorandr.enable = true;
-
-    # This doesn't work btw, afaik. Use the one in plasma!
-    # xrdp = {
-    #   enable = true;
-    #   defaultWindowManager = "plasmashell";
-    #   openFirewall = true;
-    # };
 
     avahi.publish = {
       enable = true;
@@ -318,11 +407,21 @@
 
       packages = [
         "dev.vencord.Vesktop"
-        "net.davidotek.pupgui2"
         "com.github.tchx84.Flatseal"
         "org.signal.Signal"
         "io.github.hydrusnetwork.hydrus"
       ];
+    };
+
+    cockpit = {
+      enable = true;
+      port = 9090;
+      openFirewall = true; # Please see the comments section
+      settings = {
+        WebService = {
+          AllowUnencrypted = true;
+        };
+      };
     };
   };
 
@@ -357,6 +456,7 @@
       cachix
       solaar
       arrpc
+      cockpit
 
       # Shells
       zsh
@@ -438,22 +538,9 @@
       ffmpeg
 
       # Services
-      sunshine
       zerotierone
       syncthing
       nicotine-plus
-
-      # Alt DE
-      waybar
-      wofi
-      wpaperd
-      hyprlock
-      hyprcursor
-      hypridle
-      dunst
-      kitty
-      kitty-img
-      kitty-themes
 
       # QT
       kdePackages.qt6ct
@@ -469,6 +556,8 @@
       podman-compose
       virtiofsd
       appvm
-    ]);
+    ]) ++ (with pkgs-stable; [
+			qemu_full
+		]);
   };
 }

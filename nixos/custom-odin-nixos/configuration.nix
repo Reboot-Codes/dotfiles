@@ -307,12 +307,6 @@ in {
       defaultEditor = true;
     };
 
-    gnupg.agent = {
-      enable = true;
-      pinentryPackage = pkgs.pinentry-qt; # HHHHHHH this is such a bitch and cmd-line fallbacks don't work.
-      enableSSHSupport = true;
-    };
-
     adb.enable = true;
     virt-manager.enable = true;
     nbd.enable = true;

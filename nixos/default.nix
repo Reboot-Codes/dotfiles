@@ -11,12 +11,18 @@
     systemType = "desktop";
   };
 
-	# TODO: Add `server` systemType!
+  server = {
+    username = "reboot";
+    system = "x86_64-linux";
+    systemType = "desktop";
+  };
 
   hosts = {
     "latitude7390-loki-nixos" = defaultDesktop;
     "custom-odin-nixos" = defaultDesktop;# // { useDisko = true; };
     "temp-installer-nixos" = installISO;
+    
+    "minisforum-valkyrie-2-nixos.cloud.reboot-codes.com" = server;
   };
 in (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (hostname: let
   hostConfig = hosts."${hostname}";
