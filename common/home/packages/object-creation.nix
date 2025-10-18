@@ -11,7 +11,7 @@
     orca-slicer
     (lib.hiPrio super-slicer-latest)
     prusa-slicer
-    bambu-studio
+    # bambu-studio
 		openrocket
   ];
 

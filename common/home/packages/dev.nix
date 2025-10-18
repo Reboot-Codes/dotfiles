@@ -25,7 +25,7 @@
 		androidStudioPackages.canary
     android-tools
     pipx
-    python3Full
+		(python313.withPackages (ps: [ ps.rpyc ps.tkinter ]))
     filezilla
     powershell
     fzf
@@ -34,10 +34,6 @@
     arduino-ide
     screen
     minipro
-		(rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
-			extensions = [ "rust-src" ];
-			targets = [ "arm-unknown-linux-gnueabihf" "x86_64-pc-windows-gnu" ];
-		}))
     pandoc
     qemu
     wimlib

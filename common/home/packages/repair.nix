@@ -24,11 +24,11 @@
     kitty-themes
 		v4l-utils
 		okteta
-		rar
   ];
 
 	stable = with pkgs-stable; [
     idevicerestore
+		rar
 	];
 in {
   packages = unstable ++ stable;

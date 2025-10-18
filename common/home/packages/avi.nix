@@ -17,11 +17,9 @@
     imagemagickBig
     rnnoise
     rnnoise-plugin
-    sdrpp
-    gqrx
-    cubicsdr
+    # cubicsdr
     amarok
-    strawberry-qt6
+    strawberry
     kdePackages.elisa
     drawpile
     blender
@@ -78,11 +76,12 @@
         obs-vaapi
         # obs-nvfbc
         obs-teleport
-        obs-webkitgtk
       ];
     })
 
 
+    sdrpp
+    gqrx
 		lmms
 		carla
 	];

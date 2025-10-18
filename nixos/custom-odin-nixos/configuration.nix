@@ -107,6 +107,7 @@ in {
 
       extraPackages = with pkgs; [
         mesa
+				mesa.opencl
 				intel-compute-runtime
       ];
     };
@@ -138,8 +139,6 @@ in {
   time.timeZone = "America/Phoenix";
 
   networking = {
-		# bridges."rebootvmbr0".interfaces = [ "enp13s0" ];
-
     firewall = {
       # Open ports in the firewall.
       allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
@@ -251,8 +250,8 @@ in {
       defaultNetwork.settings.dns_enabled = true;
     };
 
-    virtualbox.host.enable = true;
-    virtualbox.host.enableExtensionPack = true; # Requires previous, will compile all of vbox if enabled!
+    # virtualbox.host.enable = true;
+    # virtualbox.host.enableExtensionPack = true; # Requires previous, will compile all of vbox if enabled!
 
     libvirtd = {
       enable = true;
@@ -263,13 +262,13 @@ in {
 
         swtpm.enable = true;
 
-        ovmf = {
-          enable = true;
-          packages = [(pkgs.OVMF.override {
-            secureBoot = true;
-            tpmSupport = true;
-          }).fd];
-        };
+        #ovmf = {
+        #  enable = true;
+        #  packages = [(pkgs.OVMF.override {
+        #    secureBoot = true;
+        #    tpmSupport = true;
+        #  }).fd];
+        #};
 
 				verbatimConfig = ''
 					user = "reboot"
@@ -334,6 +333,7 @@ in {
 		};
 
     alvr = {
+			package = pkgs-stable.alvr;
       enable = true;
       openFirewall = true;
     };
@@ -528,6 +528,10 @@ in {
 
   environment = {
     sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+		
+		variables = {
+			RUSTICL_ENABLE = "radeonsi";
+		};
 
     systemPackages = (with pkgs; [
       # Utils

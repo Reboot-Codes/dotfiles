@@ -7,7 +7,7 @@
     teamviewer
     anydesk
     kdePackages.krfb
-		vmware-horizon-client
+		omnissa-horizon-client
 		waypipe
 		syncthingtray
   ];

@@ -12,7 +12,6 @@
     obsidian
     emacs-gtk
     organicmaps
-    pdfslicer
     asciidoc-full-with-plugins
     diamond
     kdePackages.kclock
@@ -35,12 +34,23 @@
     gnome-obfuscate
     curtail
     xournalpp
+		wlx-overlay-s
+		logseq
 
     # Translation
     # whisper-ctranslate2
     libretranslate
     morsel
-    translatelocally
+  ];
+
+  stable = with pkgs-stable; [
+    # Office
+    pdfslicer
+		kiwix
+    kiwix-tools
+    zim
+    zim-tools
+		translatelocally
     translatelocally-models.uk-en-tiny
     translatelocally-models.tr-en-tiny
     translatelocally-models.sq-en-tiny
@@ -72,15 +82,6 @@
     translatelocally-models.ca-en-tiny
     translatelocally-models.bg-en-tiny
     translatelocally-models.hbs-eng-tiny
-  ];
-
-  stable = with pkgs-stable; [
-    # Office
-    logseq
-    kiwix
-    kiwix-tools
-    zim
-    zim-tools
   ];
 in {
   packages = unstable ++ stable;

@@ -1,10 +1,11 @@
 { pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     # Games (see stable)
+		itch
     prismlauncher
     steamcmd
     steam-run
-    ryujinx
+		ryubing
     dolphin-emu
     rpcs3
     ps3-disc-dumper
@@ -13,7 +14,6 @@
     xemu
     the-powder-toy
     gzdoom
-    openrct2
     r2modman
 		gale
     ruffle
@@ -31,8 +31,6 @@
       ];
     })
 
-    itch
-    itchiodl
     mangohud
     cockatrice
     kdePackages.knetwalk
@@ -40,17 +38,19 @@
     kdePackages.kolf
     kdePackages.kreversi
     superTuxKart
-    gargoyle
+    # gargoyle
     # colobot
     rrootage
     # lime3ds
-    duckstation
+		# duckstation
 		shadps4
   ];
 
   stable = with pkgs-stable; [
     # Games
     steam-tui
+    openrct2
+    # itchiodl
     retroarchFull
     openttd
   ];

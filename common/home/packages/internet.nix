@@ -4,12 +4,12 @@
     tor-browser-bundle-bin
     brave
     onioncircuits
-    lokinet
+    # lokinet
     persepolis
     motrix
     ungoogled-chromium
     megasync
-    floorp
+    floorp-bin
 		vivaldi
   ];
 

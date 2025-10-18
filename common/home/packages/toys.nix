@@ -13,9 +13,7 @@
     protonvpn-gui
     ktailctl
     kdePackages.wallpaper-engine-plugin
-    lightly-qt
 		# input-leap
-		python3Full
 		python3Packages.pip
 		python3Packages.srt
 		python3Packages.torch

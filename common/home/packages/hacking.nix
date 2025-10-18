@@ -21,7 +21,7 @@
     ltrace
     pe-bear
     flare-floss
-    garble
+    # garble
     synchrony
     ipgrep
 		cewl

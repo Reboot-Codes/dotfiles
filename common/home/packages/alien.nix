@@ -2,7 +2,7 @@
   unstable = with pkgs; [
     # Run Alien Software
     dosbox-x
-    bottles
+    (bottles.override { removeWarningPopup = true; })
     looking-glass-client
     distrobox
     boxbuddy
