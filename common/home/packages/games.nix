@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, nixpkgs-xr, ... }: let
   unstable = with pkgs; [
     # Games (see stable)
 		itch
@@ -54,6 +54,12 @@
     retroarchFull
     openttd
   ];
+
+	xr = let
+    pkgs-xr = nixpkgs-xr.packages."${pkgs.system}";
+  in with pkgs-xr; [
+		wayvr-dashboard
+  ];
 in {
-  packages = unstable ++ stable;
+  packages = unstable ++ stable ++ xr;
 }

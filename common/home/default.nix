@@ -1,4 +1,4 @@
-{ hostConfig, pkgs, pkgs-stable, pwndbg, nix-index-database, ... }: {
+{ hostConfig, pkgs, pkgs-stable, pwndbg, nix-index-database, nixpkgs-xr, ... }: {
   home-manager = {
     backupFileExtension = ".bak";
 
@@ -6,7 +6,7 @@
 
       imports = [
         ./home.nix
-				nix-index-database.hmModules.nix-index
+				nix-index-database.homeModules.nix-index
         (./configs + "/${hostConfig.systemType}.nix")
       ];
     };

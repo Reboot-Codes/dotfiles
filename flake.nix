@@ -59,16 +59,18 @@
 			url = "github:nix-community/nix-index-database";
 			inputs.nixpkgs.follows = "nixpkgs";
 		};
+
+		nixpkgs-xr.url = "github:nix-community/nixpkgs-xr";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, disko, pwndbg, nix-index-database }: {
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, disko, pwndbg, nix-index-database, nixpkgs-xr }: {
     nixosConfigurations = import ./nixos {
-      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL disko pwndbg nix-index-database;
+      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL disko pwndbg nix-index-database nixpkgs-xr;
     };
 
     # For *nix systems that are not NixOS or macOS
     homeConfigurations = import ./home-manager.nix {
-      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL pwndbg nix-index-database;
+      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL pwndbg nix-index-database nixpkgs-xr;
     };
   };
 }

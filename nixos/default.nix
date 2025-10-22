@@ -1,4 +1,4 @@
-{ disko, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, pwndbg, nix-index-database, ... }: let
+{ disko, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, pwndbg, nix-index-database, nixpkgs-xr, ... }: let
   defaultDesktop = {
     username = "reboot";
     system = "x86_64-linux";
@@ -40,7 +40,7 @@ in nixpkgs.lib.nixosSystem rec {
 
   # The `specialArgs` parameter passes the non-default nixpkgs instances to other nix modules
   specialArgs = {
-    inherit pkgs-stable rust-overlay nixGL hostConfig pwndbg nix-index-database;
+    inherit pkgs-stable rust-overlay nixGL hostConfig pwndbg nix-index-database nixpkgs-xr;
   };
 
   modules = [
@@ -50,6 +50,7 @@ in nixpkgs.lib.nixosSystem rec {
     nur.modules.nixos.default
     chaotic.nixosModules.default
 		nix-index-database.nixosModules.nix-index
+		nixpkgs-xr.nixosModules.nixpkgs-xr
 
     {
       networking.hostName = "${hostname}"; # Define your hostname.
@@ -64,7 +65,7 @@ in nixpkgs.lib.nixosSystem rec {
 
         #! IMPORTANT: Any custom package inputs **need** to be placed here as well if they should be used by home-manager!
         extraSpecialArgs = {
-          inherit pkgs-stable pwndbg;
+          inherit pkgs-stable pwndbg nixpkgs-xr;
         };
       };
     }

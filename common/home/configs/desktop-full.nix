@@ -1,4 +1,4 @@
-{ pkgs, pkgs-stable, pwndbg, lib, ... }: let
+{ pkgs, pkgs-stable, pwndbg, lib, nixpkgs-xr, ... }: let
   groups = [
     "alien"
     "internet"
@@ -91,7 +91,7 @@ in {
 
     packages = lib.flatten (
       builtins.map (groupName:
-        (import (../packages + "/${groupName}.nix") { inherit pkgs pkgs-stable pwndbg; }).packages
+        (import (../packages + "/${groupName}.nix") { inherit pkgs pkgs-stable pwndbg nixpkgs-xr; }).packages
       ) groups
     );
   };
