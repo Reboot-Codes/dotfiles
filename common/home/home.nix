@@ -18,8 +18,12 @@
     };
 
     git = {
-      userName = "Reboot-Codes";
-      userEmail = "git@reboot-codes.com";
+      settings = {
+				user = {
+					name = "Reboot-Codes";
+					email = "git@reboot-codes.com";
+				};
+			};
 
       signing = {
         key = "F4DB81CBA107C76D0F7A75B18A0D03A6C3DCBA53";

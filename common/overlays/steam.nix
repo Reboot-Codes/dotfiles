@@ -4,7 +4,7 @@ final: prev: {
     # withPrimus = true;
     extraPkgs = steam_pkgs: with steam_pkgs; [
       bumblebee
-      glxinfo
+      mesa-demos
     ];
   };
 }

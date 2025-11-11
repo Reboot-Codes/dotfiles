@@ -129,7 +129,7 @@ in {
 
     firmware = [
       # Add the EDID of our monitors to use for the virtual display.
-      (pkgs.runCommandNoCC "firmware-custom-edid" { compressFirmware = false; } ''
+      (pkgs.runCommand "firmware-custom-edid" { compressFirmware = false; } ''
         mkdir -p $out/lib/firmware/edid/
         cp "${../../common/firmware/EDID.bin}" $out/lib/firmware/edid/reboots-virtual-display.bin
       '')
@@ -412,7 +412,6 @@ in {
     udev = {
       packages = with pkgs; [
         qmk-udev-rules
-        android-udev-rules
       ];
 
 			extraRules = ''
@@ -605,8 +604,8 @@ in {
       refind
       efibootmgr
       smartmontools
-      glxinfo
-      piper
+      mesa-demos
+			piper
       openrgb-with-all-plugins
 
       # Network

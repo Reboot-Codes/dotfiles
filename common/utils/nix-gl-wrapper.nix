@@ -23,7 +23,7 @@ pkg:
       shopt -s nullglob # Prevent loop from running if no files
       for file in ${pkg.out}/bin/*; do
         echo "#!${pkgs.bash}/bin/bash" > "$out/bin/$(basename $file)"
-        echo "exec -a \"\$0\" ${nixGL.packages."${pkgs.system}".nixGLDefault}/bin/nixGL $file \"\$@\"" >> "$out/bin/$(basename $file)"
+        echo "exec -a \"\$0\" ${nixGL.packages."${pkgs.stdenv.hostPlatform.system}".nixGLDefault}/bin/nixGL $file \"\$@\"" >> "$out/bin/$(basename $file)"
         chmod +x "$out/bin/$(basename $file)"
       done
       shopt -u nullglob # Revert nullglob back to its normal default state

@@ -22,7 +22,7 @@
     sigil
     openboard
     kdePackages.marble
-    kdePackages.itinerary
+    # kdePackages.itinerary
     scribus
     upscayl
     collision

@@ -51,7 +51,7 @@
     nixd
 		crc
 		qtcreator
-		kdePackages.full
+		# kdePackages.full
 		vrc-get
 		alcom
   ];

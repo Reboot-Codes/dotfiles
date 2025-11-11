@@ -4,7 +4,7 @@
     qmk
     mission-planner
     solvespace
-    rpi-imager
+    # rpi-imager
     usbimager
     weylus
     librecad

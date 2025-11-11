@@ -7,7 +7,6 @@
     radare2
     iaito
     veracrypt
-    cryptomator
     gephi
     xxd
     hexcurse
@@ -63,10 +62,11 @@
 		enum4linux
 		enum4linux-ng
 		cewler
+    cryptomator
 	];
 
   pwndbg-packages = let
-    pkgs-pwndbg = pwndbg.packages."${pkgs.system}";
+    pkgs-pwndbg = pwndbg.packages."${pkgs.stdenv.hostPlatform.system}";
   in with pkgs-pwndbg; [
     default
     pwndbg-lldb

@@ -10,6 +10,7 @@
     "dotnet-sdk-7.0.120"
 		"SDL_ttf-2.0.11"
 		"ventoy-1.1.07"
+		"gradle-7.6.6"
   ];
 
   packageOverrides = pkgs: {

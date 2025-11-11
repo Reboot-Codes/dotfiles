@@ -230,7 +230,6 @@
 
     udev.packages = with pkgs; [
       qmk-udev-rules
-      android-udev-rules
     ];
 
     ratbagd.enable = true;
@@ -401,7 +400,7 @@
       refind
       efibootmgr
       smartmontools
-      glxinfo
+      mesa-demos
       piper
       openrgb-with-all-plugins
 

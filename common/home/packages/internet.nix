@@ -1,8 +1,8 @@
 { pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
     firefox-devedition
-    tor-browser-bundle-bin
-    brave
+    tor-browser
+		brave
     onioncircuits
     # lokinet
     persepolis

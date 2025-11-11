@@ -56,7 +56,7 @@
   ];
 
 	xr = let
-    pkgs-xr = nixpkgs-xr.packages."${pkgs.system}";
+    pkgs-xr = nixpkgs-xr.packages."${pkgs.stdenv.hostPlatform.system}";
   in with pkgs-xr; [
 		wayvr-dashboard
   ];
