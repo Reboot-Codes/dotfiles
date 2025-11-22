@@ -3,8 +3,10 @@
     # Dev
     vscode
     vscodium-fhs
+    (lib.hiPrio zed-editor)
     (lib.hiPrio vscodium)
     starship
+    nil
     kdePackages.kate
     openldap
     openssl
@@ -71,7 +73,6 @@
     })
 
     # vagrant
-    (lib.hiPrio zed-editor)
     renpy
 		unityhub
   ];
