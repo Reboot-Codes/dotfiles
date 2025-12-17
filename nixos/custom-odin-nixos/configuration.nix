@@ -14,10 +14,10 @@
 		"10de:1adb"
 
     # Mobo's WI-FI 7 (we don't use this, but VIFO dies if all of the devices aren't sent to the driver)
-    "17cb:1107"
+    #"17cb:1107"
 
     # USB Card
-    "1b73:1100"
+    #"1b73:1100"
 	];
 in {
   imports = [

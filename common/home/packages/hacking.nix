@@ -37,19 +37,7 @@
 		wordlists
 		aircrack-ng
 		arp-scan
-
-    (ghidra.withExtensions (ext: with ext; [
-      ret-sync
-      findcrypt
-      lightkeeper
-      sleighdevtools
-      machinelearning
-      gnudisassembler
-      ghidraninja-ghidra-scripts
-      ghidra-delinker-extension
-      ghidra-golanganalyzerextension
-    ]))
-
+    
     (rizin.withPlugins (ps: with ps; [ jsdec rz-ghidra sigdb ]))
     (pkgs.lib.hiPrio (cutter.withPlugins (ps: with ps; [ jsdec rz-ghidra sigdb ])))
   ];
@@ -63,6 +51,18 @@
 		enum4linux-ng
 		cewler
     cryptomator
+
+		(ghidra.withExtensions (ext: with ext; [
+      ret-sync
+      findcrypt
+      lightkeeper
+      sleighdevtools
+      machinelearning
+      gnudisassembler
+      ghidraninja-ghidra-scripts
+      ghidra-delinker-extension
+      ghidra-golanganalyzerextension
+    ]))
 	];
 
   pwndbg-packages = let

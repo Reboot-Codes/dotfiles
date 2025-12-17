@@ -15,7 +15,7 @@
     the-powder-toy
     gzdoom
     r2modman
-		gale
+		# gale
     ruffle
 		steamtinkerlaunch
 		sidequest
