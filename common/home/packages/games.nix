@@ -14,6 +14,7 @@
     xemu
     the-powder-toy
     gzdoom
+		qzdl
     r2modman
 		# gale
     ruffle

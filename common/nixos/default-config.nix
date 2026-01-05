@@ -80,7 +80,7 @@
 
   networking = {
     networkmanager.enable = true;
-    wireless.enable = false;
+    # wireless.enable = false;
 	
 		hosts = {
 			"192.168.0.219" = [ "server.idm.reboot-codes.com" ];

@@ -13,11 +13,13 @@
     prusa-slicer
     # bambu-studio
 		openrocket
+		calculix-ccx
   ];
 
   stable = with pkgs-stable; [
     # Object creation
     kicad
+		openscad
     (lib.hiPrio freecad)
     # brlcad
   ];

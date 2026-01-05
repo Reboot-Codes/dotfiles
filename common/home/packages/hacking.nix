@@ -10,7 +10,6 @@
     gephi
     xxd
     hexcurse
-    (lib.hiPrio autopsy)
     sleuthkit
     exiftool
     samba4
@@ -43,6 +42,7 @@
   ];
 
 	stable = with pkgs-stable; [
+    (lib.hiPrio autopsy)
 		smbmap
 		kerbrute
 		bloodhound

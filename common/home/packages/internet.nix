@@ -11,6 +11,8 @@
     megasync
     floorp-bin
 		vivaldi
+		librewolf
+		ladybird
   ];
 
   stable = with pkgs-stable; [

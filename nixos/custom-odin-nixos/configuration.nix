@@ -523,6 +523,10 @@ in {
         "io.github.hydrusnetwork.hydrus"
       ];
     };
+
+		i2pd = {
+			enable = false;
+		};
   };
 
   environment = {
