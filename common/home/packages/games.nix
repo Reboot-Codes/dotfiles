@@ -52,7 +52,6 @@
     steam-tui
     openrct2
     # itchiodl
-    retroarchFull
     openttd
   ];
 

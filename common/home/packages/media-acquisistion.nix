@@ -7,7 +7,6 @@
     qbittorrent
     unshield
     spotify
-    youtube-music
     ytmdl
     ipget
     torsocks
