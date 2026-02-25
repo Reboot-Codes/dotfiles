@@ -1,21 +1,38 @@
-{ pkgs, pkgs-stable, lib, config, rust-overlay, nixGL, hostConfig, ... }: {
+{
+  pkgs,
+  pkgs-stable,
+  lib,
+  config,
+  rust-overlay,
+  nixGL,
+  hostConfig,
+  distro-grub-themes,
+  ...
+}:
+let
+  system = "x86_64-linux";
+in
+{
   imports = [
     ../home
   ];
 
   # Enable flake support, since that's "experimental" (despite most new installs using flakes anyways).
   nix = {
-		settings = {
-			experimental-features = [ "nix-command" "flakes" ];
-			trusted-users = [ "${hostConfig.username}" ];
-		};
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [ "${hostConfig.username}" ];
+    };
 
-		gc = {
-			automatic = true;
-			persistent = true;
-			dates = "weekly";
-		};
-	};
+    gc = {
+      automatic = true;
+      persistent = true;
+      dates = "weekly";
+    };
+  };
 
   nixpkgs = {
     config = import ../utils/nix-config.nix;
@@ -23,7 +40,8 @@
     overlays = [
       nixGL.overlays.default
       rust-overlay.overlays.default
-    ] ++ import ../overlays;
+    ]
+    ++ import ../overlays;
   };
 
   # nix.settings.auto-optimise-store = true; # Slow AF
@@ -40,7 +58,7 @@
   boot = {
     loader.grub = {
       configurationLimit = 15;
-      theme = import ../derivations/distro-grub-themes.nix { inherit pkgs; };
+      theme = distro-grub-themes.packages.${system}.nixos-grub-theme;
     };
 
     kernelPackages = pkgs.linuxPackages_zen;
@@ -52,9 +70,9 @@
       # gasket
       # shufflecake
       v4l2loopback
-			systemtap
-			vendor-reset
-			# rtl8852au
+      systemtap
+      vendor-reset
+      # rtl8852au
     ];
 
     kernelParams = [
@@ -81,22 +99,42 @@
   networking = {
     networkmanager.enable = true;
     # wireless.enable = false;
-	
-		hosts = {
-			"192.168.0.219" = [ "server.idm.reboot-codes.com" ];
-		};
 
-		firewall.interfaces = {
-			"tailscale0" = {
-				allowedUDPPortRanges = [ { from = 0; to = 65535; } ];
-				allowedTCPPortRanges = [ { from = 0; to = 65535; } ];
-			};
-      
-			"ztt6jt6i65" = {
-				allowedUDPPortRanges = [ { from = 0; to = 65535; } ];
-				allowedTCPPortRanges = [ { from = 0; to = 65535; } ];
-			};
-		};
+    hosts = {
+      "192.168.0.219" = [ "server.idm.reboot-codes.com" ];
+    };
+
+    firewall.interfaces = {
+      "tailscale0" = {
+        allowedUDPPortRanges = [
+          {
+            from = 0;
+            to = 65535;
+          }
+        ];
+        allowedTCPPortRanges = [
+          {
+            from = 0;
+            to = 65535;
+          }
+        ];
+      };
+
+      "ztt6jt6i65" = {
+        allowedUDPPortRanges = [
+          {
+            from = 0;
+            to = 65535;
+          }
+        ];
+        allowedTCPPortRanges = [
+          {
+            from = 0;
+            to = 65535;
+          }
+        ];
+      };
+    };
   };
 
   security = {
@@ -104,7 +142,7 @@
     polkit.enable = true;
   };
 
-	hardware.flipperzero.enable = true;
+  hardware.flipperzero.enable = true;
 
   programs = {
     gnupg.agent = {
@@ -123,7 +161,7 @@
         nix-update = "CUSTOMZSHCONSOLEPREVWORKINGDIR=$(pwd) cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .# --impure -L --show-trace; cd $CUSTOMZSHCONSOLEPREVWORKINGDIR";
         nix-rebuild = "sudo nixos-rebuild switch --flake /etc/nixos/# --impure -L --show-trace";
         nix-config = "sudo nvim /etc/nixos/configuration.nix";
-        nix-clean = "nix-store --gc";
+        nix-clean = "sudo nix-collect-garbage -d; nix-store --gc";
         start-default-virtd-network = "sudo virsh net-start default";
         clear-qmlcache = "find $${XDG_CACHE_HOME:-$HOME/.cache}/**/qmlcache -type f -delete";
         ll = "eza -l --icons";
@@ -144,13 +182,13 @@
       };
     };
 
-		java = {
+    java = {
       enable = true;
       binfmt = true;
     };
 
-		nix-ld = {
-			enable = true;
+    nix-ld = {
+      enable = true;
       libraries = import ../utils/nix-ld.nix { inherit pkgs pkgs-stable lib; };
     };
 
@@ -160,19 +198,19 @@
   services = {
     openssh.enable = true;
     atd.enable = true;
-		envfs.enable = true;
+    envfs.enable = true;
 
     tailscale = {
       enable = true;
       useRoutingFeatures = "client";
     };
 
-		cron.enable = true;
+    cron.enable = true;
 
-		fcron = {
-			# enable = true;
-			allow = ["reboot"];
-		};
+    fcron = {
+      # enable = true;
+      allow = [ "reboot" ];
+    };
 
     tor = {
       enable = true;
@@ -189,19 +227,19 @@
       };
     };
 
-		avahi = {
-			enable = true;
-			openFirewall = true;
-			nssmdns4 = true;
-			nssmdns6 = true;
+    avahi = {
+      enable = true;
+      openFirewall = true;
+      nssmdns4 = true;
+      nssmdns6 = true;
 
-			publish = {
-				enable = true;
-				domain = true;
-				addresses = true;
-				workstation = true;
-			};
-		};
+      publish = {
+        enable = true;
+        domain = true;
+        addresses = true;
+        workstation = true;
+      };
+    };
 
     flatpak = {
       remotes = [
@@ -230,8 +268,8 @@
               "/home/reboot/.config/gtk-2.0/:ro"
               "/home/reboot/.config/gtk-3.0/:ro"
               "/home/reboot/.config/gtk-4.0/:ro"
-       	      "/home/reboot/.config/gtkrc:ro"
-       	      "/home/reboot/.config/gtkrc-2.0:ro"
+              "/home/reboot/.config/gtkrc:ro"
+              "/home/reboot/.config/gtkrc-2.0:ro"
             ];
 
             # sockets = ["wayland" "!x11" "fallback-x11"];
@@ -243,7 +281,7 @@
         };
 
         "org.signal.Signal".Environment = {
-          ELECTRON_OZONE_PLATFORM_HINT="auto";
+          ELECTRON_OZONE_PLATFORM_HINT = "auto";
         };
       };
 
@@ -272,15 +310,15 @@
         "adbuser"
         "docker"
         "libvirtd"
-				"libvirt"
+        "libvirt"
         "kvm"
         "adbusers"
         "xrdp"
         "gamemode"
         "video"
         config.services.kubo.group
-				"vboxusers"
-				"dialout"
+        "vboxusers"
+        "dialout"
       ];
     };
   };
@@ -288,17 +326,20 @@
   fonts.fontDir.enable = true;
 
   environment = {
-		sessionVariables = {
-			# TL;DR: all of our QT shit uses wayland. or... should, anyways, so this is global, and makes theming work.
-			QT_QPA_PLATFORM = "wayland";
-		};
+    sessionVariables = {
+      # TL;DR: all of our QT shit uses wayland. or... should, anyways, so this is global, and makes theming work.
+      QT_QPA_PLATFORM = "wayland";
+    };
 
     # Install Soundfonts TODO: only Fluid copies over... might wanna fix that soon.
     etc = {
-      "/soundfonts/FluidR3_GM2-2.sf2".source = "${pkgs.soundfont-fluid}/share/soundfonts/FluidR3_GM2-2.sf2";
+      "/soundfonts/FluidR3_GM2-2.sf2".source =
+        "${pkgs.soundfont-fluid}/share/soundfonts/FluidR3_GM2-2.sf2";
       "/share/soundfonts/arachno.sf2".source = "${pkgs.soundfont-arachno}/share/soundfonts/arachno.sf2";
-      "/share/soundfonts/GeneralUser-GS.sf2".source = "${pkgs.soundfont-generaluser}/share/soundfonts/GeneralUser-GS.sf2";
-      "/share/soundfonts/YDP-GrandPiano.sf2".source = "${pkgs.soundfont-ydp-grand}/share/soundfonts/YDP-GrandPiano.sf2";
+      "/share/soundfonts/GeneralUser-GS.sf2".source =
+        "${pkgs.soundfont-generaluser}/share/soundfonts/GeneralUser-GS.sf2";
+      "/share/soundfonts/YDP-GrandPiano.sf2".source =
+        "${pkgs.soundfont-ydp-grand}/share/soundfonts/YDP-GrandPiano.sf2";
     };
 
     shellInit = ''

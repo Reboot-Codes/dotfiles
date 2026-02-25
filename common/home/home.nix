@@ -36,7 +36,7 @@
       defaultEditor = true;
       vimAlias = true;
       viAlias = true;
-      extraLuaConfig = builtins.readFile ./dotfiles/init.lua;
+      initLua = builtins.readFile ./dotfiles/init.lua;
 
 			plugins = with pkgs.vimPlugins; [
         catppuccin-nvim

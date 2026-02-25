@@ -306,7 +306,6 @@ in {
       defaultEditor = true;
     };
 
-    adb.enable = true;
     virt-manager.enable = true;
     nbd.enable = true;
     xwayland.enable = true;
@@ -415,7 +414,7 @@ in {
       ];
 
 			extraRules = ''
-				SUBSYSTEM=="kvmfr", OWNER="reboot", GROUP="kvm", MODE="0660"
+				SUBSYSTEM=="kvmfr", MODE="0660", GROUP="kvm"
 				SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
 			'';
     };

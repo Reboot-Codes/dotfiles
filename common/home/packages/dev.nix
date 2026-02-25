@@ -35,7 +35,6 @@
     arduino
     arduino-ide
     screen
-    minipro
     pandoc
     qemu
     wimlib

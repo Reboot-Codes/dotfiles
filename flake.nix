@@ -6,13 +6,13 @@
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://pwndbg.cachix.org"
-			"http://custom-odin-nixos.tail90c5.ts.net:5000"
+      "http://custom-odin-nixos.tail90c5.ts.net:5000"
     ];
 
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "pwndbg.cachix.org-1:HhtIpP7j73SnuzLgobqqa8LVTng5Qi36sQtNt79cD3k="
-			"custom-odin-nixos.tail90c5.ts.net:4HayvfsG++iTVCjRk4OtrrKwvLJhwFpKE84RrKOCej4="
+      "custom-odin-nixos.tail90c5.ts.net:4HayvfsG++iTVCjRk4OtrrKwvLJhwFpKE84RrKOCej4="
     ];
   };
 
@@ -32,7 +32,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nur.url = github:nix-community/NUR;
+    nur.url = "github:nix-community/NUR";
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     aagl = {
@@ -55,22 +55,70 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-		nix-index-database = {
-			url = "github:nix-community/nix-index-database";
-			inputs.nixpkgs.follows = "nixpkgs";
-		};
-
-		nixpkgs-xr.url = "github:nix-community/nixpkgs-xr";
-  };
-
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, disko, pwndbg, nix-index-database, nixpkgs-xr }: {
-    nixosConfigurations = import ./nixos {
-      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL disko pwndbg nix-index-database nixpkgs-xr;
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # For *nix systems that are not NixOS or macOS
-    homeConfigurations = import ./home-manager.nix {
-      inherit nixpkgs nixpkgs-stable home-manager flatpaks rust-overlay nur chaotic aagl nixGL pwndbg nix-index-database nixpkgs-xr;
-    };
+    nixpkgs-xr.url = "github:nix-community/nixpkgs-xr";
+
+    distro-grub-themes.url = "github:AdisonCavani/distro-grub-themes";
   };
+
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      home-manager,
+      flatpaks,
+      rust-overlay,
+      nur,
+      chaotic,
+      aagl,
+      nixGL,
+      disko,
+      pwndbg,
+      nix-index-database,
+      nixpkgs-xr,
+      distro-grub-themes,
+    }:
+    {
+      nixosConfigurations = import ./nixos {
+        inherit
+          nixpkgs
+          nixpkgs-stable
+          home-manager
+          flatpaks
+          rust-overlay
+          nur
+          chaotic
+          aagl
+          nixGL
+          disko
+          pwndbg
+          nix-index-database
+          nixpkgs-xr
+          distro-grub-themes
+          ;
+      };
+
+      # For *nix systems that are not NixOS or macOS
+      homeConfigurations = import ./home-manager.nix {
+        inherit
+          nixpkgs
+          nixpkgs-stable
+          home-manager
+          flatpaks
+          rust-overlay
+          nur
+          chaotic
+          aagl
+          nixGL
+          pwndbg
+          nix-index-database
+          nixpkgs-xr
+          ;
+      };
+    };
 }

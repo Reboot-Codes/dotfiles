@@ -17,7 +17,6 @@
     kdiskmark
     impression
     czkawka-full
-    minipro
     minicom
     kitty
     kitty-img
@@ -29,6 +28,7 @@
 	stable = with pkgs-stable; [
     idevicerestore
 		rar
+		minipro
 	];
 in {
   packages = unstable ++ stable;

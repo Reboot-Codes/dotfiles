@@ -9,7 +9,7 @@
     gearlever
     simh
 		kdePackages.kdialog
-		wineWowPackages.waylandFull
+		wineWow64Packages.waylandFull
 		winetricks
 		protontricks
 		basiliskii

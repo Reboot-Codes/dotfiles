@@ -21,6 +21,8 @@
 		kdePackages.kdeconnect-kde
 		python313Packages.meshtastic
 		rymdport
+		magic-wormhole
+		peco
   ];
 in {
   packages = unstable;

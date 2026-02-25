@@ -12,6 +12,7 @@
   pwndbg,
   nix-index-database,
   nixpkgs-xr,
+  distro-grub-themes,
   ...
 }:
 let
@@ -68,6 +69,7 @@ in
         pwndbg
         nix-index-database
         nixpkgs-xr
+        distro-grub-themes
         ;
     };
 

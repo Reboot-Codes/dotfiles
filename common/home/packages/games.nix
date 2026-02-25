@@ -1,11 +1,17 @@
-{ pkgs, pkgs-stable, nixpkgs-xr, ... }: let
+{
+  pkgs,
+  pkgs-stable,
+  nixpkgs-xr,
+  ...
+}:
+let
   unstable = with pkgs; [
     # Games (see stable)
-		itch
+    itch
     prismlauncher
     steamcmd
     steam-run
-		ryubing
+    ryubing
     dolphin-emu
     rpcs3
     ps3-disc-dumper
@@ -14,12 +20,11 @@
     xemu
     the-powder-toy
     gzdoom
-		qzdl
+    qzdl
     r2modman
-		# gale
     ruffle
-		steamtinkerlaunch
-		sidequest
+    steamtinkerlaunch
+    sidequest
 
     (lutris.override {
       extraLibraries = pkgs: [
@@ -28,7 +33,7 @@
       ];
 
       extraPkgs = pkgs: [
-        wineWowPackages.waylandFull
+        wineWow64Packages.waylandFull
       ];
     })
 
@@ -41,10 +46,8 @@
     superTuxKart
     # gargoyle
     # colobot
-    rrootage
-    # lime3ds
-		# duckstation
-		shadps4
+    azahar
+    shadps4
   ];
 
   stable = with pkgs-stable; [
@@ -53,13 +56,19 @@
     openrct2
     # itchiodl
     openttd
+    duckstation
+    rrootage
   ];
 
-	xr = let
-    pkgs-xr = nixpkgs-xr.packages."${pkgs.stdenv.hostPlatform.system}";
-  in with pkgs-xr; [
-		wayvr-dashboard
-  ];
-in {
+  xr =
+    let
+      pkgs-xr = nixpkgs-xr.packages."${pkgs.stdenv.hostPlatform.system}";
+    in
+    with pkgs-xr;
+    [
+      wayvr
+    ];
+in
+{
   packages = unstable ++ stable ++ xr;
 }

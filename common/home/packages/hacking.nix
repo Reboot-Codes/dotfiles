@@ -9,7 +9,6 @@
     veracrypt
     gephi
     xxd
-    hexcurse
     sleuthkit
     exiftool
     samba4
@@ -26,6 +25,7 @@
 		john
 		hashcat-utils
 		hashcat
+		hashid
 		metasploit
 		exploitdb
 		sqlmap
@@ -43,6 +43,7 @@
 
 	stable = with pkgs-stable; [
     (lib.hiPrio autopsy)
+		hexcurse
 		smbmap
 		kerbrute
 		bloodhound

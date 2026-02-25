@@ -34,8 +34,8 @@
     gnome-obfuscate
     curtail
     xournalpp
-		wlx-overlay-s
 		logseq
+		lmstudio
 
     # Translation
     # whisper-ctranslate2

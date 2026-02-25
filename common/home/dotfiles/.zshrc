@@ -74,7 +74,7 @@ if command -v wget &> /dev/null; then
 fi
 
 if command -v nix-store &> /dev/null; then
-  alias nix-clean="nix-store --gc"
+  alias nix-clean="sudo nix-collect-garbage -d; nix-store --gc"
 fi
 
 if [ "$SSH_CLIENT" ]; then
