@@ -143,10 +143,10 @@ in {
       # Open ports in the firewall.
       allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
       allowedUDPPortRanges = [ { from = 47998; to = 48010; } ];
-      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 4001 config.services.nix-serve.port ];
+      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 4001 config.services.nix-serve.port 45868 ];
       allowedUDPPorts = [ 3389 4455 4444 50001 5567 1701 9001 4001 ];
 
-      enable = false; # Or disable the firewall altogether.~~
+      enable = true; # Or disable the firewall altogether.~~
     };
   };
 
@@ -524,8 +524,12 @@ in {
     };
 
 		i2pd = {
-			enable = false;
+			enable = true;
 		};
+
+    yggdrasil = {
+      enable = true;
+    };
   };
 
   environment = {
