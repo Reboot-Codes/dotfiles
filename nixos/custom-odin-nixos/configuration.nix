@@ -2,24 +2,32 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, pkgs-stable, lib, ... }: let
+{
+  config,
+  pkgs,
+  pkgs-stable,
+  lib,
+  ...
+}:
+let
   # TODO: Check if this exists and is the right display.
   virtualDisplayId = "HDMI-A-1";
 
-	vfio-pci-ids = [
+  vfio-pci-ids = [
     # RTX 2060
-		"10de:1f08"
-		"10de:10f9"
-		"10de:1ada"
-		"10de:1adb"
+    "10de:1f08"
+    "10de:10f9"
+    "10de:1ada"
+    "10de:1adb"
 
     # Mobo's WI-FI 7 (we don't use this, but VIFO dies if all of the devices aren't sent to the driver)
     #"17cb:1107"
 
     # USB Card
     #"1b73:1100"
-	];
-in {
+  ];
+in
+{
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
@@ -49,50 +57,64 @@ in {
 
     # https://wiki.nixos.org/wiki/OSX-KVM
     extraModprobeConfig = ''
-      options kvm_amd nested=1
-      options kvm_amd emulate_invalid_guest_state=0
-      options kvm ignore_msrs=1
-      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-      blacklist nouveau
-      options nouveau modeset=0
-			options kvmfr static_size_mb=64
+            options kvm_amd nested=1
+            options kvm_amd emulate_invalid_guest_state=0
+            options kvm ignore_msrs=1
+            options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+            blacklist nouveau
+            options nouveau modeset=0
+      			options kvmfr static_size_mb=64
     '';
 
     kernelParams = [
       "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
       # "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
-			("vfio-pci.ids=" + lib.concatStringsSep "," vfio-pci-ids)
+      ("vfio-pci.ids=" + lib.concatStringsSep "," vfio-pci-ids)
     ];
 
-    kernelModules = [ "kvm-amd" "kvmfr" "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
-		blacklistedKernelModules = [ "nouveau" "nvidia" "nvidia_drm" "nvidia_uvm" "nvidia_modeset" "i2c_nvidia_gpu" ];
+    kernelModules = [
+      "kvm-amd"
+      "kvmfr"
+      "vfio"
+      "vfio_iommu_type1"
+      "vfio_pci"
+      "vfio_virqfd"
+    ];
+    blacklistedKernelModules = [
+      "nouveau"
+      "nvidia"
+      "nvidia_drm"
+      "nvidia_uvm"
+      "nvidia_modeset"
+      "i2c_nvidia_gpu"
+    ];
 
-		binfmt = {
-			emulatedSystems = [
-				"armv6l-linux"
-				"armv7l-linux"
-				"aarch64-linux"
-				"aarch64_be-linux"
-				"alpha-linux"
-				"sparc64-linux"
-				"sparc-linux"
-				"powerpc-linux"
-				"powerpc64-linux"
-				"powerpc64le-linux"
-				"mips-linux"
-				"mipsel-linux"
-				"mips64-linux"
-				"mips64el-linux"
-				"mips64-linuxabin32"
-				"mips64el-linuxabin32"
-				"riscv32-linux"
-				"riscv64-linux"
-				"loongarch64-linux"
-				"wasm32-wasi"
-				"wasm64-wasi"
-				"s390x-linux"
-			];
-		};
+    binfmt = {
+      emulatedSystems = [
+        "armv6l-linux"
+        "armv7l-linux"
+        "aarch64-linux"
+        "aarch64_be-linux"
+        "alpha-linux"
+        "sparc64-linux"
+        "sparc-linux"
+        "powerpc-linux"
+        "powerpc64-linux"
+        "powerpc64le-linux"
+        "mips-linux"
+        "mipsel-linux"
+        "mips64-linux"
+        "mips64el-linux"
+        "mips64-linuxabin32"
+        "mips64el-linuxabin32"
+        "riscv32-linux"
+        "riscv64-linux"
+        "loongarch64-linux"
+        "wasm32-wasi"
+        "wasm64-wasi"
+        "s390x-linux"
+      ];
+    };
   };
 
   powerManagement.enable = true;
@@ -107,8 +129,8 @@ in {
 
       extraPackages = with pkgs; [
         mesa
-				mesa.opencl
-				intel-compute-runtime
+        mesa.opencl
+        intel-compute-runtime
       ];
     };
 
@@ -141,10 +163,41 @@ in {
   networking = {
     firewall = {
       # Open ports in the firewall.
-      allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
-      allowedUDPPortRanges = [ { from = 47998; to = 48010; } ];
-      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 4001 config.services.nix-serve.port 45868 ];
-      allowedUDPPorts = [ 3389 4455 4444 50001 5567 1701 9001 4001 ];
+      allowedTCPPortRanges = [
+        {
+          from = 47984;
+          to = 48010;
+        }
+      ];
+      allowedUDPPortRanges = [
+        {
+          from = 47998;
+          to = 48010;
+        }
+      ];
+      allowedTCPPorts = [
+        3389
+        4455
+        3333
+        4444
+        50001
+        5567
+        1701
+        9001
+        4001
+        config.services.nix-serve.port
+        45868
+      ];
+      allowedUDPPorts = [
+        3389
+        4455
+        4444
+        50001
+        5567
+        1701
+        9001
+        4001
+      ];
 
       enable = true; # Or disable the firewall altogether.~~
     };
@@ -157,8 +210,8 @@ in {
     # For hibernation
     protectKernelImage = false;
 
-		# https://discourse.nixos.org/t/distrobox-selinux-oci-permission-error/64943/15 ; TL;DR: distrobox mounted the empty SELinux directory when my containers were created, and the SELinux module isn't ready yet, so this is a temp fix due to this pull existing: https://github.com/NixOS/nixpkgs/pull/407748
-		lsm = lib.mkForce [ ];
+    # https://discourse.nixos.org/t/distrobox-selinux-oci-permission-error/64943/15 ; TL;DR: distrobox mounted the empty SELinux directory when my containers were created, and the SELinux module isn't ready yet, so this is a temp fix due to this pull existing: https://github.com/NixOS/nixpkgs/pull/407748
+    lsm = lib.mkForce [ ];
   };
 
   fonts.packages = with pkgs; [
@@ -166,76 +219,76 @@ in {
     roboto
     roboto-serif
     corefonts # the msft ones, seems to not load.
-		noto-fonts-cjk-sans
-		noto-fonts-cjk-serif
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
   ];
 
   systemd = {
-		tmpfiles.rules = [
-			"f /srv/win11/pipewire-0 700 reboot reboot - -"
-		];
+    tmpfiles.rules = [
+      "f /srv/win11/pipewire-0 700 reboot reboot - -"
+    ];
 
-		timers = {
-			dl-music = {
-				wantedBy = [ "user@1000.service" ];
-				
-				timerConfig = {
-					OnUnitActiveSec = "1w";
-					Unit = "dl-music.service";
-				};
-			};
+    timers = {
+      dl-music = {
+        wantedBy = [ "user@1000.service" ];
 
-			nix-clean = {
-				wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnUnitActiveSec = "1w";
+          Unit = "dl-music.service";
+        };
+      };
 
-				timerConfig = {
-					OnUnitActiveSec = "1w";
-					Unit = "nix-clean.service";
-				};
-			};
-		};
+      nix-clean = {
+        wantedBy = [ "timers.target" ];
 
-		services = {
-			syncthing = {
-				description = "Run Syncthing";
-				serviceConfig = {
-					ExecStart = "${pkgs.syncthing}/bin/syncthing";
-					User = "reboot";
-				};
-			};
+        timerConfig = {
+          OnUnitActiveSec = "1w";
+          Unit = "nix-clean.service";
+        };
+      };
+    };
 
-			dl-music = {
-				script = ''
-					set -eu
-					${pkgs.zsh}/bin/zsh -c "/home/reboot/Music/YT/download.sh"
-				'';
+    services = {
+      syncthing = {
+        description = "Run Syncthing";
+        serviceConfig = {
+          ExecStart = "${pkgs.syncthing}/bin/syncthing";
+          User = "reboot";
+        };
+      };
 
-				serviceConfig = {
-					Type = "oneshot";
-					User = "reboot";
-				};
-			};
+      dl-music = {
+        script = ''
+          					set -eu
+          					${pkgs.zsh}/bin/zsh -c "/home/reboot/Music/YT/download.sh"
+          				'';
 
-			nix-clean = {
-				script = ''
-					${pkgs.nix}/bin/nix-store --gc
-				'';
+        serviceConfig = {
+          Type = "oneshot";
+          User = "reboot";
+        };
+      };
 
-				serviceConfig = {
-					Type = "oneshot";
-					User = "root";
-				};
-			};
+      nix-clean = {
+        script = ''
+          					${pkgs.nix}/bin/nix-store --gc
+          				'';
 
-			libvirtd.path = with pkgs; [
-				bash
-				coreutils
-				pciutils # For lspci
-				kmod # For modprobe
-				systemd
-			];
-		};
-	};
+        serviceConfig = {
+          Type = "oneshot";
+          User = "root";
+        };
+      };
+
+      libvirtd.path = with pkgs; [
+        bash
+        coreutils
+        pciutils # For lspci
+        kmod # For modprobe
+        systemd
+      ];
+    };
+  };
 
   virtualisation = {
     # Note, make sure to tell waydroid to use an AMD GPU (discrete or internal) with: https://github.com/Quackdoc/waydroid-scripts/blob/main/waydroid-choose-gpu.sh
@@ -257,8 +310,8 @@ in {
       enable = true;
 
       qemu = {
-				# Fucking.... ceph... also. so sorry y'all at nixpkgs, noob momence go brr.
-				package = pkgs-stable.qemu;
+        # Fucking.... ceph... also. so sorry y'all at nixpkgs, noob momence go brr.
+        package = pkgs-stable.qemu;
 
         swtpm.enable = true;
 
@@ -270,17 +323,17 @@ in {
         #  }).fd];
         #};
 
-				verbatimConfig = ''
-					user = "reboot"
+        verbatimConfig = ''
+          					user = "reboot"
 
-					cgroup_device_acl = [
-				    "/dev/null", "/dev/full", "/dev/zero",
-				    "/dev/random", "/dev/urandom",
-				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
-				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
-						"/dev/kvmfr0", "/run/user/1000/pipewire-0"
-					]
-				'';
+          					cgroup_device_acl = [
+          				    "/dev/null", "/dev/full", "/dev/zero",
+          				    "/dev/random", "/dev/urandom",
+          				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+          				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+          						"/dev/kvmfr0", "/run/user/1000/pipewire-0"
+          					]
+          				'';
       };
     };
 
@@ -326,13 +379,13 @@ in {
     gamemode.enable = true;
     dconf.enable = true;
 
-		java = {
-			binfmt = true;
-			enable = true;
-		};
+    java = {
+      binfmt = true;
+      enable = true;
+    };
 
     alvr = {
-			package = pkgs-stable.alvr;
+      package = pkgs-stable.alvr;
       enable = true;
       openFirewall = true;
     };
@@ -357,7 +410,10 @@ in {
       };
 
       hyprland = {
-        default = [ "hyprland" "gtk" ];
+        default = [
+          "hyprland"
+          "gtk"
+        ];
         "org.freedesktop.impl.portal.FileChooser" = "kde";
       };
     };
@@ -383,10 +439,10 @@ in {
       openFirewall = true;
     };
 
-		nix-serve = {
-			enable = true;
-			secretKeyFile = "/var/secrets/cache-private-key.pem";
-		};
+    nix-serve = {
+      enable = true;
+      secretKeyFile = "/var/secrets/cache-private-key.pem";
+    };
 
     zerotierone = {
       enable = true;
@@ -413,10 +469,10 @@ in {
         qmk-udev-rules
       ];
 
-			extraRules = ''
-				SUBSYSTEM=="kvmfr", MODE="0660", GROUP="kvm"
-				SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
-			'';
+      extraRules = ''
+        				SUBSYSTEM=="kvmfr", MODE="0660", GROUP="kvm"
+        				SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
+        			'';
     };
 
     ratbagd.enable = true;
@@ -523,9 +579,9 @@ in {
       ];
     };
 
-		i2pd = {
-			enable = true;
-		};
+    i2pd = {
+      enable = true;
+    };
 
     yggdrasil = {
       enable = true;
@@ -533,154 +589,158 @@ in {
   };
 
   environment = {
-    sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
-		
-		variables = {
-			RUSTICL_ENABLE = "radeonsi";
-		};
+    sessionVariables = {
+      LIBVA_DRIVER_NAME = "iHD";
+    };
 
-    systemPackages = (with pkgs; [
-      # Utils
-      cryptsetup
-      vim
-      neovim
-      busybox
-      wget
-      file
-      xxd
-      unzip
-      zip
-      progress
-      tldr
-      eza
-      fastfetch
-      btop
-      htop
-      at
-      tmux
-      starship
-      fortune
-      lolcat
-      screen
-      git
-      signify
-      cachix
-      solaar
-      arrpc
+    variables = {
+      RUSTICL_ENABLE = "radeonsi";
+    };
 
-      # Shells
-      zsh
-      bash
+    systemPackages =
+      (with pkgs; [
+        # Utils
+        cryptsetup
+        vim
+        neovim
+        busybox
+        wget
+        file
+        xxd
+        unzip
+        zip
+        progress
+        tldr
+        eza
+        fastfetch
+        btop
+        htop
+        at
+        tmux
+        starship
+        fortune
+        lolcat
+        screen
+        git
+        signify
+        cachix
+        solaar
+        arrpc
 
-      # System
-      man-pages
-      glibcInfo
-      stdmanpages
-      c-intro-and-ref
-      tkman
-      wikiman
-      stdman
-      texinfo
-      nixpkgs-manual
-      wl-clipboard
-      gnupg
-      libnotify
-      appimage-run
-      xorg.xhost
-      glfw
-      freetype
-      vulkan-headers
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-tools        # vulkaninfo
-      alsa-utils
-      fluidsynth
-      soundfont-fluid
-      soundfont-arachno
-      soundfont-ydp-grand
-      soundfont-generaluser
-      x42-gmsynth
-      direnv
+        # Shells
+        zsh
+        bash
 
-      # Hardware
-      pciutils
-      dmidecode
-      usbutils
-      libva-utils
-      pmutils
-      refind
-      efibootmgr
-      smartmontools
-      mesa-demos
-			piper
-      openrgb-with-all-plugins
+        # System
+        man-pages
+        glibcInfo
+        stdmanpages
+        c-intro-and-ref
+        tkman
+        wikiman
+        stdman
+        texinfo
+        nixpkgs-manual
+        wl-clipboard
+        gnupg
+        libnotify
+        appimage-run
+        xhost
+        glfw
+        freetype
+        vulkan-headers
+        vulkan-loader
+        vulkan-validation-layers
+        vulkan-tools # vulkaninfo
+        alsa-utils
+        fluidsynth
+        soundfont-fluid
+        soundfont-arachno
+        soundfont-ydp-grand
+        soundfont-generaluser
+        x42-gmsynth
+        direnv
 
-      # Network
-      nmap
-      socat
-      openssl
-      speedtest-cli
+        # Hardware
+        pciutils
+        dmidecode
+        usbutils
+        libva-utils
+        pmutils
+        refind
+        efibootmgr
+        smartmontools
+        mesa-demos
+        piper
+        openrgb-with-all-plugins
 
-      # FS Manipulation
-      btrfs-progs
-      btrbk
-      fuzzel
-      sshfs
-      exfat
-      ntfs3g
-      mtpfs
-      libimobiledevice
-      ifuse
+        # Network
+        nmap
+        socat
+        openssl
+        speedtest-cli
 
-      # Python
-      # python3Full
-      pipx
+        # FS Manipulation
+        btrfs-progs
+        btrbk
+        fuzzel
+        sshfs
+        exfat
+        ntfs3g
+        mtpfs
+        libimobiledevice
+        ifuse
 
-      # Global Apps
-      firefox
-      links2
-      alacritty
-      qpwgraph
+        # Python
+        # python3Full
+        pipx
 
-      # media manipulation
-      mpv
-      imagemagickBig
-      ffmpeg
+        # Global Apps
+        firefox
+        links2
+        alacritty
+        qpwgraph
 
-      # Services
-      sunshine
-      zerotierone
-      syncthing
-      nicotine-plus
+        # media manipulation
+        mpv
+        imagemagickBig
+        ffmpeg
 
-      # Alt DE
-      waybar
-      wofi
-      wpaperd
-      hyprlock
-      hyprcursor
-      hypridle
-      dunst
-      kitty
-      kitty-img
-      kitty-themes
+        # Services
+        sunshine
+        zerotierone
+        syncthing
+        nicotine-plus
 
-      # QT
-      kdePackages.qt6ct
-      kdePackages.breeze
-      libsForQt5.qt5ct
-      kdePackages.breeze-gtk
-			kdePackages.kdialog
+        # Alt DE
+        waybar
+        wofi
+        wpaperd
+        hyprlock
+        hyprcursor
+        hypridle
+        dunst
+        kitty
+        kitty-img
+        kitty-themes
 
-      # VMs and Containers
-      dive
-      podman-tui
-      docker-compose
-      podman-compose
-      virtiofsd
-      appvm
-    ]) ++ (with pkgs-stable; [
-			qemu_full
-		]);
+        # QT
+        kdePackages.qt6ct
+        kdePackages.breeze
+        libsForQt5.qt5ct
+        kdePackages.breeze-gtk
+        kdePackages.kdialog
+
+        # VMs and Containers
+        dive
+        podman-tui
+        docker-compose
+        podman-compose
+        virtiofsd
+        appvm
+      ])
+      ++ (with pkgs-stable; [
+        qemu_full
+      ]);
   };
 }

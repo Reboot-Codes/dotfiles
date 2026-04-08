@@ -2,7 +2,8 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ pkgs, pkgs-stable, ... }: {
+{ pkgs, pkgs-stable, ... }:
+{
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
@@ -67,10 +68,39 @@
   networking = {
     firewall = {
       # Open ports in the firewall.
-      allowedTCPPortRanges = [ { from = 47984; to = 48010; } ];
-      allowedUDPPortRanges = [ { from = 47998; to = 48010; } ];
-      allowedTCPPorts = [ 3389 4455 3333 4444 50001 5567 1701 9001 4001 ];
-      allowedUDPPorts = [ 3389 4455 4444 50001 5567 1701 9001 4001 ];
+      allowedTCPPortRanges = [
+        {
+          from = 47984;
+          to = 48010;
+        }
+      ];
+      allowedUDPPortRanges = [
+        {
+          from = 47998;
+          to = 48010;
+        }
+      ];
+      allowedTCPPorts = [
+        3389
+        4455
+        3333
+        4444
+        50001
+        5567
+        1701
+        9001
+        4001
+      ];
+      allowedUDPPorts = [
+        3389
+        4455
+        4444
+        50001
+        5567
+        1701
+        9001
+        4001
+      ];
 
       enable = false; # Or disable the firewall altogether.~~
     };
@@ -96,8 +126,8 @@
     roboto
     roboto-serif
     corefonts # the msft ones, seems to not load.
-		noto-fonts-cjk-sans
-		noto-fonts-cjk-serif
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
   ];
 
   systemd.services = {
@@ -129,7 +159,7 @@
       enable = true;
 
       qemu = {
-				package = pkgs-stable.qemu;
+        package = pkgs-stable.qemu;
         swtpm.enable = true;
         ovmf.enable = true;
       };
@@ -193,7 +223,10 @@
       };
 
       hyprland = {
-        default = [ "hyprland" "gtk" ];
+        default = [
+          "hyprland"
+          "gtk"
+        ];
         "org.freedesktop.impl.portal.FileChooser" = "kde";
       };
     };
@@ -278,12 +311,12 @@
       enable = true;
 
       displayManager.lightdm = {
-				greeter.enable = true;
+        greeter.enable = true;
 
-				greeters.gtk = {
-					enable = true;
-				};
-			};
+        greeters.gtk = {
+          enable = true;
+        };
+      };
 
       xkb = {
         layout = "us";
@@ -326,148 +359,153 @@
   };
 
   environment = {
-    sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+    sessionVariables = {
+      LIBVA_DRIVER_NAME = "iHD";
+    };
 
-    systemPackages = (with pkgs; [
-      # Utils
-      cryptsetup
-      vim
-      neovim
-      busybox
-      wget
-      file
-      xxd
-      unzip
-      zip
-      progress
-      tldr
-      eza
-      fastfetch
-      btop
-      htop
-      at
-      tmux
-      starship
-      fortune
-      lolcat
-      screen
-      git
-      signify
-      cachix
-      solaar
-      arrpc
+    systemPackages = (
+      with pkgs;
+      [
+        # Utils
+        cryptsetup
+        vim
+        neovim
+        busybox
+        wget
+        file
+        xxd
+        unzip
+        zip
+        progress
+        tldr
+        eza
+        fastfetch
+        btop
+        htop
+        at
+        tmux
+        starship
+        fortune
+        lolcat
+        screen
+        git
+        signify
+        cachix
+        solaar
+        arrpc
 
-      # Shells
-      zsh
-      bash
+        # Shells
+        zsh
+        bash
 
-      # System
-      man-pages
-      glibcInfo
-      stdmanpages
-      c-intro-and-ref
-      tkman
-      wikiman
-      stdman
-      texinfo
-      nixpkgs-manual
-      wl-clipboard
-      gnupg
-      libnotify
-      appimage-run
-      xorg.xhost
-      glfw
-      freetype
-      vulkan-headers
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-tools        # vulkaninfo
-      alsa-utils
-      fluidsynth
-      soundfont-fluid
-      soundfont-arachno
-      soundfont-ydp-grand
-      soundfont-generaluser
-      x42-gmsynth
-      direnv
+        # System
+        man-pages
+        glibcInfo
+        stdmanpages
+        c-intro-and-ref
+        tkman
+        wikiman
+        stdman
+        texinfo
+        nixpkgs-manual
+        wl-clipboard
+        gnupg
+        libnotify
+        appimage-run
+        xhost
+        glfw
+        freetype
+        vulkan-headers
+        vulkan-loader
+        vulkan-validation-layers
+        vulkan-tools # vulkaninfo
+        alsa-utils
+        fluidsynth
+        soundfont-fluid
+        soundfont-arachno
+        soundfont-ydp-grand
+        soundfont-generaluser
+        x42-gmsynth
+        direnv
 
-      # Hardware
-      pciutils
-      dmidecode
-      usbutils
-      libva-utils
-      pmutils
-      refind
-      efibootmgr
-      smartmontools
-      mesa-demos
-      piper
-      openrgb-with-all-plugins
+        # Hardware
+        pciutils
+        dmidecode
+        usbutils
+        libva-utils
+        pmutils
+        refind
+        efibootmgr
+        smartmontools
+        mesa-demos
+        piper
+        openrgb-with-all-plugins
 
-      # Network
-      nmap
-      socat
-      openssl
-      speedtest-cli
+        # Network
+        nmap
+        socat
+        openssl
+        speedtest-cli
 
-      # FS Manipulation
-      btrfs-progs
-      btrbk
-      fuzzel
-      sshfs
-      exfat
-      ntfs3g
-      mtpfs
-      libimobiledevice
-      ifuse
+        # FS Manipulation
+        btrfs-progs
+        btrbk
+        fuzzel
+        sshfs
+        exfat
+        ntfs3g
+        mtpfs
+        libimobiledevice
+        ifuse
 
-      # Python
-      # python3Full
-      pipx
+        # Python
+        # python3Full
+        pipx
 
-      # Global Apps
-      firefox
-      links2
-      alacritty
-      qpwgraph
+        # Global Apps
+        firefox
+        links2
+        alacritty
+        qpwgraph
 
-      # media manipulation
-      mpv
-      imagemagickBig
-      ffmpeg
+        # media manipulation
+        mpv
+        imagemagickBig
+        ffmpeg
 
-      # Services
-      sunshine
-      zerotierone
-      syncthing
-      nicotine-plus
+        # Services
+        sunshine
+        zerotierone
+        syncthing
+        nicotine-plus
 
-      # Alt DE
-      waybar
-      wofi
-      wpaperd
-      hyprlock
-      hyprcursor
-      hypridle
-      dunst
-      kitty
-      kitty-img
-      kitty-themes
+        # Alt DE
+        waybar
+        wofi
+        wpaperd
+        hyprlock
+        hyprcursor
+        hypridle
+        dunst
+        kitty
+        kitty-img
+        kitty-themes
 
-      # QT
-      kdePackages.qt6ct
-      kdePackages.breeze
-      libsForQt5.qt5ct
-      kdePackages.breeze-gtk
-			kdePackages.kdialog
+        # QT
+        kdePackages.qt6ct
+        kdePackages.breeze
+        libsForQt5.qt5ct
+        kdePackages.breeze-gtk
+        kdePackages.kdialog
 
-      # VMs and Containers
-      dive
-      podman-tui
-      docker-compose
-      podman-compose
-      virtiofsd
-      appvm
-    ]);
+        # VMs and Containers
+        dive
+        podman-tui
+        docker-compose
+        podman-compose
+        virtiofsd
+        appvm
+      ]
+    );
   };
 }

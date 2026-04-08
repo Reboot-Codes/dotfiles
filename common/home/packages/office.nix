@@ -11,7 +11,7 @@
     zotero
     obsidian
     emacs-gtk
-    organicmaps
+		comaps
     asciidoc-full-with-plugins
     diamond
     kdePackages.kclock

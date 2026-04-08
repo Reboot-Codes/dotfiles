@@ -1,15 +1,16 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, ... }:
+let
   unstable = with pkgs; [
     # A/V/I (check stable)
     kdePackages.kdenlive
-		glaxnimate
+    glaxnimate
     audacity
     polyphone
     qsynth
     krita
     libresprite
     vlc
-		openutau
+    openutau
     obs-cli
     vital
     handbrake
@@ -20,6 +21,7 @@
     # cubicsdr
     amarok
     strawberry
+    tauon
     kdePackages.elisa
     drawpile
     blender
@@ -46,9 +48,9 @@
     polyphone
     # mandelbulber
   ];
-	
-	stable = with pkgs-stable; [
-		(pkgs.wrapOBS {
+
+  stable = with pkgs-stable; [
+    (pkgs.wrapOBS {
       plugins = with pkgs.obs-studio-plugins; [
         wlrobs
         obs-backgroundremoval
@@ -79,12 +81,12 @@
       ];
     })
 
-
     sdrpp
     gqrx
-		lmms
-		carla
-	];
-in {
+    lmms
+    carla
+  ];
+in
+{
   packages = unstable ++ stable;
 }

@@ -2,7 +2,14 @@
 # your system. Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, pkgs-stable, lib, ... }: {
+{
+  config,
+  pkgs,
+  pkgs-stable,
+  lib,
+  ...
+}:
+{
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
@@ -32,46 +39,53 @@
 
     # https://wiki.nixos.org/wiki/OSX-KVM
     extraModprobeConfig = ''
-      options kvm_amd nested=1
-      options kvm_amd emulate_invalid_guest_state=0
-      options kvm ignore_msrs=1
-			options kvmfr static_size_mb=64
+            options kvm_amd nested=1
+            options kvm_amd emulate_invalid_guest_state=0
+            options kvm ignore_msrs=1
+      			options kvmfr static_size_mb=64
     '';
 
     kernelParams = [
       "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
       # "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
-			("vfio-pci.ids=" + lib.concatStringsSep "," vfio-pci-ids)
+      ("vfio-pci.ids=" + lib.concatStringsSep "," vfio-pci-ids)
     ];
 
-    kernelModules = [ "kvm-amd" "kvmfr" "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
+    kernelModules = [
+      "kvm-amd"
+      "kvmfr"
+      "vfio"
+      "vfio_iommu_type1"
+      "vfio_pci"
+      "vfio_virqfd"
+    ];
 
-		binfmt = {
-			emulatedSystems = [
-				"armv6l-linux"
-				"armv7l-linux"
-				"aarch64-linux"
-				"aarch64_be-linux"
-				"alpha-linux"
-				"sparc64-linux"
-				"sparc-linux"
-				"powerpc-linux"
-				"powerpc64-linux"
-				"powerpc64le-linux"
-				"mips-linux"
-				"mipsel-linux"
-				"mips64-linux"
-				"mips64el-linux"
-				"mips64-linuxabin32"
-				"mips64el-linuxabin32"
-				"riscv32-linux"
-				"riscv64-linux"
-				"loongarch64-linux"
-				"wasm32-wasi"
-				"wasm64-wasi"
-				"s390x-linux"
-			];
-		};
+    binfmt = {
+      emulatedSystems = [
+        "armv6l-linux"
+        "armv7l-linux"
+        "aarch64-linux"
+        "aarch64_be-linux"
+        "alpha-linux"
+        "sparc64-linux"
+        "sparc-linux"
+        "powerpc-linux"
+        "powerpc64-linux"
+        "powerpc64le-linux"
+        "mips-linux"
+        "mipsel-linux"
+        "mips64-linux"
+        "mips64el-linux"
+        "mips64-linuxabin32"
+        "mips64el-linuxabin32"
+        "riscv32-linux"
+        "riscv64-linux"
+        "loongarch64-linux"
+        "wasm32-wasi"
+        "wasm64-wasi"
+        "s390x-linux"
+      ];
+    };
   };
 
   powerManagement.enable = true;
@@ -83,7 +97,7 @@
 
       extraPackages = with pkgs; [
         mesa
-				intel-compute-runtime
+        intel-compute-runtime
       ];
     };
 
@@ -104,12 +118,15 @@
   time.timeZone = "America/Phoenix";
 
   networking = {
-		# bridges."rebootvmbr0".interfaces = [ "enp13s0" ];
+    # bridges."rebootvmbr0".interfaces = [ "enp13s0" ];
 
     firewall = {
       # Open ports in the firewall.
       allowedUDPPorts = [ 4001 ];
-      allowedTCPPorts = [ 4001 config.services.nix-serve.port ];
+      allowedTCPPorts = [
+        4001
+        config.services.nix-serve.port
+      ];
 
       enable = true;
     };
@@ -122,8 +139,8 @@
     # For hibernation
     protectKernelImage = false;
 
-		# https://discourse.nixos.org/t/distrobox-selinux-oci-permission-error/64943/15 ; TL;DR: distrobox mounted the empty SELinux directory when my containers were created, and the SELinux module isn't ready yet, so this is a temp fix due to this pull existing: https://github.com/NixOS/nixpkgs/pull/407748
-		lsm = lib.mkForce [ ];
+    # https://discourse.nixos.org/t/distrobox-selinux-oci-permission-error/64943/15 ; TL;DR: distrobox mounted the empty SELinux directory when my containers were created, and the SELinux module isn't ready yet, so this is a temp fix due to this pull existing: https://github.com/NixOS/nixpkgs/pull/407748
+    lsm = lib.mkForce [ ];
   };
 
   fonts.packages = with pkgs; [
@@ -131,55 +148,55 @@
     roboto
     roboto-serif
     corefonts # the msft ones, seems to not load.
-		noto-fonts-cjk-sans
-		noto-fonts-cjk-serif
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
   ];
 
   systemd = {
-		tmpfiles.rules = [
-			"f /srv/win11/pipewire-0 700 reboot reboot - -"
-		];
+    tmpfiles.rules = [
+      "f /srv/win11/pipewire-0 700 reboot reboot - -"
+    ];
 
-		timers = {
-			nix-clean = {
-				wantedBy = [ "timers.target" ];
+    timers = {
+      nix-clean = {
+        wantedBy = [ "timers.target" ];
 
-				timerConfig = {
-					OnUnitActiveSec = "1w";
-					Unit = "nix-clean.service";
-				};
-			};
-		};
+        timerConfig = {
+          OnUnitActiveSec = "1w";
+          Unit = "nix-clean.service";
+        };
+      };
+    };
 
-		services = {
-			syncthing = {
-				description = "Run Syncthing";
-				serviceConfig = {
-					ExecStart = "${pkgs.syncthing}/bin/syncthing";
-					User = "reboot";
-				};
-			};
+    services = {
+      syncthing = {
+        description = "Run Syncthing";
+        serviceConfig = {
+          ExecStart = "${pkgs.syncthing}/bin/syncthing";
+          User = "reboot";
+        };
+      };
 
-			nix-clean = {
-				script = ''
-					${pkgs.nix}/bin/nix-store --gc
-				'';
+      nix-clean = {
+        script = ''
+          					${pkgs.nix}/bin/nix-store --gc
+          				'';
 
-				serviceConfig = {
-					Type = "oneshot";
-					User = "root";
-				};
-			};
+        serviceConfig = {
+          Type = "oneshot";
+          User = "root";
+        };
+      };
 
-			libvirtd.path = with pkgs; [
-				bash
-				coreutils
-				pciutils # For lspci
-				kmod # For modprobe
-				systemd
-			];
-		};
-	};
+      libvirtd.path = with pkgs; [
+        bash
+        coreutils
+        pciutils # For lspci
+        kmod # For modprobe
+        systemd
+      ];
+    };
+  };
 
   virtualisation = {
     containers.enable = true;
@@ -199,30 +216,32 @@
       enable = true;
 
       qemu = {
-				# Fucking.... ceph... also. so sorry y'all at nixpkgs, noob momence go brr.
-				package = pkgs-stable.qemu;
+        # Fucking.... ceph... also. so sorry y'all at nixpkgs, noob momence go brr.
+        package = pkgs-stable.qemu;
 
         swtpm.enable = true;
 
         ovmf = {
           enable = true;
-          packages = [(pkgs.OVMF.override {
-            secureBoot = true;
-            tpmSupport = true;
-          }).fd];
+          packages = [
+            (pkgs.OVMF.override {
+              secureBoot = true;
+              tpmSupport = true;
+            }).fd
+          ];
         };
 
-				verbatimConfig = ''
-					user = "reboot"
+        verbatimConfig = ''
+          					user = "reboot"
 
-					cgroup_device_acl = [
-				    "/dev/null", "/dev/full", "/dev/zero",
-				    "/dev/random", "/dev/urandom",
-				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
-				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
-						"/dev/kvmfr0", "/run/user/1000/pipewire-0"
-					]
-				'';
+          					cgroup_device_acl = [
+          				    "/dev/null", "/dev/full", "/dev/zero",
+          				    "/dev/random", "/dev/urandom",
+          				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+          				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+          						"/dev/kvmfr0", "/run/user/1000/pipewire-0"
+          					]
+          				'';
       };
     };
 
@@ -235,13 +254,13 @@
 
     oci-containers = {
       backend = "podman";
-      containers = { 
+      containers = {
         homeassistant = {
           volumes = [ "/opt/home-assistant:/config" ];
           environment.TZ = "America/Phoenix";
           image = "ghcr.io/home-assistant/home-assistant:stable";
-          extraOptions = [ 
-            "--network=host" 
+          extraOptions = [
+            "--network=host"
             # "--device=/dev/ttyACM0:/dev/ttyACM0"
           ];
         };
@@ -266,10 +285,10 @@
 
     dconf.enable = true;
 
-		java = {
-			binfmt = true;
-			enable = true;
-		};
+    java = {
+      binfmt = true;
+      enable = true;
+    };
   };
 
   xdg.portal = {
@@ -285,7 +304,10 @@
       };
 
       hyprland = {
-        default = [ "hyprland" "gtk" ];
+        default = [
+          "hyprland"
+          "gtk"
+        ];
         "org.freedesktop.impl.portal.FileChooser" = "kde";
       };
     };
@@ -300,10 +322,10 @@
       jack.enable = true;
     };
 
-		nix-serve = {
-			# enable = true;
-			secretKeyFile = "/var/secrets/cache-private-key.pem";
-		};
+    nix-serve = {
+      # enable = true;
+      secretKeyFile = "/var/secrets/cache-private-key.pem";
+    };
 
     zerotierone = {
       enable = true;
@@ -329,10 +351,10 @@
         qmk-udev-rules
       ];
 
-			extraRules = ''
-				SUBSYSTEM=="kvmfr", OWNER="reboot", GROUP="kvm", MODE="0660"
-				SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
-			'';
+      extraRules = ''
+        				SUBSYSTEM=="kvmfr", OWNER="reboot", GROUP="kvm", MODE="0660"
+        				SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
+        			'';
     };
 
     k3s.enable = true;
@@ -425,138 +447,142 @@
   };
 
   environment = {
-    sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+    sessionVariables = {
+      LIBVA_DRIVER_NAME = "iHD";
+    };
 
-    systemPackages = (with pkgs; [
-      # Utils
-      cryptsetup
-      vim
-      neovim
-      busybox
-      wget
-      file
-      xxd
-      unzip
-      zip
-      progress
-      tldr
-      eza
-      fastfetch
-      btop
-      htop
-      at
-      tmux
-      starship
-      fortune
-      lolcat
-      screen
-      git
-      signify
-      cachix
-      solaar
-      arrpc
-      cockpit
+    systemPackages =
+      (with pkgs; [
+        # Utils
+        cryptsetup
+        vim
+        neovim
+        busybox
+        wget
+        file
+        xxd
+        unzip
+        zip
+        progress
+        tldr
+        eza
+        fastfetch
+        btop
+        htop
+        at
+        tmux
+        starship
+        fortune
+        lolcat
+        screen
+        git
+        signify
+        cachix
+        solaar
+        arrpc
+        cockpit
 
-      # Shells
-      zsh
-      bash
+        # Shells
+        zsh
+        bash
 
-      # System
-      man-pages
-      glibcInfo
-      stdmanpages
-      c-intro-and-ref
-      tkman
-      wikiman
-      stdman
-      texinfo
-      nixpkgs-manual
-      wl-clipboard
-      gnupg
-      libnotify
-      appimage-run
-      xorg.xhost
-      glfw
-      freetype
-      vulkan-headers
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-tools        # vulkaninfo
-      alsa-utils
-      fluidsynth
-      soundfont-fluid
-      soundfont-arachno
-      soundfont-ydp-grand
-      soundfont-generaluser
-      x42-gmsynth
-      direnv
+        # System
+        man-pages
+        glibcInfo
+        stdmanpages
+        c-intro-and-ref
+        tkman
+        wikiman
+        stdman
+        texinfo
+        nixpkgs-manual
+        wl-clipboard
+        gnupg
+        libnotify
+        appimage-run
+        xhost
+        glfw
+        freetype
+        vulkan-headers
+        vulkan-loader
+        vulkan-validation-layers
+        vulkan-tools # vulkaninfo
+        alsa-utils
+        fluidsynth
+        soundfont-fluid
+        soundfont-arachno
+        soundfont-ydp-grand
+        soundfont-generaluser
+        x42-gmsynth
+        direnv
 
-      # Hardware
-      pciutils
-      dmidecode
-      usbutils
-      libva-utils
-      pmutils
-      refind
-      efibootmgr
-      smartmontools
-      mesa-demos
-      piper
-      openrgb-with-all-plugins
+        # Hardware
+        pciutils
+        dmidecode
+        usbutils
+        libva-utils
+        pmutils
+        refind
+        efibootmgr
+        smartmontools
+        mesa-demos
+        piper
+        openrgb-with-all-plugins
 
-      # Network
-      nmap
-      socat
-      openssl
-      speedtest-cli
+        # Network
+        nmap
+        socat
+        openssl
+        speedtest-cli
 
-      # FS Manipulation
-      btrfs-progs
-      btrbk
-      fuzzel
-      sshfs
-      exfat
-      ntfs3g
-      mtpfs
-      libimobiledevice
-      ifuse
+        # FS Manipulation
+        btrfs-progs
+        btrbk
+        fuzzel
+        sshfs
+        exfat
+        ntfs3g
+        mtpfs
+        libimobiledevice
+        ifuse
 
-      # Python
-      # python3Full
-      pipx
+        # Python
+        # python3Full
+        pipx
 
-      # Global Apps
-      firefox
-      links2
-      alacritty
-      qpwgraph
+        # Global Apps
+        firefox
+        links2
+        alacritty
+        qpwgraph
 
-      # media manipulation
-      mpv
-      imagemagickBig
-      ffmpeg
+        # media manipulation
+        mpv
+        imagemagickBig
+        ffmpeg
 
-      # Services
-      zerotierone
-      syncthing
-      nicotine-plus
+        # Services
+        zerotierone
+        syncthing
+        nicotine-plus
 
-      # QT
-      kdePackages.qt6ct
-      kdePackages.breeze
-      libsForQt5.qt5ct
-      kdePackages.breeze-gtk
-			kdePackages.kdialog
+        # QT
+        kdePackages.qt6ct
+        kdePackages.breeze
+        libsForQt5.qt5ct
+        kdePackages.breeze-gtk
+        kdePackages.kdialog
 
-      # VMs and Containers
-      dive
-      podman-tui
-      docker-compose
-      podman-compose
-      virtiofsd
-      appvm
-    ]) ++ (with pkgs-stable; [
-			qemu_full
-		]);
+        # VMs and Containers
+        dive
+        podman-tui
+        docker-compose
+        podman-compose
+        virtiofsd
+        appvm
+      ])
+      ++ (with pkgs-stable; [
+        qemu_full
+      ]);
   };
 }

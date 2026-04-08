@@ -1,9 +1,17 @@
-{ config, pkgs, modulesPath, hostConfig, lib, ... }: {
+{
+  config,
+  pkgs,
+  modulesPath,
+  hostConfig,
+  lib,
+  ...
+}:
+{
   imports = [ (modulesPath + "/installer/cd-dvd/installation-cd-base.nix") ];
 
   users.users."${hostConfig.username}".password = "password";
   boot.plymouth.enable = true;
-	boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
 
   hardware = {
     graphics = {
@@ -63,7 +71,7 @@
 
     desktopManager.plasma6.enable = true;
     displayManager.defaultSession = "plasma";
-		displayManager.autoLogin.user = "reboot";
+    displayManager.autoLogin.user = "reboot";
 
     xserver = {
       enable = true;
@@ -103,7 +111,7 @@
     gnupg
     libnotify
     appimage-run
-    xorg.xhost
+    xhost
     alsa-utils
     pciutils
     dmidecode
