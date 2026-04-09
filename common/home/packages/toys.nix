@@ -1,4 +1,5 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, ... }:
+let
   unstable = with pkgs; [
     # Cool shit
     cmatrix
@@ -10,20 +11,21 @@
     oneko
     emote
     glib
-    protonvpn-gui
+    proton-vpn
     ktailctl
     kdePackages.wallpaper-engine-plugin
-		# input-leap
-		python3Packages.pip
-		python3Packages.srt
-		python3Packages.torch
-		python3Packages.openai-whisper
-		kdePackages.kdeconnect-kde
-		python313Packages.meshtastic
-		rymdport
-		magic-wormhole
-		peco
+    # input-leap
+    python3Packages.pip
+    python3Packages.srt
+    python3Packages.torch
+    python3Packages.openai-whisper
+    kdePackages.kdeconnect-kde
+    python313Packages.meshtastic
+    rymdport
+    magic-wormhole
+    peco
   ];
-in {
+in
+{
   packages = unstable;
 }

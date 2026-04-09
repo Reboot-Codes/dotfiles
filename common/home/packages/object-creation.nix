@@ -1,5 +1,6 @@
 { pkgs, pkgs-stable, ... }: let
   unstable = with pkgs; [
+		(lib.hiPrio freecad)
     fritzing
     qmk
     mission-planner
@@ -20,7 +21,6 @@
     # Object creation
     kicad
 		openscad
-    (lib.hiPrio freecad)
     # brlcad
   ];
 in {

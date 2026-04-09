@@ -1,10 +1,18 @@
 # This file has general setting configs to make sure that our experiences are consistent.
 
-{ config, pkgs, pkgs-stable, home-manager, nix-index-database, ...}: {
+{
+  config,
+  pkgs,
+  pkgs-stable,
+  home-manager,
+  nix-index-database,
+  ...
+}:
+{
   programs = {
     home-manager.enable = true;
     direnv.enable = true;
-		nix-index.enable = true;
+    nix-index.enable = true;
 
     zsh = {
       enable = true;
@@ -14,16 +22,16 @@
       autocd = true;
       envExtra = builtins.readFile ./dotfiles/.zshrc;
 
-			# TODO: Translate oh-my-zsh plugins.
+      # TODO: Translate oh-my-zsh plugins.
     };
 
     git = {
       settings = {
-				user = {
-					name = "Reboot-Codes";
-					email = "git@reboot-codes.com";
-				};
-			};
+        user = {
+          name = "Reboot-Codes";
+          email = "git@reboot-codes.com";
+        };
+      };
 
       signing = {
         key = "F4DB81CBA107C76D0F7A75B18A0D03A6C3DCBA53";
@@ -33,17 +41,19 @@
 
     neovim = {
       enable = true;
+      withPython3 = true;
+      withRuby = true;
       defaultEditor = true;
       vimAlias = true;
       viAlias = true;
       initLua = builtins.readFile ./dotfiles/init.lua;
 
-			plugins = with pkgs.vimPlugins; [
+      plugins = with pkgs.vimPlugins; [
         catppuccin-nvim
         {
           plugin = lightline-vim;
 
-					# TODO: Configure lightline.
+          # TODO: Configure lightline.
           config = ''
             let g:lightline = {'colorscheme': 'catppuccin'}
           '';
@@ -51,12 +61,12 @@
       ];
     };
 
-		zed-editor = {
-			enable = false;
-			installRemoteServer = true;
+    zed-editor = {
+      enable = false;
+      installRemoteServer = true;
 
-			userKeymaps = [
-  			{
+      userKeymaps = [
+        {
           context = "Workspace";
 
           bindings = {
@@ -64,10 +74,10 @@
             ctrl-shift-tab = "pane::ActivatePrevItem";
           };
         }
-			];
+      ];
 
-			userSettings = {
-			 tab_size = 2;
+      userSettings = {
+        tab_size = 2;
         buffer_font_family = "JetBrainsMono Nerd Font";
         ui_font_family = "Roboto";
         soft_wrap = "editor_width";
@@ -79,13 +89,13 @@
 
         telemetry = {
           diagnostics = false;
-          metrics =  false;
+          metrics = false;
         };
 
         theme = {
           mode = "dark";
           light = "One Light";
-          dark =  "Carbonfox";
+          dark = "Carbonfox";
         };
 
         node = {
@@ -100,7 +110,7 @@
             };
 
             initialization_options = {
-              rustfmt =  {
+              rustfmt = {
                 extraArgs = [ "+nightly" ];
               };
             };
@@ -113,7 +123,7 @@
           };
         };
       };
-		};
+    };
 
     starship = {
       enable = true;
@@ -163,27 +173,30 @@
       shortcut = "a";
       historyLimit = 500000;
 
-      plugins = with pkgs.tmuxPlugins; [
-        tmux-fzf
-        mode-indicator
-      ] ++ [
-        (pkgs.tmuxPlugins.mkTmuxPlugin {
-          pluginName = "tmux-suspend";
-          rtpFilePath = "suspend.tmux";
-          version = "1a2f806666e0bfed37535372279fa00d27d50d14";
+      plugins =
+        with pkgs.tmuxPlugins;
+        [
+          tmux-fzf
+          mode-indicator
+        ]
+        ++ [
+          (pkgs.tmuxPlugins.mkTmuxPlugin {
+            pluginName = "tmux-suspend";
+            rtpFilePath = "suspend.tmux";
+            version = "1a2f806666e0bfed37535372279fa00d27d50d14";
 
-          postInstall = ''
-            patchShebangs suspend.tmux
-          '';
+            postInstall = ''
+              patchShebangs suspend.tmux
+            '';
 
-          src = pkgs.fetchFromGitHub {
-            owner = "MunifTanjim";
-            repo = "tmux-suspend";
-            rev = "1a2f806666e0bfed37535372279fa00d27d50d14";
-            hash = "sha256-+1fKkwDmr5iqro0XeL8gkjOGGB/YHBD25NG+w3iW+0g=";
-          };
-        })
-      ];
+            src = pkgs.fetchFromGitHub {
+              owner = "MunifTanjim";
+              repo = "tmux-suspend";
+              rev = "1a2f806666e0bfed37535372279fa00d27d50d14";
+              hash = "sha256-+1fKkwDmr5iqro0XeL8gkjOGGB/YHBD25NG+w3iW+0g=";
+            };
+          })
+        ];
 
       extraConfig = builtins.readFile ./dotfiles/tmux.conf;
     };
@@ -204,19 +217,23 @@
           hide_cursor = true;
         };
 
-        background = [{
-          path = "screenshot";
-          blur_passes = 4;
-          blur_size = 8;
-        }];
+        background = [
+          {
+            path = "screenshot";
+            blur_passes = 4;
+            blur_size = 8;
+          }
+        ];
 
-        input-field = [{
-          size = "500, 50";
-          font_color = "rgb(124, 207, 158)";
-          inner_color = "rgb(0, 0, 0)";
-          outline_color = "rgb(124, 207, 158)";
-          dots_center = true;
-        }];
+        input-field = [
+          {
+            size = "500, 50";
+            font_color = "rgb(124, 207, 158)";
+            inner_color = "rgb(0, 0, 0)";
+            outline_color = "rgb(124, 207, 158)";
+            dots_center = true;
+          }
+        ];
       };
     };
 
@@ -227,12 +244,15 @@
       settings = {
         main = {
           layer = "top";
-					position = "top";
+          position = "top";
           height = 32;
 
           modules-left = [ "hyprland/workspaces" ];
-          modules-center = [];
-          modules-right = [ "battery" "clock" ];
+          modules-center = [ ];
+          modules-right = [
+            "battery"
+            "clock"
+          ];
         };
       };
     };
@@ -252,64 +272,66 @@
   };
 
   home = {
-		file = {
-			# Configure the `rustfmt` formatter!
-			"rustfmt.toml" = {
-	      target = ".config/rustfmt/rustfmt.toml";
-	      enable = true;
-	      text = builtins.readFile ./dotfiles/rustfmt.toml;
-	    };
+    file = {
+      # Configure the `rustfmt` formatter!
+      "rustfmt.toml" = {
+        target = ".config/rustfmt/rustfmt.toml";
+        enable = true;
+        text = builtins.readFile ./dotfiles/rustfmt.toml;
+      };
 
-			"ignore-dev-edition-profile" = {
-				target = ".mozilla/firefox/ignore-dev-edition-profile";
-				enable = true;
-				text = "";
-			};
+      "ignore-dev-edition-profile" = {
+        target = ".mozilla/firefox/ignore-dev-edition-profile";
+        enable = true;
+        text = "";
+      };
 
-			"qemu.conf" = {
-			  target = ".config/libvirt/qemu.conf";
-				enable = true;
-			  text = ''
-					nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
-				'';
-			};
+      "qemu.conf" = {
+        target = ".config/libvirt/qemu.conf";
+        enable = true;
+        text = ''
+          					nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
+          				'';
+      };
 
-	    # TODO: add remind script to this!
-	  };
+      # TODO: add remind script to this!
+    };
 
-		sessionVariables = {
-			GTK_THEME = "Breeze-Dark";
-			NIXOS_OZONE_WL = "1";
-		};
-	};
+    sessionVariables = {
+      GTK_THEME = "Breeze-Dark";
+      NIXOS_OZONE_WL = "1";
+    };
+  };
 
   # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar)
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
 
-    settings = let
-      toggle = program: "pkill ${program} || ${program}";
-      runOnce = program: "pgrep ${program} || ${program}";
-    in {
-      "exec-once" = [
-        "waybar"
-        "dunst"
-      ];
+    settings =
+      let
+        toggle = program: "pkill ${program} || ${program}";
+        runOnce = program: "pgrep ${program} || ${program}";
+      in
+      {
+        "exec-once" = [
+          "waybar"
+          "dunst"
+        ];
 
-      "$mod" = "SUPER";
+        "$mod" = "SUPER";
 
-      bind = [
-        "ALT, space, exec, ${toggle "wofi --show drun"}"
-        "$mod, Return, exec, alacritty"
-        "$mod, M, exit,"
-				"$mod, BackSpace, killactive,"
-				"SUPER, left, workspace, -1"
-				"SUPER, right, workspace, +1"
-        "SHIFT + SUPER, left, movetoworkspace, -1"
-        "SHIFT + SUPER, right, movetoworkspace, +1"
-				"$mod, L, exec, ${runOnce "hyprlock"}"
-      ];
-    };
+        bind = [
+          "ALT, space, exec, ${toggle "wofi --show drun"}"
+          "$mod, Return, exec, alacritty"
+          "$mod, M, exit,"
+          "$mod, BackSpace, killactive,"
+          "SUPER, left, workspace, -1"
+          "SUPER, right, workspace, +1"
+          "SHIFT + SUPER, left, movetoworkspace, -1"
+          "SHIFT + SUPER, right, movetoworkspace, +1"
+          "$mod, L, exec, ${runOnce "hyprlock"}"
+        ];
+      };
   };
 }

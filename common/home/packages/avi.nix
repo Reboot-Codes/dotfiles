@@ -29,7 +29,6 @@ let
     blockbench
     # fooyin
     furnace
-    helvum
     musescore
     muse-sounds-manager
     blanket
@@ -44,7 +43,7 @@ let
     # sooperlooper
     fretboard
     livecaptions
-    pulseeffects-legacy
+    # pulseeffects-legacy
     polyphone
     # mandelbulber
   ];

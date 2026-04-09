@@ -43,7 +43,7 @@ let
     kdePackages.kapman
     kdePackages.kolf
     kdePackages.kreversi
-    superTuxKart
+    supertuxkart
     # gargoyle
     # colobot
     azahar

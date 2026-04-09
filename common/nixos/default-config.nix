@@ -337,7 +337,7 @@ in
         "${pkgs.soundfont-fluid}/share/soundfonts/FluidR3_GM2-2.sf2";
       "/share/soundfonts/arachno.sf2".source = "${pkgs.soundfont-arachno}/share/soundfonts/arachno.sf2";
       "/share/soundfonts/GeneralUser-GS.sf2".source =
-        "${pkgs.soundfont-generaluser}/share/soundfonts/GeneralUser-GS.sf2";
+        "${pkgs.soundfont-generaluser-gs}/share/soundfonts/GeneralUser-GS.sf2";
       "/share/soundfonts/YDP-GrandPiano.sf2".source =
         "${pkgs.soundfont-ydp-grand}/share/soundfonts/YDP-GrandPiano.sf2";
     };

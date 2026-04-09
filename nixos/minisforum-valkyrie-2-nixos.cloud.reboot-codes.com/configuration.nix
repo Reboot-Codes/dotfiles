@@ -270,6 +270,8 @@
 
   programs = {
     neovim = {
+      withPython3 = true;
+      withRuby = true;
       viAlias = true;
       vimAlias = true;
       defaultEditor = true;
@@ -512,7 +514,7 @@
         soundfont-fluid
         soundfont-arachno
         soundfont-ydp-grand
-        soundfont-generaluser
+        soundfont-generaluser-gs
         x42-gmsynth
         direnv
 

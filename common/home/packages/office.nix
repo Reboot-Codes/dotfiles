@@ -1,4 +1,5 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, ... }:
+let
   unstable = with pkgs; [
     # Office (see stable)
     keepassxc
@@ -11,7 +12,7 @@
     zotero
     obsidian
     emacs-gtk
-		comaps
+    # comaps
     asciidoc-full-with-plugins
     diamond
     kdePackages.kclock
@@ -34,8 +35,8 @@
     gnome-obfuscate
     curtail
     xournalpp
-		logseq
-		lmstudio
+    logseq
+    lmstudio
 
     # Translation
     # whisper-ctranslate2
@@ -46,11 +47,11 @@
   stable = with pkgs-stable; [
     # Office
     pdfslicer
-		kiwix
+    kiwix
     kiwix-tools
     zim
     zim-tools
-		translatelocally
+    translatelocally
     translatelocally-models.uk-en-tiny
     translatelocally-models.tr-en-tiny
     translatelocally-models.sq-en-tiny
@@ -83,6 +84,7 @@
     translatelocally-models.bg-en-tiny
     translatelocally-models.hbs-eng-tiny
   ];
-in {
+in
+{
   packages = unstable ++ stable;
 }
