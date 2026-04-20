@@ -1,4 +1,5 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, ... }:
+let
   unstable = with pkgs; [
     # Dev
     vscode
@@ -24,10 +25,13 @@
     git
     godot_4
     android-studio
-		androidStudioPackages.canary
+    androidStudioPackages.canary
     android-tools
     pipx
-		(python313.withPackages (ps: [ ps.rpyc ps.tkinter ]))
+    (python313.withPackages (ps: [
+      ps.rpyc
+      ps.tkinter
+    ]))
     filezilla
     powershell
     fzf
@@ -50,11 +54,13 @@
     pods
     forge-sparks
     nixd
-		crc
-		qtcreator
-		# kdePackages.full
-		vrc-get
-		alcom
+    crc
+    qtcreator
+    # kdePackages.full
+    vrc-get
+    alcom
+    sops
+    rops
   ];
 
   stable = with pkgs-stable; [
@@ -67,14 +73,23 @@
       # stuff to make MC modding work.
       postBuild = ''
         wrapProgram $out/bin/idea-community \
-        --prefix LD_LIBRARY_PATH : "${lib.makeLibraryPath [libpulseaudio libGL glfw openal stdenv.cc.cc.lib]}"
+        --prefix LD_LIBRARY_PATH : "${
+          lib.makeLibraryPath [
+            libpulseaudio
+            libGL
+            glfw
+            openal
+            stdenv.cc.cc.lib
+          ]
+        }"
       '';
     })
 
     # vagrant
     renpy
-		unityhub
+    unityhub
   ];
-in {
+in
+{
   packages = unstable ++ stable;
 }

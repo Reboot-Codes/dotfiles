@@ -63,6 +63,11 @@
     nixpkgs-xr.url = "github:nix-community/nixpkgs-xr";
 
     distro-grub-themes.url = "github:AdisonCavani/distro-grub-themes";
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -82,7 +87,12 @@
       nix-index-database,
       nixpkgs-xr,
       distro-grub-themes,
+      sops-nix,
     }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+    in
     {
       nixosConfigurations = import ./nixos {
         inherit
@@ -100,6 +110,7 @@
           nix-index-database
           nixpkgs-xr
           distro-grub-themes
+          sops-nix
           ;
       };
 
@@ -118,7 +129,26 @@
           pwndbg
           nix-index-database
           nixpkgs-xr
+          sops-nix
           ;
+      };
+
+      # Because declarative secrets tracking is annoying w/o devshell...
+      devShells.${system}.default = pkgs.mkShell {
+        # imports all files ending in .asc/.gpg
+        sopsPGPKeyDirs = [
+          "${toString ./.}/keys/hosts"
+          "${toString ./.}/keys/users"
+        ];
+
+        sopsAgeKeyDirs = [
+          "/etc/ssh/ssh_host_ed25519_key.pub"
+        ];
+
+        # adds the customized sops to the path
+        nativeBuildInputs = [
+          (pkgs.callPackage sops-nix { }).sops-import-keys-hook
+        ];
       };
     };
 }

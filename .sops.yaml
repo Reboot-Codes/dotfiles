@@ -1,0 +1,10 @@
+keys:
+  - &admin_reboot 183892CF4E46CB3DF7D2242E60DF5E67E1746DA7
+  - &workstation_custom-odin-nixos age1te8c7w69nxj6pqjlewacn35as7vktqhepmsh0fc74afxv20yjqtqrp2rrn
+creation_rules:
+  - path_regex: secrets\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *admin_reboot
+        age:
+          - *workstation_custom-odin-nixos

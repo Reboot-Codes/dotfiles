@@ -500,6 +500,8 @@
         nixpkgs-manual
         wl-clipboard
         gnupg
+        sops
+        rops
         libnotify
         appimage-run
         xhost

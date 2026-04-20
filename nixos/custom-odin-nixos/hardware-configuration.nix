@@ -77,11 +77,19 @@
     options = [ "subvol=swap,noatime" ];
   };
 
-  #fileSystems."/dev/pts" = {
-  #	fsType = "devpts";
-  #	device = "devpts";
-  #	options = [ "gid=5,mode=620" ];
-  #};
+  fileSystems."/data/ZimaOS" = {
+    device = "//192.168.0.201/ZimaOS-HD";
+    fsType = "cifs";
+
+    options = [
+      "credentials=/run/secrets/logins/servers/zimaos/cifs"
+      "vers=3.0"
+      "_netdev"
+      "nofail"
+      "uid=1000"
+      "gid=1000"
+    ];
+  };
 
   fileSystems."/srv/win11/pipewire-0" = {
     device = "/run/user/1000/pipewire-0";

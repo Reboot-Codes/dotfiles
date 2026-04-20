@@ -13,6 +13,7 @@
   nix-index-database,
   nixpkgs-xr,
   distro-grub-themes,
+  sops-nix,
   ...
 }:
 let
@@ -70,6 +71,7 @@ in
         nix-index-database
         nixpkgs-xr
         distro-grub-themes
+        sops-nix
         ;
     };
 
@@ -81,6 +83,7 @@ in
       chaotic.nixosModules.default
       nix-index-database.nixosModules.nix-index
       nixpkgs-xr.nixosModules.nixpkgs-xr
+      sops-nix.nixosModules.sops
 
       {
         networking.hostName = "${hostname}"; # Define your hostname.
@@ -95,7 +98,12 @@ in
 
           #! IMPORTANT: Any custom package inputs **need** to be placed here as well if they should be used by home-manager!
           extraSpecialArgs = {
-            inherit pkgs-stable pwndbg nixpkgs-xr;
+            inherit
+              pkgs-stable
+              pwndbg
+              nixpkgs-xr
+              sops-nix
+              ;
           };
         };
       }

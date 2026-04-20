@@ -412,6 +412,8 @@
         nixpkgs-manual
         wl-clipboard
         gnupg
+        sops
+        rops
         libnotify
         appimage-run
         xhost
@@ -456,7 +458,7 @@
         sshfs
         exfat
         ntfs3g
-				cifs-utils
+        cifs-utils
         mtpfs
         libimobiledevice
         ifuse

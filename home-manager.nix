@@ -1,4 +1,5 @@
-{ nixpkgs, nixpkgs-stable, home-manager, flatpaks, rust-overlay, nur, chaotic, aagl, nixGL, ... }: let
+{ nixpkgs, home-manager, ... }:
+let
   defaultDesktop = {
     username = "reboot";
     system = "x86_64-linux";
@@ -6,7 +7,8 @@
   };
 
   hostConfig = defaultDesktop;
-in {
+in
+{
   "${hostConfig.username}" = home-manager.lib.homeManagerConfiguration rec {
     pkgs = nixpkgs.legacyPackages."${hostConfig.system}";
     modules = [
