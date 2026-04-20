@@ -4,6 +4,7 @@ let
     # Office (see stable)
     keepassxc
     libreoffice-qt
+		onlyoffice-desktopeditors
     hunspell
     hunspellDicts.en-us
     hunspellDicts.de-de

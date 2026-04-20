@@ -456,6 +456,7 @@
         sshfs
         exfat
         ntfs3g
+				cifs-utils
         mtpfs
         libimobiledevice
         ifuse

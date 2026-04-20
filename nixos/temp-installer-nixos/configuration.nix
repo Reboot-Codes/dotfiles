@@ -135,6 +135,7 @@
     sshfs
     exfat
     ntfs3g
+		cifs-utils
     mtpfs
     links2
     alacritty
