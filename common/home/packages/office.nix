@@ -5,6 +5,7 @@ let
     keepassxc
     libreoffice-qt
 		onlyoffice-desktopeditors
+		naps2
     hunspell
     hunspellDicts.en-us
     hunspellDicts.de-de

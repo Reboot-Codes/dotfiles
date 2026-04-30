@@ -21,6 +21,7 @@ let
     act
     codeberg-cli
     codeberg-pages
+		lazygit
     zsh
     git
     godot_4
