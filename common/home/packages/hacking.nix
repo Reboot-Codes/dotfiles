@@ -38,11 +38,11 @@
 		arp-scan
     
     (rizin.withPlugins (ps: with ps; [ jsdec rz-ghidra sigdb ]))
-    (pkgs.lib.hiPrio (cutter.withPlugins (ps: with ps; [ jsdec rz-ghidra sigdb ])))
   ];
 
 	stable = with pkgs-stable; [
     (lib.hiPrio autopsy)
+    (pkgs.lib.hiPrio (cutter.withPlugins (ps: with ps; [ jsdec rz-ghidra sigdb ])))
 		hexcurse
 		smbmap
 		kerbrute

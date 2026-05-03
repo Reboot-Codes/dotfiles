@@ -25,18 +25,6 @@ let
     ruffle
     steamtinkerlaunch
     sidequest
-
-    (lutris.override {
-      extraLibraries = pkgs: [
-        pkgs.libunwind
-        gdk-pixbuf
-      ];
-
-      extraPkgs = pkgs: [
-        wineWow64Packages.waylandFull
-      ];
-    })
-
     mangohud
     cockatrice
     kdePackages.knetwalk
@@ -58,6 +46,17 @@ let
     openttd
     duckstation
     rrootage
+
+    (lutris.override {
+      extraLibraries = pkgs: [
+        pkgs.libunwind
+        gdk-pixbuf
+      ];
+
+      extraPkgs = pkgs: [
+        wineWow64Packages.waylandFull
+      ];
+    })
   ];
 
   xr =

@@ -31,7 +31,7 @@
     allowDiscards = true;
     keyFileSize = 4096;
     keyFile = "/dev/disk/by-partuuid/6c3b0218-edb2-4740-9c15-482667f229d8";
-    fallbackToPassword = true;
+    keyFileTimeout = 5;
   };
 
   fileSystems."/" = {

@@ -2,7 +2,6 @@
   unstable = with pkgs; [
     # Run Alien Software
     dosbox-x
-    (bottles.override { removeWarningPopup = true; })
     looking-glass-client
     distrobox
     boxbuddy
@@ -18,6 +17,8 @@
 	stable = with pkgs-stable; [
 		qemu_full
 		qtemu
+    # (bottles.override { removeWarningPopup = true; })
+		bottles
 	];
 in {
   packages = unstable ++ stable;

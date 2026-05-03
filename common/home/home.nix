@@ -52,6 +52,7 @@
         catppuccin-nvim
         {
           plugin = lightline-vim;
+					type = "viml";
 
           # TODO: Configure lightline.
           config = ''
