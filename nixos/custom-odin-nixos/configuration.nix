@@ -146,6 +146,9 @@ in
         mesa
         mesa.opencl
         intel-compute-runtime
+        rocmPackages.clr
+        rocmPackages.clr.icd
+        rocmPackages.rocm-runtime
       ];
     };
 
@@ -241,6 +244,7 @@ in
   systemd = {
     tmpfiles.rules = [
       "f /srv/win11/pipewire-0 700 reboot reboot - -"
+      "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
     ];
 
     timers = {
@@ -487,9 +491,10 @@ in
       ];
 
       extraRules = ''
-        				SUBSYSTEM=="kvmfr", MODE="0660", GROUP="kvm"
-        				SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
-        			'';
+                SUBSYSTEM=="kvmfr", MODE="0660", GROUP="kvm"
+                SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
+        				ACTION=="add", ATTR{idVendor}=="0bda", ATTR{idProduct}=="1a2b", RUN+="${lib.getExe pkgs.usb-modeswitch} -K -v 0bda -p 1a2b"
+      '';
     };
 
     ratbagd.enable = true;
@@ -671,6 +676,8 @@ in
         vulkan-loader
         vulkan-validation-layers
         vulkan-tools # vulkaninfo
+        rocmPackages.rocminfo
+        clinfo
         alsa-utils
         fluidsynth
         soundfont-fluid

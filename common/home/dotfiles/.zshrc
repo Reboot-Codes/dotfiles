@@ -44,6 +44,10 @@ if command -v eza &> /dev/null; then
   alias tree="eza --icons --tree --git-ignore"
 fi
 
+if command -v wget &> /dev/null; then
+  alias wget-persistent="wget -c --tries=0 --user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/115.0\" --waitretry=3 --timeout=30"
+fi
+
 if command -v git &> /dev/null; then
   if [ -d /etc/nixos ]; then
     alias nix-git="git -C '$@'"
