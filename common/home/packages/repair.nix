@@ -22,7 +22,7 @@
     kitty-img
     kitty-themes
 		v4l-utils
-		okteta
+		imhex
   ];
 
 	stable = with pkgs-stable; [

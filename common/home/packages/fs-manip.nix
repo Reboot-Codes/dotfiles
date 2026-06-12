@@ -6,7 +6,6 @@
     fuzzel
     virtiofsd
     p7zip
-    fuse-7z-ng
     bchunk
   ];
 in {

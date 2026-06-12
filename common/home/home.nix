@@ -304,7 +304,7 @@
     };
   };
 
-  # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar)
+  # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar) Move to lua!
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;

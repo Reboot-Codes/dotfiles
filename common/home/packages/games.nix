@@ -13,7 +13,6 @@ let
     steam-run
     ryubing
     dolphin-emu
-    rpcs3
     ps3-disc-dumper
     ps3iso-utils
     ps3netsrv
@@ -46,6 +45,7 @@ let
     openttd
     duckstation
     rrootage
+    rpcs3
 
     (lutris.override {
       extraLibraries = pkgs: [

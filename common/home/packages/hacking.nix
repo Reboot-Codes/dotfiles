@@ -9,12 +9,10 @@
     veracrypt
     gephi
     xxd
-    sleuthkit
     exiftool
     samba4
     smbnetfs
     gdb
-    binwalk
     ltrace
     pe-bear
     flare-floss
@@ -41,7 +39,6 @@
   ];
 
 	stable = with pkgs-stable; [
-    (lib.hiPrio autopsy)
     (pkgs.lib.hiPrio (cutter.withPlugins (ps: with ps; [ jsdec rz-ghidra sigdb ])))
 		hexcurse
 		smbmap
@@ -52,6 +49,7 @@
 		enum4linux-ng
 		cewler
     cryptomator
+		binwalk
 
 		(ghidra.withExtensions (ext: with ext; [
       ret-sync
@@ -64,6 +62,8 @@
       ghidra-delinker-extension
       ghidra-golanganalyzerextension
     ]))
+
+		jadx
 	];
 
   pwndbg-packages = let

@@ -312,15 +312,17 @@ in
   virtualisation = {
     # Note, make sure to tell waydroid to use an AMD GPU (discrete or internal) with: https://github.com/Quackdoc/waydroid-scripts/blob/main/waydroid-choose-gpu.sh
     waydroid.enable = true;
-    containers.enable = true;
 
     podman = {
       enable = true;
       dockerCompat = true;
       dockerSocket.enable = true;
-
       defaultNetwork.settings.dns_enabled = true;
     };
+
+		containers = {
+      enable = true;
+		};
 
     # virtualbox.host.enable = true;
     # virtualbox.host.enableExtensionPack = true; # Requires previous, will compile all of vbox if enabled!
@@ -403,17 +405,6 @@ in
     java = {
       binfmt = true;
       enable = true;
-    };
-
-    alvr = {
-      package = pkgs-stable.alvr;
-      enable = true;
-      openFirewall = true;
-    };
-
-    envision = {
-      enable = true;
-      openFirewall = true;
     };
   };
 

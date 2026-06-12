@@ -8,6 +8,7 @@ let
     polyphone
     qsynth
     krita
+		pixieditor
     libresprite
     vlc
     openutau

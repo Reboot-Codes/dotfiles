@@ -4,8 +4,7 @@
 	nvidia.acceptLicense = true;
 
   permittedInsecurePackages = [
-    "electron-25.9.0"
-    "electron-27.3.11"
+		"electron-39.8.10"
     "olm-3.2.16"
     "dotnet-sdk-7.0.120"
 		"SDL_ttf-2.0.11"
