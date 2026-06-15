@@ -9,12 +9,18 @@
     usbimager
     weylus
     librecad
-    orca-slicer
     (lib.hiPrio super-slicer-latest)
     prusa-slicer
     # bambu-studio
 		openrocket
 		calculix-ccx
+
+    # TODO: Remove once 2.4.0(-beta) is pushed to nixpkgs.
+		(orca-slicer.override {
+			glew = (glew.override {
+        enableEGL = false;
+      });
+    })
   ];
 
   stable = with pkgs-stable; [
