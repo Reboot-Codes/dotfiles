@@ -24,6 +24,7 @@ let
     rymdport
     magic-wormhole
     peco
+		handy
   ];
 in
 {
