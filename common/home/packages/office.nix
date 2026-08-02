@@ -4,8 +4,8 @@ let
     # Office (see stable)
     keepassxc
     libreoffice-qt
-		onlyoffice-desktopeditors
-		naps2
+    onlyoffice-desktopeditors
+    naps2
     hunspell
     hunspellDicts.en-us
     hunspellDicts.de-de
@@ -48,7 +48,6 @@ let
 
   stable = with pkgs-stable; [
     # Office
-    pdfslicer
     kiwix
     kiwix-tools
     zim

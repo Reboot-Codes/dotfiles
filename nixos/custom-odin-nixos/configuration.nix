@@ -15,10 +15,10 @@ let
 
   vfio-pci-ids = [
     # RTX 2060
-    "10de:1f08"
-    "10de:10f9"
-    "10de:1ada"
-    "10de:1adb"
+    #"10de:1f08"
+    #"10de:10f9"
+    #"10de:1ada"
+    #"10de:1adb"
 
     # Mobo's WI-FI 7 (we don't use this, but VIFO dies if all of the devices aren't sent to the driver)
     #"17cb:1107"
@@ -76,8 +76,6 @@ in
             options kvm_amd emulate_invalid_guest_state=0
             options kvm ignore_msrs=1
             options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-            blacklist nouveau
-            options nouveau modeset=0
       			options kvmfr static_size_mb=64
     '';
 
@@ -96,12 +94,12 @@ in
       "vfio_virqfd"
     ];
     blacklistedKernelModules = [
-      "nouveau"
-      "nvidia"
-      "nvidia_drm"
-      "nvidia_uvm"
-      "nvidia_modeset"
-      "i2c_nvidia_gpu"
+      #"nouveau"
+      #"nvidia"
+      #"nvidia_drm"
+      #"nvidia_uvm"
+      #"nvidia_modeset"
+      #"i2c_nvidia_gpu"
     ];
 
     binfmt = {
@@ -125,8 +123,8 @@ in
         "riscv32-linux"
         "riscv64-linux"
         "loongarch64-linux"
-        "wasm32-wasi"
-        "wasm64-wasi"
+        "wasm32-wasip1"
+        "wasm64-wasip1"
         "s390x-linux"
       ];
     };
@@ -320,9 +318,9 @@ in
       defaultNetwork.settings.dns_enabled = true;
     };
 
-		containers = {
+    containers = {
       enable = true;
-		};
+    };
 
     # virtualbox.host.enable = true;
     # virtualbox.host.enableExtensionPack = true; # Requires previous, will compile all of vbox if enabled!
@@ -711,7 +709,6 @@ in
 
         # Python
         # python3Full
-        pipx
 
         # Global Apps
         firefox

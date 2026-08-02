@@ -465,7 +465,6 @@
 
         # Python
         # python3Full
-        pipx
 
         # Global Apps
         firefox

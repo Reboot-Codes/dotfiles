@@ -1,8 +1,9 @@
 # Taken from the old NixOS 23.11 steam-run fhsenv. All credits to them for this.
-{ pkgs-stable, lib, ... }: with pkgs-stable; [
-	llvmPackages_16.libcxx
-	stdenv.cc.cc.lib
-	# (python313.withPackages (ps: [ ps.rpyc ps.tkinter ]))
+{ pkgs-stable, lib, ... }: with pkgs-stable;
+[
+  llvmPackages.libcxx
+  stdenv.cc.cc.lib
+  # (python313.withPackages (ps: [ ps.rpyc ps.tkinter ]))
 
   # Needed for operating system detection until
   # https://github.com/ValveSoftware/steam-for-linux/issues/5909 is resolved
@@ -10,7 +11,7 @@
   # Errors in output without those
   pciutils
   # Games' dependencies
-  xorg.xrandr
+  xrandr
   which
   # Needed by gdialog, including in the steam-runtime
   perl
@@ -23,18 +24,18 @@
   procps
   usbutils
 
-	opencl-clhpp
-	opencl-clang
-	opencl-headers
-	fuse3
-	fuse
-	wayland
-	kdePackages.wayland-protocols
-	pkg-config
-	cmake
-	kdePackages.qtbase
-	kdePackages.qqc2-desktop-style
-	kdePackages.kirigami
+  opencl-clhpp
+  intel-graphics-compiler
+  opencl-headers
+  fuse3
+  fuse
+  wayland
+  kdePackages.wayland-protocols
+  pkg-config
+  cmake
+  kdePackages.qtbase
+  kdePackages.qqc2-desktop-style
+  kdePackages.kirigami
 
   # It tries to execute xdg-user-dir and spams the log with command not founds
   xdg-user-dirs
@@ -43,13 +44,13 @@
   mesa
   sqlite
 
-	# These are required by steam with proper errors
-  xorg.libXcomposite
-  xorg.libXtst
-  xorg.libXrandr
-  xorg.libXext
-  xorg.libX11
-  xorg.libXfixes
+  # These are required by steam with proper errors
+  libXcomposite
+  libXtst
+  libXrandr
+  libXext
+  libX11
+  libXfixes
   libGL
   libva
   pipewire
@@ -67,21 +68,21 @@
   vulkan-loader
   expat
   wayland
-  xorg.libxcb
-  xorg.libXdamage
-  xorg.libxshmfence
-  xorg.libXxf86vm
+  libxcb
+  libXdamage
+  libxshmfence
+  libXxf86vm
   libelf
   (lib.getLib elfutils)
 
   # Without these it silently fails
-  xorg.libXinerama
-  xorg.libXcursor
-  xorg.libXrender
-  xorg.libXScrnSaver
-  xorg.libXi
-  xorg.libSM
-  xorg.libICE
+  libXinerama
+  libXcursor
+  libXrender
+  libXScrnSaver
+  libXi
+  libSM
+  libICE
   gnome2.GConf
   curlWithGnuTls
   nspr
@@ -98,13 +99,13 @@
   # Verified games requirements
   fontconfig
   freetype
-  xorg.libXt
-  xorg.libXmu
+  libXt
+  libXmu
   libogg
   libvorbis
   SDL
   SDL2_image
-  glew110
+  glew_1_10
   libdrm
   libidn
   tbb
@@ -143,7 +144,7 @@
   libunwind
   libvpx
   librsvg
-  xorg.libXft
+  libXft
   libvdpau
 
   # required by coreutils stuff to run correctly
@@ -155,7 +156,7 @@
 
   # Not formally in runtime but needed by some games
   at-spi2-atk
-  at-spi2-core   # CrossCode
+  at-spi2-core # CrossCode
   gst_all_1.gstreamer
   gst_all_1.gst-plugins-ugly
   gst_all_1.gst-plugins-base
@@ -167,9 +168,9 @@
   mono
   ncurses # Crusader Kings III
   openssl
-  xorg.xkeyboardconfig
-  xorg.libpciaccess
-  xorg.libXScrnSaver # Dead Cells
+  xkeyboardconfig
+  libpciaccess
+  libXScrnSaver # Dead Cells
   icu # dotnet runtime, e.g. Stardew Valley
 
   # screeps dependencies
@@ -194,5 +195,3 @@
   nghttp2.lib
   rtmpdump
 ]
-
-

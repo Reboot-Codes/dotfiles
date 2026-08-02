@@ -1,4 +1,5 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, ... }:
+let
   unstable = with pkgs; [
     # Media Acquisition
     ani-cli
@@ -14,7 +15,9 @@
     guymager
     vcdimager
     gImageReader
+    yt-dlp
   ];
-in {
+in
+{
   packages = unstable;
 }

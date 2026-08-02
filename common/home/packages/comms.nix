@@ -1,13 +1,13 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, ... }:
+let
   unstable = with pkgs; [
     # Comms
     zoom-us
-    session-desktop
     telegram-desktop
     thunderbird
     element-desktop
-		telegram-desktop
-		kotatogram-desktop
+    telegram-desktop
+    kotatogram-desktop
     discord
     signal-cli
     signalbackup-tools
@@ -19,6 +19,7 @@
     mumble
     discover-overlay
   ];
-in {
+in
+{
   packages = unstable;
 }

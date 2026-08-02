@@ -21,14 +21,13 @@ let
     act
     codeberg-cli
     codeberg-pages
-		lazygit
+    lazygit
     zsh
     git
     godot_4
     android-studio
     androidStudioPackages.canary
     android-tools
-    pipx
     (python313.withPackages (ps: [
       ps.rpyc
       ps.tkinter
@@ -67,13 +66,13 @@ let
   stable = with pkgs-stable; [
     # Dev
     (symlinkJoin {
-      name = "idea-community";
-      paths = [ jetbrains.idea-community ];
+      name = "idea";
+      paths = [ jetbrains.idea ];
       buildInputs = [ makeWrapper ];
 
       # stuff to make MC modding work.
       postBuild = ''
-        wrapProgram $out/bin/idea-community \
+        wrapProgram $out/bin/idea \
         --prefix LD_LIBRARY_PATH : "${
           lib.makeLibraryPath [
             libpulseaudio

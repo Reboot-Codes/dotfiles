@@ -1,8 +1,9 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, pkgs-stable, ... }:
+let
   unstable = with pkgs; [
     firefox-devedition
     tor-browser
-		brave
+    brave
     onioncircuits
     # lokinet
     persepolis
@@ -10,14 +11,14 @@
     ungoogled-chromium
     megasync
     floorp-bin
-		vivaldi
-		librewolf
-		ladybird
+    librewolf
+    ladybird
   ];
 
   stable = with pkgs-stable; [
     onionshare-gui
   ];
-in {
+in
+{
   packages = unstable ++ stable;
 }

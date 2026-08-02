@@ -43,9 +43,9 @@ let
     openrct2
     # itchiodl
     openttd
-    duckstation
     rrootage
     rpcs3
+    pcsx2
 
     (lutris.override {
       extraLibraries = pkgs: [

@@ -52,7 +52,7 @@
         catppuccin-nvim
         {
           plugin = lightline-vim;
-					type = "viml";
+          type = "viml";
 
           # TODO: Configure lightline.
           config = ''
@@ -209,6 +209,11 @@
     };
 
     alacritty = import ./programs/alacritty.nix;
+
+    vicinae = {
+      enable = true;
+      enableFirefoxIntegration = true;
+    };
 
     hyprlock = {
       enable = true;
