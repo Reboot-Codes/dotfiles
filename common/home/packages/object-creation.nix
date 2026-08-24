@@ -14,6 +14,7 @@
     # bambu-studio
 		openrocket
 		calculix-ccx
+    kicad
 
     # TODO: Remove once 2.4.0(-beta) is pushed to nixpkgs.
 		(orca-slicer.override {
@@ -25,7 +26,6 @@
 
   stable = with pkgs-stable; [
     # Object creation
-    kicad
 		openscad
     # brlcad
   ];

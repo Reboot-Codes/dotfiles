@@ -37,7 +37,6 @@ let
     gnome-obfuscate
     curtail
     xournalpp
-    logseq
     lmstudio
 
     # Translation
@@ -48,7 +47,8 @@ let
 
   stable = with pkgs-stable; [
     # Office
-    kiwix
+    logseq
+		kiwix
     kiwix-tools
     zim
     zim-tools

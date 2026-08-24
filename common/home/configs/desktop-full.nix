@@ -90,7 +90,7 @@ in {
     #      "Posy_Cursor_Mono";
 
     packages = lib.flatten (
-      builtins.map (groupName:
+      map (groupName:
         (import (../packages + "/${groupName}.nix") { inherit pkgs pkgs-stable pwndbg nixpkgs-xr; }).packages
       ) groups
     );

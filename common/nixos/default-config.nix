@@ -158,15 +158,15 @@ in
       syntaxHighlighting.enable = true;
 
       shellAliases = {
-        nix-update = "CUSTOMZSHCONSOLEPREVWORKINGDIR=$(pwd) cd /etc/nixos && sudo nix flake update && sudo nixos-rebuild switch --flake .# --impure -L --show-trace; cd $CUSTOMZSHCONSOLEPREVWORKINGDIR";
+        nix-update = "sudo nix flake update /etc/nixos && sudo nixos-rebuild switch --flake /etc/nixos# --impure -L --show-trace";
         nix-rebuild = "sudo nixos-rebuild switch --flake /etc/nixos/# --impure -L --show-trace";
         nix-config = "sudo nvim /etc/nixos/configuration.nix";
         nix-clean = "sudo nix-collect-garbage -d; nix-store --gc";
         start-default-virtd-network = "sudo virsh net-start default";
         clear-qmlcache = "find $${XDG_CACHE_HOME:-$HOME/.cache}/**/qmlcache -type f -delete";
-        ll = "eza -l --icons";
-        ls = "eza --icons";
-        tree = "eza --icons --tree --git-ignore";
+        ll = "eza -l --icons always";
+        ls = "eza --icons always";
+        tree = "eza --icons always --tree --git-ignore";
         waydroid-attach-user-folders = ''
           sudo mount --bind ~/Documents ~/.local/share/waydroid/data/media/0/Documents
           sudo mount --bind ~/Downloads ~/.local/share/waydroid/data/media/0/Download

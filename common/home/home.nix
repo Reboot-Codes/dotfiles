@@ -1,11 +1,7 @@
 # This file has general setting configs to make sure that our experiences are consistent.
 
 {
-  config,
   pkgs,
-  pkgs-stable,
-  home-manager,
-  nix-index-database,
   ...
 }:
 {
@@ -55,9 +51,6 @@
           type = "viml";
 
           # TODO: Configure lightline.
-          config = ''
-            let g:lightline = {'colorscheme': 'catppuccin'}
-          '';
         }
       ];
     };
@@ -296,8 +289,8 @@
         target = ".config/libvirt/qemu.conf";
         enable = true;
         text = ''
-          					nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
-          				'';
+ 					nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
+				'';
       };
 
       # TODO: add remind script to this!
@@ -313,6 +306,8 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
+    # TODO: Move to lua... but I'm laaaazy....
+    configType = "hyprlang";
 
     settings =
       let

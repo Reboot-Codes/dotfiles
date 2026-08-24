@@ -39,9 +39,9 @@ if command -v plasmashell &> /dev/null; then
 fi
 
 if command -v eza &> /dev/null; then
-  alias ll="eza -l --icons"
-  alias ls="eza --icons"
-  alias tree="eza --icons --tree --git-ignore"
+  alias ll="eza -l --icons always"
+  alias ls="eza --icons always"
+  alias tree="eza --icons always --tree --git-ignore"
 fi
 
 if command -v wget &> /dev/null; then
