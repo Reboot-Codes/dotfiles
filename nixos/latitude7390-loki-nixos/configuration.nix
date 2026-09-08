@@ -459,7 +459,7 @@
         exfat
         ntfs3g
         cifs-utils
-        mtpfs
+        simple-mtpfs
         libimobiledevice
         ifuse
 

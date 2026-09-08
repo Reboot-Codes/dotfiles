@@ -11,14 +11,14 @@
 }:
 let
   # TODO: Check if this exists and is the right display.
-  virtualDisplayId = "HDMI-A-1";
+  # virtualDisplayId = "HDMI-A-1";
 
   vfio-pci-ids = [
     # RTX 2060
-    #"10de:1f08"
-    #"10de:10f9"
-    #"10de:1ada"
-    #"10de:1adb"
+    "10de:1f08"
+    "10de:10f9"
+    "10de:1ada"
+    "10de:1adb"
 
     # Mobo's WI-FI 7 (we don't use this, but VIFO dies if all of the devices aren't sent to the driver)
     #"17cb:1107"
@@ -72,11 +72,11 @@ in
 
     # https://wiki.nixos.org/wiki/OSX-KVM
     extraModprobeConfig = ''
-            options kvm_amd nested=1
-            options kvm_amd emulate_invalid_guest_state=0
-            options kvm ignore_msrs=1
-            options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
-      			options kvmfr static_size_mb=64
+      options kvm_amd nested=1
+      options kvm_amd emulate_invalid_guest_state=0
+      options kvm ignore_msrs=1
+      options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
+ 			options kvmfr static_size_mb=64
     '';
 
     kernelParams = [
@@ -93,13 +93,15 @@ in
       "vfio_pci"
       "vfio_virqfd"
     ];
+
+    # The only gpu we have right now *is* an Nvidia card... so...
     blacklistedKernelModules = [
-      #"nouveau"
-      #"nvidia"
-      #"nvidia_drm"
-      #"nvidia_uvm"
-      #"nvidia_modeset"
-      #"i2c_nvidia_gpu"
+      "nouveau"
+      "nvidia"
+      "nvidia_drm"
+      "nvidia_uvm"
+      "nvidia_modeset"
+      "i2c_nvidia_gpu"
     ];
 
     binfmt = {
@@ -276,9 +278,9 @@ in
 
       dl-music = {
         script = ''
-          					set -eu
-          					${pkgs.zsh}/bin/zsh -c "/home/reboot/Music/YT/download.sh"
-          				'';
+ 					set -eu
+ 					${pkgs.zsh}/bin/zsh -c "/home/reboot/Music/YT/download.sh"
+				'';
 
         serviceConfig = {
           Type = "oneshot";
@@ -288,8 +290,8 @@ in
 
       nix-clean = {
         script = ''
-          					${pkgs.nix}/bin/nix-store --gc
-          				'';
+ 					${pkgs.nix}/bin/nix-store --gc
+				'';
 
         serviceConfig = {
           Type = "oneshot";
@@ -343,16 +345,16 @@ in
         #};
 
         verbatimConfig = ''
-          					user = "reboot"
+ 					user = "reboot"
 
-          					cgroup_device_acl = [
-          				    "/dev/null", "/dev/full", "/dev/zero",
-          				    "/dev/random", "/dev/urandom",
-          				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
-          				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
-          						"/dev/kvmfr0", "/run/user/1000/pipewire-0"
-          					]
-          				'';
+ 					cgroup_device_acl = [
+				    "/dev/null", "/dev/full", "/dev/zero",
+				    "/dev/random", "/dev/urandom",
+				    "/dev/ptmx", "/dev/kvm", "/dev/kqemu",
+				    "/dev/rtc","/dev/hpet", "/dev/vfio/vfio",
+						"/dev/kvmfr0", "/run/user/1000/pipewire-0"
+ 					]
+				'';
       };
     };
 
@@ -480,9 +482,9 @@ in
       ];
 
       extraRules = ''
-                SUBSYSTEM=="kvmfr", MODE="0660", GROUP="kvm"
-                SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
-        				ACTION=="add", ATTR{idVendor}=="0bda", ATTR{idProduct}=="1a2b", RUN+="${lib.getExe pkgs.usb-modeswitch} -K -v 0bda -p 1a2b"
+        SUBSYSTEM=="kvmfr", MODE="0660", GROUP="kvm"
+        SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
+				ACTION=="add", ATTR{idVendor}=="0bda", ATTR{idProduct}=="1a2b", RUN+="${lib.getExe pkgs.usb-modeswitch} -K -v 0bda -p 1a2b"
       '';
     };
 
@@ -703,7 +705,7 @@ in
         exfat
         ntfs3g
         cifs-utils
-        mtpfs
+        simple-mtpfs
         libimobiledevice
         ifuse
 

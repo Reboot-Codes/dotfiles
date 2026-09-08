@@ -23,7 +23,6 @@ let
     gnome-decoder
     junction
     sigil
-    openboard
     kdePackages.marble
     # kdePackages.itinerary
     scribus
@@ -52,6 +51,7 @@ let
     kiwix-tools
     zim
     zim-tools
+		# openboard
     translatelocally
     translatelocally-models.uk-en-tiny
     translatelocally-models.tr-en-tiny

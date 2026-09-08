@@ -63,7 +63,7 @@ let
         obs-3d-effect
         looking-glass-obs
         obs-vkcapture
-        obs-shaderfilter
+        # obs-shaderfilter
         obs-source-record
         # obs-replay-source
         obs-freeze-filter
@@ -71,7 +71,7 @@ let
         obs-composite-blur
         obs-command-source
         # obs-vertical-canvas
-        obs-move-transition
+        # obs-move-transition
         obs-transition-table
         obs-3d-effect
         # obs-tuna

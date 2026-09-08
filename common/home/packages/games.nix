@@ -46,6 +46,7 @@ let
     rrootage
     rpcs3
     pcsx2
+    nestopia-ue
 
     (lutris.override {
       extraLibraries = pkgs: [

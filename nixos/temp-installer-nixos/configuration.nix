@@ -138,7 +138,7 @@
     exfat
     ntfs3g
     cifs-utils
-    mtpfs
+    simple-mtpfs
     links2
     alacritty
     qpwgraph

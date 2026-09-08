@@ -5,7 +5,6 @@
     looking-glass-client
     distrobox
     boxbuddy
-    gearlever
     simh
 		kdePackages.kdialog
 		wineWow64Packages.waylandFull
@@ -19,6 +18,7 @@
 		qtemu
     # (bottles.override { removeWarningPopup = true; })
 		bottles
+		gearlever
 	];
 in {
   packages = unstable ++ stable;

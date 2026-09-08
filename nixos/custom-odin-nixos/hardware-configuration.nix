@@ -78,7 +78,7 @@
   };
 
   fileSystems."/data/ZimaOS" = {
-    device = "//192.168.0.201/ZimaOS-HD";
+    device = "//192.168.8.190/ZimaOS-HD";
     fsType = "cifs";
 
     options = [

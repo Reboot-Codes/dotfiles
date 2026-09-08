@@ -48,7 +48,6 @@
     kernelParams = [
       "psi=1" # Enable PSI to make sure that Binder doesn't die when using Waydroid.
       # "drm_kms_helper.edid_firmware=${virtualDisplayId}:edid/reboots-virtual-display.bin" # Set the custom EDID file to the virtual display interface.
-      ("vfio-pci.ids=" + lib.concatStringsSep "," vfio-pci-ids)
     ];
 
     kernelModules = [
@@ -546,7 +545,7 @@
         sshfs
         exfat
         ntfs3g
-        mtpfs
+        simple-mtpfs
         libimobiledevice
         ifuse
 
