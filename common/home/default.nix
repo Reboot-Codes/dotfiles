@@ -1,4 +1,4 @@
-{ hostConfig, pkgs, pkgs-stable, pwndbg, nix-index-database, nixpkgs-xr, ... }: {
+{ hostConfig, pkgs, pkgs-stable, pwndbg, nix-index-database, nixpkgs-xr ? null, ... }: {
   home-manager = {
     backupFileExtension = ".bak";
 

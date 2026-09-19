@@ -2,9 +2,11 @@
 
 {
   pkgs,
+  lib,
   ...
 }:
-{
+lib.mkMerge [
+  {
   programs = {
     home-manager.enable = true;
     direnv.enable = true;
@@ -16,7 +18,7 @@
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       autocd = true;
-      envExtra = builtins.readFile ./dotfiles/.zshrc;
+      initContent = builtins.readFile ./dotfiles/.zshrc;
 
       # TODO: Translate oh-my-zsh plugins.
     };
@@ -203,136 +205,144 @@
 
     alacritty = import ./programs/alacritty.nix;
 
-    vicinae = {
-      enable = true;
-      enableFirefoxIntegration = true;
     };
 
-    hyprlock = {
-      enable = true;
-
-      settings = {
-        general = {
-          hide_cursor = true;
+    home = {
+      file = {
+        # Configure the `rustfmt` formatter!
+        "rustfmt.toml" = {
+          target = ".config/rustfmt/rustfmt.toml";
+          enable = true;
+          text = builtins.readFile ./dotfiles/rustfmt.toml;
         };
 
-        background = [
-          {
-            path = "screenshot";
-            blur_passes = 4;
-            blur_size = 8;
-          }
-        ];
+        "ignore-dev-edition-profile" = {
+          target = ".mozilla/firefox/ignore-dev-edition-profile";
+          enable = true;
+          text = "";
+        };
 
-        input-field = [
-          {
-            size = "500, 50";
-            font_color = "rgb(124, 207, 158)";
-            inner_color = "rgb(0, 0, 0)";
-            outline_color = "rgb(124, 207, 158)";
-            dots_center = true;
-          }
-        ];
+        # TODO: add remind script to this!
       };
     };
+  }
 
-    waybar = {
-      enable = true;
-      systemd.enable = false;
+  (lib.mkIf pkgs.stdenv.isLinux {
+    programs = {
+      vicinae = {
+        enable = true;
+        enableFirefoxIntegration = true;
+      };
 
-      settings = {
-        main = {
-          layer = "top";
-          position = "top";
-          height = 32;
+      hyprlock = {
+        enable = true;
 
-          modules-left = [ "hyprland/workspaces" ];
-          modules-center = [ ];
-          modules-right = [
-            "battery"
-            "clock"
+        settings = {
+          general = {
+            hide_cursor = true;
+          };
+
+          background = [
+            {
+              path = "screenshot";
+              blur_passes = 4;
+              blur_size = 8;
+            }
+          ];
+
+          input-field = [
+            {
+              size = "500, 50";
+              font_color = "rgb(124, 207, 158)";
+              inner_color = "rgb(0, 0, 0)";
+              outline_color = "rgb(124, 207, 158)";
+              dots_center = true;
+            }
           ];
         };
       };
+
+      waybar = {
+        enable = true;
+        systemd.enable = false;
+
+        settings = {
+          main = {
+            layer = "top";
+            position = "top";
+            height = 32;
+
+            modules-left = [ "hyprland/workspaces" ];
+            modules-center = [ ];
+            modules-right = [
+              "battery"
+              "clock"
+            ];
+          };
+        };
+      };
     };
 
-    # TODO: Configure KDE with `qt.kde.settings`
-  };
+    services = {
+      gpg-agent = {
+        enable = true;
+        enableExtraSocket = true;
+        enableSshSupport = true;
+        sshKeys = [ "F4DB81CBA107C76D0F7A75B18A0D03A6C3DCBA53" ];
+      };
 
-  services = {
-    gpg-agent = {
-      enable = true;
-      enableExtraSocket = true;
-      enableSshSupport = true;
-      sshKeys = [ "F4DB81CBA107C76D0F7A75B18A0D03A6C3DCBA53" ];
+      # emacs.enable = true;
     };
 
-    # emacs.enable = true;
-  };
-
-  home = {
-    file = {
-      # Configure the `rustfmt` formatter!
-      "rustfmt.toml" = {
-        target = ".config/rustfmt/rustfmt.toml";
-        enable = true;
-        text = builtins.readFile ./dotfiles/rustfmt.toml;
-      };
-
-      "ignore-dev-edition-profile" = {
-        target = ".mozilla/firefox/ignore-dev-edition-profile";
-        enable = true;
-        text = "";
-      };
-
-      "qemu.conf" = {
-        target = ".config/libvirt/qemu.conf";
-        enable = true;
-        text = ''
+    home = {
+      file = {
+        "qemu.conf" = {
+          target = ".config/libvirt/qemu.conf";
+          enable = true;
+          text = ''
  					nvram = [ "/run/libvirt/nix-ovmf/AAVMF_CODE.fd:/run/libvirt/nix-ovmf/AAVMF_VARS.fd", "/run/libvirt/nix-ovmf/OVMF_CODE.fd:/run/libvirt/nix-ovmf/OVMF_VARS.fd" ]
 				'';
+        };
       };
 
-      # TODO: add remind script to this!
-    };
-
-    sessionVariables = {
-      GTK_THEME = "Breeze-Dark";
-      NIXOS_OZONE_WL = "1";
-    };
-  };
-
-  # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar) Move to lua!
-  wayland.windowManager.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-    # TODO: Move to lua... but I'm laaaazy....
-    configType = "hyprlang";
-
-    settings =
-      let
-        toggle = program: "pkill ${program} || ${program}";
-        runOnce = program: "pgrep ${program} || ${program}";
-      in
-      {
-        "exec-once" = [
-          "waybar"
-          "dunst"
-        ];
-
-        "$mod" = "SUPER";
-
-        bind = [
-          "ALT, space, exec, ${toggle "wofi --show drun"}"
-          "$mod, Return, exec, alacritty"
-          "$mod, M, exit,"
-          "$mod, BackSpace, killactive,"
-          "SUPER, left, workspace, -1"
-          "SUPER, right, workspace, +1"
-          "SHIFT + SUPER, left, movetoworkspace, -1"
-          "SHIFT + SUPER, right, movetoworkspace, +1"
-          "$mod, L, exec, ${runOnce "hyprlock"}"
-        ];
+      sessionVariables = {
+        GTK_THEME = "Breeze-Dark";
+        NIXOS_OZONE_WL = "1";
       };
-  };
-}
+    };
+
+    # TODO: Translate alt DE configs (hyprland, hyprpapr, dunst, waybar) Move to lua!
+    wayland.windowManager.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      # TODO: Move to lua... but I'm laaaazy....
+      configType = "hyprlang";
+
+      settings =
+        let
+          toggle = program: "pkill ${program} || ${program}";
+          runOnce = program: "pgrep ${program} || ${program}";
+        in
+        {
+          "exec-once" = [
+            "waybar"
+            "dunst"
+          ];
+
+          "$mod" = "SUPER";
+
+          bind = [
+            "ALT, space, exec, ${toggle "wofi --show drun"}"
+            "$mod, Return, exec, alacritty"
+            "$mod, M, exit,"
+            "$mod, BackSpace, killactive,"
+            "SUPER, left, workspace, -1"
+            "SUPER, right, workspace, +1"
+            "SHIFT + SUPER, left, movetoworkspace, -1"
+            "SHIFT + SUPER, right, movetoworkspace, +1"
+            "$mod, L, exec, ${runOnce "hyprlock"}"
+          ];
+        };
+    };
+  })
+]

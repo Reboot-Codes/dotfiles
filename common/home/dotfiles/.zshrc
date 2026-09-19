@@ -14,6 +14,12 @@ if [ -e /run/current-system/sw/bin ]; then
   PATH="$PATH:/run/current-system/sw/bin"
 fi
 
+if [ -x /opt/homebrew/bin/brew ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -d /opt/homebrew/bin ]; then
+  PATH="/opt/homebrew/bin:$PATH"
+fi
+
 if [ -e ~/dev/scripts/remind.sh ]; then
   source ~/dev/scripts/remind.sh
 fi
@@ -79,6 +85,48 @@ fi
 
 if command -v nix-store &> /dev/null; then
   alias nix-clean="sudo nix-collect-garbage -d; nix-store --gc"
+
+  unalias nix-rebuild nix-update nix-config 2>/dev/null || true
+
+  nix-rebuild() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      local flake_dir="${DOTFILES_DIR:-$HOME/Projects/dotfiles}"
+      sudo darwin-rebuild switch --flake "${flake_dir}#$(hostname -s)" --impure -L --show-trace "$@"
+    elif command -v nixos-rebuild &> /dev/null; then
+      local flake_dir="/etc/nixos"
+      if [ ! -d "$flake_dir" ] && [ -d "$HOME/Projects/dotfiles" ]; then
+        flake_dir="$HOME/Projects/dotfiles"
+      fi
+      sudo nixos-rebuild switch --flake "${flake_dir}#" --impure -L --show-trace "$@"
+    else
+      echo "Error: neither darwin-rebuild nor nixos-rebuild found." >&2
+      return 1
+    fi
+  }
+
+  nix-update() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      local flake_dir="${DOTFILES_DIR:-$HOME/Projects/dotfiles}"
+      nix flake update --flake "$flake_dir" && nix-rebuild "$@"
+    elif command -v nixos-rebuild &> /dev/null; then
+      local flake_dir="/etc/nixos"
+      if [ ! -d "$flake_dir" ] && [ -d "$HOME/Projects/dotfiles" ]; then
+        flake_dir="$HOME/Projects/dotfiles"
+      fi
+      sudo nix flake update "$flake_dir" && nix-rebuild "$@"
+    else
+      echo "Error: neither darwin-rebuild nor nixos-rebuild found." >&2
+      return 1
+    fi
+  }
+
+  nix-config() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      nvim "${DOTFILES_DIR:-$HOME/Projects/dotfiles}"
+    elif [ -d /etc/nixos ]; then
+      sudo nvim /etc/nixos/configuration.nix
+    fi
+  }
 fi
 
 if [ "$SSH_CLIENT" ]; then
@@ -90,7 +138,7 @@ if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
 fi
 export GPG_TTY=$(tty)
-gpg-connect-agent updatestartuptty /bye >/dev/null
+gpg-connect-agent updatestartuptty /bye >/dev/null 2>&1
 
 PATH="$PATH:."
 
