@@ -175,7 +175,7 @@
           ] ++ (with pkgs; [
             nixd
             nil
-          ]) ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [ # Makes updating mac configs a lot easier
+          ]) ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ # Makes updating mac configs a lot easier
             (nix-darwin.packages.${pkgs.stdenv.hostPlatform.system}.darwin-rebuild or nix-darwin.packages.${pkgs.stdenv.hostPlatform.system}.default)
           ];
         };
