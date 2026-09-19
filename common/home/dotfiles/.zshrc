@@ -83,10 +83,10 @@ if command -v wget &> /dev/null; then
   alias wayback-download="wget --recursive --no-clobber --page-requisites --convert-links --domains web.archive.org --no-parent"
 fi
 
+unalias nix-rebuild nix-update nix-config 2>/dev/null || true
+
 if command -v nix-store &> /dev/null; then
   alias nix-clean="sudo nix-collect-garbage -d; nix-store --gc"
-
-  unalias nix-rebuild nix-update nix-config 2>/dev/null || true
 
   nix-rebuild() {
     if [[ "$OSTYPE" == "darwin"* ]]; then
