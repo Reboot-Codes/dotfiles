@@ -24,6 +24,7 @@ lib.mkMerge [
     };
 
     git = {
+      enable = true;
       settings = {
         user = {
           name = "Reboot-Codes";
