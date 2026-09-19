@@ -61,6 +61,8 @@ let
     alcom
     sops
     rops
+		antigravity-ide
+		antigravity-cli
   ];
 
   stable = with pkgs-stable; [
