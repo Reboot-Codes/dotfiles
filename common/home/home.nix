@@ -33,7 +33,7 @@ lib.mkMerge [
       };
 
       signing = {
-        key = "F4DB81CBA107C76D0F7A75B18A0D03A6C3DCBA53";
+        key = "183892CF4E46CB3DF7D2242E60DF5E67E1746DA7";
         signByDefault = true;
       };
     };
