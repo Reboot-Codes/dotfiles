@@ -68,6 +68,11 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-darwin = {
+      url = "github:nix-darwin/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -88,10 +93,15 @@
       nixpkgs-xr,
       distro-grub-themes,
       sops-nix,
+      nix-darwin,
     }:
     let
-      system = "x86_64-linux";
-      pkgs = import nixpkgs { inherit system; };
+      forAllSystems = function:
+        nixpkgs.lib.genAttrs [
+          "x86_64-linux"
+          "aarch64-linux"
+          "aarch64-darwin"
+        ] (system: function nixpkgs.legacyPackages.${system});
     in
     {
       nixosConfigurations = import ./nixos {
@@ -133,22 +143,42 @@
           ;
       };
 
-      # Because declarative secrets tracking is annoying w/o devshell...
-      devShells.${system}.default = pkgs.mkShell {
-        # imports all files ending in .asc/.gpg
-        sopsPGPKeyDirs = [
-          "${toString ./.}/keys/hosts"
-          "${toString ./.}/keys/users"
-        ];
-
-        sopsAgeKeyDirs = [
-          "/etc/ssh/ssh_host_ed25519_key.pub"
-        ];
-
-        # adds the customized sops to the path
-        nativeBuildInputs = [
-          (pkgs.callPackage sops-nix { }).sops-import-keys-hook
-        ];
+      darwinConfigurations = import ./darwin {
+        inherit
+          nix-darwin
+          nixpkgs
+          nixpkgs-stable
+          home-manager
+          rust-overlay
+          pwndbg
+          nix-index-database
+          sops-nix
+          ;
       };
+
+      # Because declarative secrets tracking is annoying w/o devshell...
+      devShells = forAllSystems (pkgs: {
+        default = pkgs.mkShell {
+          # imports all files ending in .asc/.gpg
+          sopsPGPKeyDirs = [
+            "${toString ./.}/keys/hosts"
+            "${toString ./.}/keys/users"
+          ];
+
+          sopsAgeKeyDirs = [
+            "/etc/ssh/ssh_host_ed25519_key.pub"
+          ];
+
+          # adds the customized sops to the path
+          nativeBuildInputs = [
+            (pkgs.callPackage sops-nix { }).sops-import-keys-hook
+          ] ++ (with pkgs; [
+            nixd
+            nil
+          ]) ++ pkgs.lib.optionals pkgs.stdenv.isDarwin [ # Makes updating mac configs a lot easier
+            (nix-darwin.packages.${pkgs.stdenv.hostPlatform.system}.darwin-rebuild or nix-darwin.packages.${pkgs.stdenv.hostPlatform.system}.default)
+          ];
+        };
+      });
     };
 }
