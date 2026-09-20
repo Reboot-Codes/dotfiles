@@ -14,12 +14,6 @@ if [ -e /run/current-system/sw/bin ]; then
   PATH="$PATH:/run/current-system/sw/bin"
 fi
 
-if [ -x /opt/homebrew/bin/brew ]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [ -d /opt/homebrew/bin ]; then
-  PATH="/opt/homebrew/bin:$PATH"
-fi
-
 if [ -e ~/dev/scripts/remind.sh ]; then
   source ~/dev/scripts/remind.sh
 fi

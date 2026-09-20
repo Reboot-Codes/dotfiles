@@ -25,4 +25,60 @@
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
   ];
+
+  system = {
+    primaryUser = "reboot";
+
+    defaults = {
+      dock = {
+        # IF I WANTED MRU, I'D USE THE SAME FUCKIN' DESKTOP, APPLE.
+        mru-spaces = false;
+      };
+
+      trackpad = {
+        Clicking = true;
+        Dragging = true;
+      };
+
+      controlcenter = {
+        BatteryShowPercentage = true;
+      };
+
+      finder = {
+        ShowStatusBar = true;
+        NewWindowTarget = "Home";
+        AppleShowAllFiles = true;
+        AppleShowAllExtensions = true;
+      };
+    };
+  };
+
+  homebrew = {
+    enable = true;
+    enableZshIntegration = true;
+
+    casks = [
+      # Web
+      "firefox@developer-edition"
+
+      # Dev
+      "zed"
+
+      # Security
+      "keepassxc"
+
+      # Sync
+      "syncthing-app"
+      "tailscale-app"
+
+      # Util
+      "vorssaint"
+    ];
+
+    brews = [
+      "wget"
+      "neovim"
+      "tmux"
+    ];
+  };
 }
