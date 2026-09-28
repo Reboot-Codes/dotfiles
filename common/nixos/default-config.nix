@@ -11,6 +11,7 @@
 }:
 let
   system = "x86_64-linux";
+  isServer = hostConfig.systemType == "server";
 in
 {
   imports = [
@@ -58,12 +59,12 @@ in
   boot = {
     loader.grub = {
       configurationLimit = 15;
-      theme = distro-grub-themes.packages.${system}.nixos-grub-theme;
+      theme = lib.mkDefault distro-grub-themes.packages.${system}.nixos-grub-theme;
     };
 
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = lib.mkDefault pkgs.linuxPackages_zen;
 
-    extraModulePackages = with config.boot.kernelPackages; [
+    extraModulePackages = with config.boot.kernelPackages; lib.mkDefault [
       usbip
       # apfs
       kvmfr
@@ -97,7 +98,7 @@ in
   };
 
   networking = {
-    networkmanager.enable = true;
+    networkmanager.enable = lib.mkDefault true;
     # wireless.enable = false;
 
     hosts = {
@@ -142,12 +143,12 @@ in
     polkit.enable = true;
   };
 
-  hardware.flipperzero.enable = true;
+  hardware.flipperzero.enable = lib.mkDefault true;
 
   programs = {
     gnupg.agent = {
       enable = true;
-      pinentryPackage = pkgs.pinentry-all; # HHHHHHH this is such a bitch and cmd-line fallbacks don't work.
+      pinentryPackage = lib.mkForce (if isServer then pkgs.pinentry-curses else pkgs.pinentry-all); # HHHHHHH this is such a bitch and cmd-line fallbacks don't work.
       enableSSHSupport = true;
     };
 
@@ -213,7 +214,7 @@ in
     };
 
     tor = {
-      enable = true;
+      enable = lib.mkDefault true;
 
       client = {
         enable = true;
@@ -228,7 +229,7 @@ in
     };
 
     avahi = {
-      enable = true;
+      enable = lib.mkDefault true;
       openFirewall = true;
       nssmdns4 = true;
       nssmdns6 = true;
@@ -240,7 +241,8 @@ in
         workstation = true;
       };
     };
-
+  }
+  // (lib.optionalAttrs (!isServer) {
     flatpak = {
       remotes = [
         {
@@ -295,7 +297,7 @@ in
         };
       };
     };
-  };
+  });
 
   users = {
     defaultUserShell = pkgs.zsh;
@@ -304,38 +306,43 @@ in
       isNormalUser = true;
       description = "Reboot"; # GCOS Field, basically the Pretty Name for this user.
 
-      extraGroups = [
-        "networkmanager"
-        "wheel"
-        "adbuser"
-        "docker"
-        "libvirtd"
-        "libvirt"
-        "kvm"
-        "adbusers"
-        "xrdp"
-        "gamemode"
-        "video"
-        config.services.kubo.group
-        "vboxusers"
-        "dialout"
-      ];
+      extraGroups = lib.mkDefault (
+        if isServer then [
+          "wheel"
+          "docker"
+        ] else [
+          "networkmanager"
+          "wheel"
+          "adbuser"
+          "docker"
+          "libvirtd"
+          "libvirt"
+          "kvm"
+          "adbusers"
+          "xrdp"
+          "gamemode"
+          "video"
+          config.services.kubo.group
+          "vboxusers"
+          "dialout"
+        ]
+      );
 
       subUidRanges = [{ startUid = 100000; count = 65536; }];
       subGidRanges = [{ startGid = 100000; count = 65536; }];
     };
   };
 
-  fonts.fontDir.enable = true;
+  fonts.fontDir.enable = lib.mkDefault (!isServer);
 
   environment = {
     sessionVariables = {
       # TL;DR: all of our QT shit uses wayland. or... should, anyways, so this is global, and makes theming work.
-      QT_QPA_PLATFORM = "wayland";
+      QT_QPA_PLATFORM = lib.mkDefault "wayland";
     };
 
     # Install Soundfonts TODO: only Fluid copies over... might wanna fix that soon.
-    etc = {
+    etc = lib.mkIf (!isServer) {
       "/soundfonts/FluidR3_GM2-2.sf2".source =
         "${pkgs.soundfont-fluid}/share/soundfonts/FluidR3_GM2-2.sf2";
       "/share/soundfonts/arachno.sf2".source = "${pkgs.soundfont-arachno}/share/soundfonts/arachno.sf2";

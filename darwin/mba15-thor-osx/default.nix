@@ -9,6 +9,7 @@
       # Coms
       "zoom"
       "vesktop"
+			"signal"
 
       # Object creation
       "freecad"

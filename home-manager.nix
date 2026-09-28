@@ -12,7 +12,7 @@ in
   "${hostConfig.username}" = home-manager.lib.homeManagerConfiguration rec {
     pkgs = nixpkgs.legacyPackages."${hostConfig.system}";
     modules = [
-      ../common/home
+      ./common/home
     ];
   };
 }

@@ -32,7 +32,7 @@ let
   server = {
     username = "reboot";
     system = "x86_64-linux";
-    systemType = "desktop";
+    systemType = "server";
   };
 
   hosts = {
@@ -40,7 +40,7 @@ let
     "custom-odin-nixos" = defaultDesktop; # // { useDisko = true; };
     "temp-installer-nixos" = installISO;
 
-    "minisforum-valkyrie-2-nixos.cloud.reboot-codes.com" = server;
+    "vps-valkyrie-edge-nixos" = server // { useDisko = true; };
   };
 in
 (nixpkgs.lib.genAttrs (builtins.attrNames hosts) (
@@ -48,6 +48,7 @@ in
   let
     hostConfig = hosts."${hostname}";
     system = hostConfig.system;
+    isServer = hostConfig.systemType == "server";
 
     pkgs-stable = import nixpkgs-stable {
       # Refer to the `system` parameter from
@@ -78,19 +79,17 @@ in
     modules = [
       # Imported Flakes
       home-manager.nixosModules.home-manager
-      flatpaks.nixosModules.nix-flatpak
       nur.modules.nixos.default
       chaotic.nixosModules.default
       nix-index-database.nixosModules.nix-index
-      nixpkgs-xr.nixosModules.nixpkgs-xr
       sops-nix.nixosModules.sops
 
       {
         networking.hostName = "${hostname}"; # Define your hostname.
 
-        # AAGL stuff: https://github.com/ezKEa/aagl-gtk-on-nix
-        imports = [ aagl.nixosModules.default ];
-        nix.settings = aagl.nixConfig;
+        # AAGL stuff: https://github.com/ezKEa/aagl-gtk-on-nix (desktop/gaming only)
+        imports = nixpkgs.lib.optionals (!isServer) [ aagl.nixosModules.default ];
+        nix.settings = nixpkgs.lib.optionalAttrs (!isServer) aagl.nixConfig;
 
         home-manager = {
           useGlobalPkgs = true;
@@ -103,14 +102,20 @@ in
               pwndbg
               nixpkgs-xr
               sops-nix
+              hostConfig
               ;
           };
         };
       }
-
+    ]
+    ++ nixpkgs.lib.optionals (!isServer) [
+      flatpaks.nixosModules.nix-flatpak
+      nixpkgs-xr.nixosModules.nixpkgs-xr
+    ]
+    ++ [
       ../common/nixos # TODO: Set default system packages!
       ../common/home
-      (./. + "/${hostname}") # Our Configs, TODO: Make sure that home and system packages are `//`'d together with previous configs. (Use lib.mkForce for force overrides?)
+      (./. + "/${hostname}") # Our Configs
     ]
     ++ (
       if (nixpkgs.lib.hasAttr "useDisko" hostConfig) then

@@ -70,6 +70,7 @@
       # Sync
       "syncthing-app"
       "tailscale-app"
+			"kde-connect"
 
       # Util
       "vorssaint"
@@ -79,6 +80,7 @@
       "wget"
       "neovim"
       "tmux"
+			"speedtest-go"
     ];
   };
 }
