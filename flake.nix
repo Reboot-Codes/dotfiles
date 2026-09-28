@@ -93,7 +93,7 @@
       nixpkgs-xr,
       distro-grub-themes,
       sops-nix,
-      nix-darwin,
+      nix-darwin
     }:
     let
       forAllSystems = function:

@@ -36,7 +36,7 @@ let
   };
 
   hosts = {
-    "latitude7390-loki-nixos" = defaultDesktop;
+    # "latitude7390-loki-nixos" = defaultDesktop;
     "custom-odin-nixos" = defaultDesktop; # // { useDisko = true; };
     "temp-installer-nixos" = installISO;
 

@@ -47,7 +47,6 @@
         intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
         libvdpau-va-gl
         mesa
-        intel-media-sdk
         vpl-gpu-rt
       ];
     };

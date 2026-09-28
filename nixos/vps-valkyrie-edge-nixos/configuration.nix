@@ -31,6 +31,10 @@
       settings.PermitRootLogin = "prohibit-password";
     };
 
+    fail2ban = {
+      enable = true;
+    };
+
     caddy = {
       enable = true;
       # Point 'package' to your custom Caddy package if compiled with Coraza WAF
