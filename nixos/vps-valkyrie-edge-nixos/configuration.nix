@@ -1,27 +1,23 @@
-{ lib, ... }: {
+{ lib, pkgs, ... }: {
   # Headless server: disable desktop services from common
   services.avahi.enable = false;
   services.tor.enable = false;
   hardware.flipperzero.enable = false;
   environment.sessionVariables.QT_QPA_PLATFORM = lib.mkForce "";
 
-  security = {
-    audit = {
-      enable = true;
-      backlogLimit = 8192;
-      failureMode = "silent";
+  sops = {
+    defaultSopsFile = ../../secrets.yaml;
 
-      # Custom audit rules monitoring sensitive actions
-      rules = [
-        # Monitor process executions
-        "-a always,exit -F arch=b64 -S execve -k exec_log"
-        # Monitor changes to user/group databases
-        "-w /etc/passwd -p wa -k identity_changes"
-        "-w /etc/shadow -p wa -k identity_changes"
-        # Monitor changes to SSH keys
-        "-w /root/.ssh -p wa -k root_ssh"
-      ];
+    age = {
+      # This will automatically import SSH keys as age keys
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+      # This is using an age key that is expected to already be in the filesystem
+      keyFile = "/var/lib/sops-nix/key.txt";
+      # This will generate a new key if the key specified above does not exist
+      generateKey = true;
     };
+
+    secrets."tokens/services/forgejo/edge-runner" = { };
   };
 
   services = {
@@ -31,116 +27,33 @@
       settings.PermitRootLogin = "prohibit-password";
     };
 
-    fail2ban = {
-      enable = true;
-    };
-
     caddy = {
       enable = true;
-      # Point 'package' to your custom Caddy package if compiled with Coraza WAF
-      extraConfig = ''
-        # Main Static Site
-        #reboot-codes.com {
-        #  root * /var/www/reboot-codes.com
-        #  file_server
-        #}
 
-        # Forgejo
-        git.reboot-codes.com {
-          reverse_proxy 127.0.0.1:3000
+      package = pkgs.caddy.withPlugins {
+        plugins = [ "github.com/corazawaf/coraza-caddy/v2@v2.6.1" ];
+        hash = "sha256-a1KAbgGB6CquZT85JE7SFdYX4DaoYQelUZpXZ74YUoU=";
+      };
+
+      globalConfig = ''
+        order coraza_waf first
+      '';
+
+      extraConfig = ''
+        import /etc/caddy/cloudflare-trusted.caddy
+
+        (waf) {
+          coraza_waf {
+            load_owasp_crs
+            directives `
+              Include @coraza.conf-recommended
+              Include @crs-setup.conf.example
+              Include @owasp_crs/*.conf
+              SecRuleEngine On
+            `
+          }
         }
       '';
-    };
-
-    prometheus.exporters.node = {
-      enable = true;
-      listenAddress = "100.92.214.3"; # Bind EXCLUSIVELY to Tailscale IP
-      port = 9100;
-      enabledCollectors = [ "systemd" "network" "cpu" "meminfo" "diskstats" ];
-    };
-
-    osquery = {
-      enable = true;
-      flags = {
-        # NixOS creates /run/osquery runtime directory
-        extensions_socket = "/run/osquery/osquery.em";
-      };
-      settings = {
-        schedule = {
-          listening_ports = {
-            query = "SELECT pid, port, protocol, address FROM listening_ports;";
-            interval = 300;
-          };
-          logged_in_users = {
-            query = "SELECT user, tty, host, time FROM logged_in_users;";
-            interval = 60;
-          };
-        };
-      };
-    };
-
-    vector = {
-      enable = true;
-      journaldAccess = true;
-      settings = {
-        sources = {
-          journal_logs = {
-            type = "journald";
-            exclude_units = [ "vector.service" ];
-          };
-
-          osquery_results = {
-            type = "file";
-            include = [ "/var/log/osquery/osqueryd.results.log" ];
-            read_from = "end";
-          };
-        };
-
-        transforms = {
-          # Optional: Parse osquery JSON string into structured fields
-          parse_osquery = {
-            type = "remap";
-            inputs = [ "osquery_results" ];
-            source = ''
-              parsed, err = parse_json(.message)
-              if err == null {
-                .osquery = parsed
-              }
-            '';
-          };
-        };
-
-        sinks = {
-          homelab_loki = {
-            type = "loki";
-            inputs = [ "journal_logs" "parse_osquery" ];
-            endpoint = "http://zimaos.tail90c5.ts.net:3100";
-            encoding.codec = "json";
-            labels = {
-              host = "vps";
-              env = "production";
-              # Dynamic labels pulled from journald fields
-              unit = "{{ _SYSTEMD_UNIT }}";
-            };
-          };
-        };
-      };
-    };
-
-    forgejo = {
-      enable = true;
-      database.type = "sqlite3"; # Ultra lightweight; low RAM consumption
-      settings = {
-        server = {
-          DOMAIN = "git.reboot-codes.com";
-          ROOT_URL = "https://git.reboot-codes.com/";
-          HTTP_PORT = 3000;
-          HTTP_ADDR = "127.0.0.1";
-        };
-        service = {
-          DISABLE_REGISTRATION = true; # Invite only.
-        };
-      };
     };
 
     # Logs get big AF and contabo only gives us like 100 gigs at this tier.
@@ -151,27 +64,91 @@
     '';
   };
 
+  systemd.tmpfiles.rules = [
+    "d /etc/caddy 0755 root root -"
+  ];
+
+  systemd.services.update-cloudflare-ips = {
+    description = "Update Cloudflare trusted proxy IPs for Caddy";
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+
+    path = with pkgs; [
+      curl
+      coreutils
+      gnused
+      systemd
+    ];
+
+    serviceConfig = {
+      Type = "oneshot";
+      User = "root";
+    };
+
+    script = ''
+      set -euo pipefail
+
+      DEST="/etc/caddy/cloudflare-trusted.caddy"
+      TMP="''${DEST}.tmp"
+
+      echo "# Auto-generated by update-cloudflare-ips.service" > "$TMP"
+      echo "(cloudflare_trusted) {" >> "$TMP"
+      echo -n "  trusted_proxies " >> "$TMP"
+
+      # Fetch official Cloudflare IPv4 and IPv6 lists
+      IPV4=$(curl -fsSL https://www.cloudflare.com/ips-v4)
+      IPV6=$(curl -fsSL https://www.cloudflare.com/ips-v6)
+
+      # Join IPs into a single space-separated line
+      echo "$IPV4 $IPV6" | tr '\n' ' ' | sed 's/ \+/ /g' >> "$TMP"
+      echo "" >> "$TMP"
+      echo "}" >> "$TMP"
+
+      # Atomic move to prevent partial reads by Caddy
+      mv "$TMP" "$DEST"
+      chmod 0644 "$DEST"
+
+      # Reload Caddy only if the service is currently running
+      if systemctl is-active --quiet caddy.service; then
+        systemctl reload caddy.service
+      fi
+    '';
+  };
+
+  # 3. Systemd Timer (runs daily and 5 minutes after boot)
+  systemd.timers.update-cloudflare-ips = {
+    description = "Daily update of Cloudflare trusted proxy IPs";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "5min";
+      OnCalendar = "daily";
+      Persistent = true;
+      RandomizedDelaySec = "10min";
+    };
+  };
+
   virtualisation = {
     podman = {
       enable = true;
+      dockerSocket.enable = true;
       dockerCompat = true;
       defaultNetwork.settings.dns_enabled = true;
     };
 
-    # Declaratively run lithium.
-    #oci-containers.containers = {
-    #  lithium = {
-    #    image = "denoland/deno:alpine"; # or your custom registry image
-    #    cmd = [ "run" "--allow-net" "--allow-env" "main.ts" ];
-    #    volumes = [
-    #      "/var/lib/discord-bot:/app"
-    #    ];
-    #    workdir = "/app";
-    #    environmentFiles = [
-    #      "/var/secrets/discord-bot.env"
-    #    ];
-    #    autoStart = true;
-    #  };
-    #};
+    oci-containers.containers = {
+      # Declaratively run lithium.
+      #lithium = {
+      #  image = "denoland/deno:alpine"; # or your custom registry image
+      #  cmd = [ "run" "--allow-net" "--allow-env" "main.ts" ];
+      #  volumes = [
+      #    "/var/lib/discord-bot:/app"
+      #  ];
+      #  workdir = "/app";
+      #  environmentFiles = [
+      #    "/var/secrets/discord-bot.env"
+      #  ];
+      #  autoStart = true;
+      #};
+    };
   };
 }

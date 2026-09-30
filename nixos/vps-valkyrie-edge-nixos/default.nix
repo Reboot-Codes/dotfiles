@@ -1,3 +1,3 @@
 {
-  imports = [ ./configuration.nix ./system.nix ./home.nix ];
+  imports = [ ./configuration.nix ./system.nix ./security.nix ./metrics.nix ./home.nix ./services ];
 }

@@ -1,0 +1,68 @@
+{{template "base/head" .}}
+<div role="main" aria-label="Home" class="page-content home">
+  <div class="ui container" style="max-width: 900px; padding-top: 2.5rem; padding-bottom: 4rem;">
+    <div class="ui basic segment center aligned" style="margin-bottom: 2rem;">
+      <h1 class="ui header" style="font-size: 2.2rem; font-weight: 700;">
+        ReCorp Forgejo
+        <div class="sub header" style="font-size: 1.1rem; margin-top: 0.5rem; color: var(--color-text-light);">
+          Every project we hold near and dear, all self hosted!
+        </div>
+      </h1>
+      <div style="margin-top: 1.5rem;">
+        <a class="ui primary button" href="/explore/repos">
+          {{svg "octicon-repo" 16 "mr-2"}} Browse Repositories
+        </a>
+        <a class="ui button" href="https://reboot-codes.com" target="_blank" rel="noopener">
+          {{svg "octicon-globe" 16 "mr-2"}} Main Site
+        </a>
+      </div>
+    </div>
+
+    <h3 class="ui horizontal divider header">
+      {{svg "octicon-star" 16 "mr-2"}} Featured Projects
+    </h3>
+
+    <div class="ui two stackable cards" style="margin-top: 1rem;">
+      <div class="ui card fluid">
+        <div class="content">
+          <div class="header"><a href="/Reboot-Codes/clover">Clover</a></div>
+          <div class="meta"><span class="ui tiny orange label tw-mr-2">Rust</span><span class="ui tiny purple label">Dart</span></div>
+          <div class="description">
+            Smart fursuit parts made for daily wear to help out your species dysphoria, cosplaying, and disabilities.
+          </div>
+        </div>
+      </div>
+
+      <div class="ui card fluid">
+        <div class="content">
+          <div class="header"><a href="/Reboot-Codes/dotfiles">Dotfiles</a></div>
+          <div class="meta"><span class="ui tiny teal label">Nix</span></div>
+          <div class="description">
+            "copy [its] fit for just your mental sanity!!!" The Nix Flake that defines nearly all of our computer experiences, including this Forgejo!
+          </div>
+        </div>
+      </div>
+
+      <div class="ui card fluid">
+        <div class="content">
+          <div class="header"><a href="/Reboot-Codes/website">Our Digital Vinyl</a></div>
+          <div class="meta"><span class="ui tiny green label">Nunjucks</span></div>
+          <div class="description">
+            Our primary, statically generated website, done with 11ty and lots of 2000's flair.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Instance Notice / Quick Info -->
+    <div class="ui info message" style="margin-top: 2.5rem;">
+      <div class="header">Instance Notice</div>
+      <ul class="list">
+        <li>Public repositories are freely browseable and cloneable via HTTPS.</li>
+        <li>Account registration is restricted to authorized contributors.</li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+{{template "base/footer" .}}

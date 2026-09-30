@@ -1,0 +1,3 @@
+{...}: {
+  imports = [ ./forgejo ./website.nix ];
+}

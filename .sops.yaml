@@ -1,6 +1,7 @@
 keys:
   - &admin_reboot 183892CF4E46CB3DF7D2242E60DF5E67E1746DA7
   - &workstation_custom-odin-nixos age1te8c7w69nxj6pqjlewacn35as7vktqhepmsh0fc74afxv20yjqtqrp2rrn
+  - &server_vps-valkyrie-edge-nixos age1xzzt5ml8wqv2af4s0tkqfnpy3dwe0p3wgt5vj3vtf3cp25l09fustrk8z8
 creation_rules:
   - path_regex: secrets\.(yaml|json|env|ini)$
     key_groups:
@@ -8,3 +9,4 @@ creation_rules:
           - *admin_reboot
         age:
           - *workstation_custom-odin-nixos
+          - *server_vps-valkyrie-edge-nixos
