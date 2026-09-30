@@ -40,6 +40,7 @@
       COOKIE_DOMAIN = "www.reboot-codes.com";
       COOKIE_SECURE = "true";
       REDIRECT_DOMAINS = "www.reboot-codes.com";
+      OG_PASSTHROUGH = "true";
     };
   };
 }

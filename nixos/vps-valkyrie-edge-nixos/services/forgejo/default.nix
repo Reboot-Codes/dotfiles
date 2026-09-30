@@ -1,78 +1,114 @@
 { pkgs, ... }: {
   services = {
-    caddy.virtualHosts = {
-      "git.reboot-codes.com" = {
-        extraConfig = ''
-          import default_robots
+    caddy = {
+      extraConfig = ''
+        (waf_forgejo) {
+          coraza_waf {
+            load_owasp_crs
+            directives `
+              Include @coraza.conf-recommended
+              Include @crs-setup.conf.example
 
-          # Bypass Coraza WAF and Anubis rules for Git smart HTTP protocol endpoints
-          @git_ops {
-            path_regexp git \.git/(info/refs|git-upload-pack|git-receive-pack)$
+              SecRule REQUEST_URI "@rx ^/\.within\.website/" \
+                "id:10009,\
+                phase:1,\
+                pass,\
+                nolog,\
+                ctl:ruleRemoveById=930120,\
+                ctl:ruleRemoveById=930130,\
+                ctl:ruleRemoveById=920440"
+
+              SecRule REQUEST_URI "@rx /(src|raw|blame|commits?|api/v1/repos/[^/]+/[^/]+/(raw|contents))/" \
+                "id:10010,phase:1,pass,nolog,ctl:ruleRemoveById=920440,ctl:ruleRemoveById=930130,ctl:ruleRemoveById=920350"
+
+              SecRule REQUEST_URI "@rx /(raw|archive)/" \
+                "id:10011,phase:1,pass,nolog,ctl:ruleRemoveById=932100,ctl:ruleRemoveById=932150"
+
+              SecRule REQUEST_HEADERS:Content-Type "@rx ^application/x-git-(upload|receive)-pack" \
+                "id:10012,\
+                phase:1,\
+                pass,\
+                nolog,\
+                ctl:ruleRemoveById=920420"
+
+              Include @owasp_crs/*.conf
+              SecRuleEngine On
+            `
           }
+        }
+      '';
 
-          handle @git_ops {
-            reverse_proxy http://127.0.0.1:3000 {
-              import cloudflare_trusted
+      virtualHosts = {
+        "git.reboot-codes.com" = {
+          extraConfig = ''
+            import default_robots
+
+            # Bypass Coraza WAF and Anubis rules for Git smart HTTP protocol endpoints
+            @git_ops {
+              path_regexp git (^|/)(info/refs|git-upload-pack|git-receive-pack)$
             }
-          }
 
-          # Bypass Anubis rules for API endpoints
-          @api_ops {
-            # Forgejo API and webhooks
-            path /api/*
-            path /v1/*
-            path */badge.svg
-            path */badge.svg*
+            handle @git_ops {
+              reverse_proxy http://127.0.0.1:3000 {
+                import cloudflare_trusted
+              }
+            }
 
-            # Forgejo
+            # Bypass Anubis rules for API endpoints
+            @api_ops {
+              # Forgejo API and webhooks
+              path /api/*
+              path /v1/*
+              path */badge.svg
+              path */badge.svg*
 
-            # Forgejo Actions runner polling / gRPC / dispatch
-            path /api/actions/*
-            path /login/oauth/*
+              # Forgejo Actions runner polling / gRPC / dispatch
+              path /api/actions/*
+              path /login/oauth/*
 
-            # SSH key discovery
-            path /.well-known/*
+              # SSH key discovery
+              path /.well-known/*
 
-            # Assets
-            path /assets/*
-            path /avatars/*
-            path /favicon.ico
-            path /robots.txt
-            path *.css
-            path *.js
-            path *.svg
-            path *.png
-            path *.woff2
-          }
+              # Assets
+              path /assets/*
+              path /avatars/*
+              path /favicon.ico
+              path /robots.txt
+              path *.css
+              path *.js
+              path *.svg
+              path *.png
+              path *.woff2
+            }
 
-          handle @api_ops {
+            handle @api_ops {
+              import waf_forgejo
+
+              reverse_proxy http://127.0.0.1:3000 {
+                import cloudflare_trusted
+              }
+            }
+
+            handle {
+              import waf_forgejo
+
+              reverse_proxy http://127.0.0.1:8924 {
+                import cloudflare_trusted
+              }
+            }
+          '';
+        };
+
+        "badges.reboot-codes.com" = {
+          extraConfig = ''
             import waf
+            import default_robots
 
-            reverse_proxy http://127.0.0.1:3000 {
+            reverse_proxy 127.0.0.1:3001 {
               import cloudflare_trusted
             }
-          }
-
-          # Everything else (web UI, API, etc.) runs through Coraza
-          handle {
-            import waf
-
-            reverse_proxy http://127.0.0.1:8924 {
-              import cloudflare_trusted
-            }
-          }
-        '';
-      };
-
-      "badges.reboot-codes.com" = {
-        extraConfig = ''
-          import waf
-          import default_robots
-
-          reverse_proxy 127.0.0.1:3001 {
-            import cloudflare_trusted
-          }
-        '';
+          '';
+        };
       };
     };
 
@@ -81,6 +117,11 @@
       database.type = "sqlite3";
 
       settings = {
+        DEFAULT = {
+          APP_NAME = "ReCorp Forgejo";
+          APP_SLOGAN = "In tiG we Fuck.";
+        };
+
         server = {
           DOMAIN = "git.reboot-codes.com";
           ROOT_URL = "https://git.reboot-codes.com/";
@@ -161,6 +202,7 @@
         TARGET = "http://127.0.0.1:3000";
         COOKIE_DOMAIN = "git.reboot-codes.com";
         COOKIE_SECURE = "true";
+        OG_PASSTHROUGH = "true";
       };
     };
 
