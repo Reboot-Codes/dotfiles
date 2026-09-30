@@ -21,6 +21,8 @@
             # Forgejo API and webhooks
             path /api/*
             path /v1/*
+            path */badge.svg
+            path */badge.svg*
 
             # Forgejo
 
@@ -85,6 +87,11 @@
           HTTP_PORT = 3000;
           HTTP_ADDR = "127.0.0.1";
           DISABLE_SSH = true;
+        };
+
+        badges = {
+          ENABLED = true;
+          GENERATOR_URL_TEMPLATE = "https://badges.reboot-codes.com/badge/{{.label}}-{{.text}}-{{.color}}";
         };
 
         service = {
