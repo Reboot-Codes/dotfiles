@@ -3,6 +3,8 @@
     caddy.virtualHosts = {
       "git.reboot-codes.com" = {
         extraConfig = ''
+          import default_robots
+
           # Bypass Coraza WAF and Anubis rules for Git smart HTTP protocol endpoints
           @git_ops {
             path_regexp git \.git/(info/refs|git-upload-pack|git-receive-pack)$
@@ -20,12 +22,25 @@
             path /api/*
             path /v1/*
 
+            # Forgejo
+
             # Forgejo Actions runner polling / gRPC / dispatch
             path /api/actions/*
             path /login/oauth/*
 
             # SSH key discovery
             path /.well-known/*
+
+            # Assets
+            path /assets/*
+            path /avatars/*
+            path /favicon.ico
+            path /robots.txt
+            path *.css
+            path *.js
+            path *.svg
+            path *.png
+            path *.woff2
           }
 
           handle @api_ops {
@@ -50,6 +65,7 @@
       "badges.reboot-codes.com" = {
         extraConfig = ''
           import waf
+          import default_robots
 
           reverse_proxy 127.0.0.1:3001 {
             import cloudflare_trusted

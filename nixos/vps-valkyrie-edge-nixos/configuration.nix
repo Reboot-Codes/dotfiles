@@ -53,6 +53,18 @@
             `
           }
         }
+
+        (default_robots) {
+          @robots path /robots.txt
+
+          handle @robots {
+            header Content-Type text/plain
+            respond <<EOF
+            User-agent: *
+            Disallow: /
+            EOF 200
+          }
+        }
       '';
     };
 

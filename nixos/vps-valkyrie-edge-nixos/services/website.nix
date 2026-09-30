@@ -9,6 +9,7 @@
     "www.reboot-codes.com" = {
       extraConfig = ''
         import waf
+        import default_robots
 
         reverse_proxy http://127.0.0.1:8923 {
           import cloudflare_trusted
