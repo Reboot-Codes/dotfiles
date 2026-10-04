@@ -245,6 +245,7 @@ in
     tmpfiles.rules = [
       "f /srv/win11/pipewire-0 700 reboot reboot - -"
       "L+ /opt/rocm/hip - - - - ${pkgs.rocmPackages.clr}"
+      "d /etc/cryptkey 0700 root root -"
     ];
 
     timers = {
@@ -268,6 +269,23 @@ in
     };
 
     services = {
+      hdd-power-management = let
+        diskId = "ata-ST8000NM0045-1RL112_ZA1EG1DC";
+      in {
+        description = "Configure APM and Spindown Timeout for Bulk HDD";
+
+        # Run at boot and after system wakes from sleep/suspend
+        wantedBy = [ "multi-user.target" "sleep.target" ];
+        after = [ "dev-disk-by\\x2did-${diskId}.device" "sleep.target" ];
+        bindsTo = [ "dev-disk-by\\x2did-${diskId}.device" ];
+
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = false;
+          ExecStart = "${pkgs.hdparm}/bin/hdparm -B 127 -S 241 /dev/disk/by-id/${diskId}";
+        };
+      };
+
       syncthing = {
         description = "Run Syncthing";
         serviceConfig = {
@@ -470,7 +488,7 @@ in
     btrfs.autoScrub = {
       enable = true;
       interval = "weekly";
-      fileSystems = [ "/" ];
+      fileSystems = [ "/" "/data/bulk" ];
     };
 
     libinput.enable = true;
@@ -602,6 +620,12 @@ in
   };
 
   environment = {
+    etc = {
+      "crypttab".text = ''
+        cryptbulk UUID=89f7165a-796e-446d-9fce-6c3161c65ca0 /etc/cryptkey/bulk.key luks,discard
+      '';
+    };
+
     sessionVariables = {
       LIBVA_DRIVER_NAME = "iHD";
     };
