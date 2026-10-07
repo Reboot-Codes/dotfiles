@@ -11,6 +11,8 @@
 		"SDL_ttf-2.0.11"
 		"ventoy-1.1.17"
 		"gradle-7.6.6"
+		"sidequest-0.10.42"
+		"bloodhound-4.3.1"
   ];
 
   packageOverrides = pkgs: {

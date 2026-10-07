@@ -250,10 +250,11 @@ in
 
     timers = {
       dl-music = {
-        wantedBy = [ "user@1000.service" ];
+        wantedBy = [ "timers.target" ];
 
         timerConfig = {
-          OnUnitActiveSec = "1w";
+          OnCalendar = "weekly";
+          Persistent = true;
           Unit = "dl-music.service";
         };
       };
@@ -295,14 +296,29 @@ in
       };
 
       dl-music = {
+        description = "Download Music with yt-dlp";
+        after = [ "network-online.target" ];
+        wants = [ "network-online.target" ];
+
+        path = with pkgs; [
+          yt-dlp
+          ffmpeg
+          busybox
+        ];
+
         script = ''
  					set -eu
- 					${pkgs.zsh}/bin/zsh -c "/home/reboot/Music/YT/download.sh"
+          ${pkgs.zsh}/bin/zsh -c "/home/reboot/Music/YT/download.sh"
 				'';
 
         serviceConfig = {
           Type = "oneshot";
           User = "reboot";
+          WorkingDirectory = "/home/reboot/Music/YT";
+          Environment = [
+            "HOME=/home/reboot"
+            "PYTHONUNBUFFERED=1"
+          ];
         };
       };
 
@@ -729,7 +745,7 @@ in
         exfat
         ntfs3g
         cifs-utils
-        simple-mtpfs
+        go-mtpfs
         libimobiledevice
         ifuse
 
@@ -738,7 +754,6 @@ in
 
         # Global Apps
         firefox
-        links2
         alacritty
         qpwgraph
 

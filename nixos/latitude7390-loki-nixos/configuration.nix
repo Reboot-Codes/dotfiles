@@ -458,7 +458,7 @@
         exfat
         ntfs3g
         cifs-utils
-        simple-mtpfs
+        go-mtpfs
         libimobiledevice
         ifuse
 
@@ -467,7 +467,6 @@
 
         # Global Apps
         firefox
-        links2
         alacritty
         qpwgraph
 

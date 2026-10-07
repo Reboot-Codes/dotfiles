@@ -307,8 +307,9 @@ lib.mkMerge [
       };
 
       sessionVariables = {
+        GTK_USE_PORTAL = 1;
         GTK_THEME = "Breeze-Dark";
-        NIXOS_OZONE_WL = "1";
+        NIXOS_OZONE_WL = 1;
       };
     };
 

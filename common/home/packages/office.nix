@@ -11,7 +11,6 @@ let
     hunspellDicts.de-de
     hunspellDicts.es-mx
     kdePackages.kcalc
-    zotero
     obsidian
     emacs-gtk
     # comaps
@@ -51,6 +50,7 @@ let
     kiwix-tools
     zim
     zim-tools
+    zotero
 		# openboard
     translatelocally
     translatelocally-models.uk-en-tiny
