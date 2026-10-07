@@ -32,7 +32,7 @@
 
       package = pkgs.caddy.withPlugins {
         plugins = [ "github.com/corazawaf/coraza-caddy/v2@v2.6.1" ];
-        hash = "sha256-a1KAbgGB6CquZT85JE7SFdYX4DaoYQelUZpXZ74YUoU=";
+        hash = "sha256-0GToio6zXU4ezwvY+FwrRovdcDt7N+N1oWgK48x1pNM=";
       };
 
       globalConfig = ''
@@ -69,11 +69,11 @@
     };
 
     # Logs get big AF and contabo only gives us like 100 gigs at this tier.
-    journald.extraConfig = ''
-      SystemMaxUse=2G
-      SystemKeepFree=5G
-      MaxRetentionSec=1month
-    '';
+    journald.settings.Journal = {
+      SystemMaxUse = "2G";
+      SystemKeepFree = "5G";
+      MaxRetentionSec = "1month";
+    };
   };
 
   systemd.tmpfiles.rules = [
@@ -163,4 +163,14 @@
       #};
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    busybox
+    eza
+    wget
+    curl
+    git
+    lolcat
+    fortune
+  ];
 }

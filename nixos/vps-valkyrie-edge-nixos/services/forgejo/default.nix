@@ -163,8 +163,16 @@
     services = {
       forgejo-runner = {
         description = "Forgejo Actions Runner Daemon";
-        after = [ "network-online.target" "podman.socket" ];
-        wants = [ "network-online.target" "podman.socket" ];
+        after = [
+          "network-online.target"
+          "podman.socket"
+          "forgejo.service"
+        ];
+        wants = [
+          "network-online.target"
+          "podman.socket"
+          "forgejo.service"
+        ];
         wantedBy = [ "multi-user.target" ];
 
         path = with pkgs; [
