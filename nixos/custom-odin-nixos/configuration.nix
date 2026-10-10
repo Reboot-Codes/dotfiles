@@ -519,7 +519,26 @@ in
         SUBSYSTEM=="kvmfr", MODE="0660", GROUP="kvm"
         SUBSYSTEM=="usb", MODE="0660", GROUP="wheel"
 				ACTION=="add", ATTR{idVendor}=="0bda", ATTR{idProduct}=="1a2b", RUN+="${lib.getExe pkgs.usb-modeswitch} -K -v 0bda -p 1a2b"
+				ACTION=="add", SUBSYSTEM=="block", SUBSYSTEMS=="usb", ATTR{bdi/max_bytes}="16777216", ATTR{bdi/strict_limit}="1"
       '';
+    };
+
+    # Write caching on removeable drives is bad.
+    udisks2.settings = {
+      "mount_options.conf" = {
+        vfat = {
+          defaults = "uid=$UID,gid=$GID,shortname=mixed,utf8=1,showexec,flush";
+          allow = "uid=$UID,gid=$GID,flush,utf8,shortname,umask,dmask,fmask,codepage,iocharset";
+        };
+        exfat = {
+          defaults = "uid=$UID,gid=$GID,iocharset=utf8,errors=remount-ro,sync";
+          allow = "uid=$UID,gid=$GID,sync,iocharset,errors";
+        };
+        ntfs = {
+          defaults = "uid=$UID,gid=$GID,windows_names,sync";
+          allow = "uid=$UID,gid=$GID,sync,windows_names";
+        };
+      };
     };
 
     ratbagd.enable = true;

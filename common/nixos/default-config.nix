@@ -302,15 +302,15 @@ in
   users = {
     defaultUserShell = pkgs.zsh;
 
-    users."${hostConfig.username}" = {
+    users."reboot" = {
       isNormalUser = true;
       description = "Reboot"; # GCOS Field, basically the Pretty Name for this user.
 
-      extraGroups = lib.mkDefault (
-        if isServer then [
+      extraGroups = (
+        if isServer then lib.mkDefault [
           "wheel"
           "docker"
-        ] else [
+        ] else lib.mkForce [
           "networkmanager"
           "wheel"
           "adbuser"
