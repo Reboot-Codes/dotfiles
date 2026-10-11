@@ -127,6 +127,12 @@ if [ "$SSH_CLIENT" ]; then
   export PINENTRY_USER_DATA=pinentry-curses
 fi
 
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  if [ -e "/run/user/$(id -u)/bus" ]; then
+    export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
+  fi
+fi
+
 unset SSH_AGENT_PID
 if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
   export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
@@ -143,9 +149,15 @@ PATH="$PATH:."
 
 # Check if this session is interactive (fix `scp` lmao)
 if [[ $- == *i* ]]; then
-  # Runs tmux on ssh conn, see: https://stackoverflow.com/a/40192494
-  if [[ $- =~ i ]] && [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
-    tmux attach-session -t ssh_tmux || tmux new-session -s ssh_tmux
+  if [[ -z "$TMUX" ]] && [[ -n "$SSH_TTY" ]]; then
+    # Create session detached first if it doesn't exist, set prefix, then attach
+    if ! tmux has-session -t ssh_tmux 2>/dev/null; then
+      tmux new-session -d -s ssh_tmux
+      tmux set-option -t ssh_tmux prefix C-b
+      tmux bind-key -T root C-b send-prefix
+      tmux set-option -t ssh_tmux status-left "#[fg=colour0,bg=colour3,bold] [C-b] #[default] "
+    fi
+    exec tmux attach-session -t ssh_tmux
   fi
 
   fastfetch
