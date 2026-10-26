@@ -18,8 +18,8 @@
     "uas"
     "rtsx_pci_sdmmc"
   ];
+
   boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.extraModulePackages = [ ];
 
   boot.initrd.luks.devices."cryptroot" = {
     device = "/dev/disk/by-uuid/87e29a50-5620-4e91-b158-3be0dc890db1";

@@ -64,7 +64,7 @@ in
 
     kernelPackages = lib.mkDefault pkgs.linuxPackages_zen;
 
-    extraModulePackages = with config.boot.kernelPackages; lib.mkDefault [
+    extraModulePackages = with config.boot.kernelPackages; [
       usbip
       # apfs
       kvmfr

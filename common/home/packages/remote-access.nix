@@ -1,6 +1,6 @@
-{ pkgs, pkgs-stable, ... }: let
+{ pkgs, ... }: let
   unstable = with pkgs; [
-    # Remote access (see stable)
+    # Remote access
     parsec-bin
     remmina
     moonlight-qt
@@ -10,12 +10,8 @@
 		omnissa-horizon-client
 		waypipe
 		syncthingtray
-  ];
-
-  stable = with pkgs-stable; [
-    # Remote Access
-    (lib.hiPrio rustdesk-flutter)
+		(lib.hiPrio rustdesk-flutter)
   ];
 in {
-  packages = unstable ++ stable;
+  packages = unstable;
 }

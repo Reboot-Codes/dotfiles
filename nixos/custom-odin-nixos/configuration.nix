@@ -73,7 +73,6 @@ in
     # https://wiki.nixos.org/wiki/OSX-KVM
     extraModprobeConfig = ''
       options kvm_amd nested=1
-      options kvm_amd emulate_invalid_guest_state=0
       options kvm ignore_msrs=1
       options v4l2loopback devices=1 video_nr=1 card_label="OBS Cam" exclusive_caps=1
  			options kvmfr static_size_mb=64
