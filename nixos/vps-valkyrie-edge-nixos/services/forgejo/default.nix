@@ -7,7 +7,20 @@
             load_owasp_crs
             directives `
               Include @coraza.conf-recommended
+              # Disable response body inspection: git commit diffs, blob views, and file contents
+              # contain arbitrary code (SQL, PHP, command lines, stack traces) which trigger false-positive
+              # outbound leakage rules (950xxx-954xxx), and diffs often exceed SecResponseBodyLimit.
+              SecResponseBodyAccess Off
+
               Include @crs-setup.conf.example
+
+              # Remove .com from restricted extensions so website repos and .com pages are accessible
+              SecAction \
+                "id:10013,\
+                phase:1,\
+                pass,\
+                nolog,\
+                setvar:'tx.restricted_extensions=.ani/ .asa/ .asax/ .ascx/ .back/ .backup/ .bak/ .bck/ .bk/ .bkp/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .cnf/ .compositefont/ .config/ .conf/ .copy/ .crt/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dist/ .dll/ .dos/ .dpkg-dist/ .drv/ .gadget/ .hta/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .inf/ .ini/ .jks/ .jse/ .key/ .licx/ .lnk/ .log/ .mdb/ .msc/ .ocx/ .old/ .pass/ .pdb/ .pfx/ .pif/ .pem/ .pol/ .prf/ .printer/ .pwd/ .rdb/ .rdp/ .reg/ .resources/ .resx/ .sav/ .save/ .scr/ .sct/ .sh/ .shs/ .sql/ .sqlite/ .sqlite3/ .swap/ .swo/ .swp/ .sys/ .temp/ .tfstate/ .tlb/ .tmp/ .vb/ .vbe/ .vbs/ .vbproj/ .vsdisco/ .vxd/ .webinfo/ .ws/ .wsc/ .wsf/ .wsh/ .xsd/ .xsx/'"
 
               SecRule REQUEST_URI "@rx ^/\.within\.website/" \
                 "id:10009,\
@@ -18,8 +31,13 @@
                 ctl:ruleRemoveById=930130,\
                 ctl:ruleRemoveById=920440"
 
-              SecRule REQUEST_URI "@rx /(src|raw|blame|commits?|api/v1/repos/[^/]+/[^/]+/(raw|contents))/" \
+              # Allow git-related views (src, raw, blame, commit, diffs, compare, pulls, archive, releases)
+              SecRule REQUEST_URI "@rx /(src|raw|blame|commits?|compare|pulls|archive|releases|issues|wiki|api/v1/repos/[^/]+/[^/]+/(raw|contents))/" \
                 "id:10010,phase:1,pass,nolog,ctl:ruleRemoveById=920440,ctl:ruleRemoveById=930130,ctl:ruleRemoveById=920350"
+
+              # Allow repo root pages even if named with an extension (e.g. repo.com, repo.sh)
+              SecRule REQUEST_URI "@rx ^/[^/]+/[^/]+/?$" \
+                "id:10014,phase:1,pass,nolog,ctl:ruleRemoveById=920440,ctl:ruleRemoveById=930130"
 
               SecRule REQUEST_URI "@rx /(raw|archive)/" \
                 "id:10011,phase:1,pass,nolog,ctl:ruleRemoveById=932100,ctl:ruleRemoveById=932150"
@@ -94,6 +112,7 @@
 
               reverse_proxy http://127.0.0.1:8924 {
                 import cloudflare_trusted
+                header_up X-Real-IP {client_ip}
               }
             }
           '';
